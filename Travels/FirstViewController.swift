@@ -150,15 +150,26 @@ class FirstViewController: UIViewController {
     }
     // Анимация при нажатии
     @objc private func createTripTapped() {
-        UIView.animate(withDuration: 0.1, animations: {
-            self.navigationItem.rightBarButtonItem?.customView?.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-        }) { _ in
-            UIView.animate(withDuration: 0.1) {
-                self.navigationItem.rightBarButtonItem?.customView?.transform = .identity
-            }
-            self.showTripForm()
+        let createVC = CreateTripViewController()
+        createVC.onTripCreated = { [weak self] title, destination in
+            guard let self = self, let user = self.currentUser else { return }
+
+            Trip.create(
+                title: title,
+                destination: destination,
+                startDate: Date(),
+                endDate: Date().addingTimeInterval(86400 * 7),
+                user: user,
+                in: DataController.shared.context
+            )
+
+            self.fetchTrips()
         }
+
+        let nav = UINavigationController(rootViewController: createVC)
+        present(nav, animated: true)
     }
+
 
     // Или добавить badge для новых уведомлений
     func updateAddButton(withBadge: Bool) {

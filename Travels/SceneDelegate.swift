@@ -12,20 +12,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
 
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+    func scene(_ scene: UIScene,
+               willConnectTo session: UISceneSession,
+               options connectionOptions: UIScene.ConnectionOptions) {
+        
+        // ВАЖНО: загружаем Core Data стек до использования контекста
+        DataController.shared.load()
+
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
+
         window = UIWindow(windowScene: windowScene)
-        
-        // Проверяем, авторизован ли пользователь
+
         if UserDefaults.standard.string(forKey: "currentUserId") != nil {
             window?.rootViewController = MainTabBarController()
         } else {
             window?.rootViewController = UINavigationController(rootViewController: ViewController())
         }
-        
+
         window?.makeKeyAndVisible()
     }
+
 
     // Добавляем метод для смены корневого контроллера
     func changeRootViewController(to vc: UIViewController, animated: Bool = true) {

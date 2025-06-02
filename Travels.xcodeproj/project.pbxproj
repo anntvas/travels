@@ -7,7 +7,43 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9583C6222DE0D5B000204190 /* CreateTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6212DE0D5B000204190 /* CreateTripViewController.swift */; };
+		9583C6242DE8C51500204190 /* TripDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6232DE8C51500204190 /* TripDetailsViewController.swift */; };
+		9583C6262DE8C54900204190 /* TripBudgetConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6252DE8C54900204190 /* TripBudgetConfirmViewController.swift */; };
+		9583C6282DE8C5B000204190 /* TripBudgetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6272DE8C5B000204190 /* TripBudgetViewController.swift */; };
+		9583C62B2DE8DAD400204190 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 9583C62A2DE8DAD400204190 /* Alamofire */; };
+		9583C6582DEA3EB500204190 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 9583C6572DEA3EB500204190 /* Moya */; };
+		9583C65B2DEA560500204190 /* TripParticipantsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C65A2DEA560500204190 /* TripParticipantsViewController.swift */; };
+		9583C65D2DEA591300204190 /* BudgetCategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C65C2DEA591300204190 /* BudgetCategoriesViewController.swift */; };
+		9583C65F2DEA5D9C00204190 /* BudgetAllocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C65E2DEA5D9C00204190 /* BudgetAllocationViewController.swift */; };
+		9583C6872DEAAC3B00204190 /* BudgetCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6862DEAAC3A00204190 /* BudgetCategoryModel.swift */; };
+		9583C6A02DEB670B00204190 /* Budget+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6902DEB670B00204190 /* Budget+CoreDataClass.swift */; };
+		9583C6A12DEB670B00204190 /* Budget+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6912DEB670B00204190 /* Budget+CoreDataProperties.swift */; };
+		9583C6AB2DEB681B00204190 /* Double+Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6AA2DEB681B00204190 /* Double+Format.swift */; };
+		9583C6AD2DEB68AA00204190 /* BudgetCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6AC2DEB68AA00204190 /* BudgetCategoryCell.swift */; };
+		9583C6AF2DEB84AC00204190 /* TripTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6AE2DEB84AC00204190 /* TripTableViewCell.swift */; };
+		9583C6B12DEB8EBB00204190 /* TripDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6B02DEB8EBB00204190 /* TripDetailViewController.swift */; };
+		9583C6B62DEB90CE00204190 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = 9583C6B52DEB90CE00204190 /* DGCharts */; };
+		9583C6C82DEBB6CD00204190 /* BudgetCategory+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6BA2DEBB6CD00204190 /* BudgetCategory+CoreDataClass.swift */; };
+		9583C6C92DEBB6CD00204190 /* BudgetCategory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6BB2DEBB6CD00204190 /* BudgetCategory+CoreDataProperties.swift */; };
+		9583C6CA2DEBB6CD00204190 /* Participant+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6BC2DEBB6CD00204190 /* Participant+CoreDataClass.swift */; };
+		9583C6CB2DEBB6CD00204190 /* Participant+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6BD2DEBB6CD00204190 /* Participant+CoreDataProperties.swift */; };
+		9583C6CC2DEBB6CD00204190 /* Expense+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6BE2DEBB6CD00204190 /* Expense+CoreDataClass.swift */; };
+		9583C6CD2DEBB6CD00204190 /* Expense+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6BF2DEBB6CD00204190 /* Expense+CoreDataProperties.swift */; };
+		9583C6CE2DEBB6CD00204190 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6C02DEBB6CD00204190 /* User+CoreDataClass.swift */; };
+		9583C6CF2DEBB6CD00204190 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6C12DEBB6CD00204190 /* User+CoreDataProperties.swift */; };
+		9583C6D02DEBB6CD00204190 /* Trip+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6C22DEBB6CD00204190 /* Trip+CoreDataClass.swift */; };
+		9583C6D12DEBB6CD00204190 /* Trip+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6C32DEBB6CD00204190 /* Trip+CoreDataProperties.swift */; };
+		9583C6D22DEBB6CD00204190 /* Notification+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6C42DEBB6CD00204190 /* Notification+CoreDataClass.swift */; };
+		9583C6D32DEBB6CD00204190 /* Notification+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6C52DEBB6CD00204190 /* Notification+CoreDataProperties.swift */; };
+		9583C6D42DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6C62DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataClass.swift */; };
+		9583C6D52DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6C72DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataProperties.swift */; };
+		95E31D2E2DEBC811002A4AA3 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E31D2D2DEBC811002A4AA3 /* ProfileViewController.swift */; };
+		95E31D302DEBC89C002A4AA3 /* NotificationsViewConroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E31D2F2DEBC89C002A4AA3 /* NotificationsViewConroller.swift */; };
+		95E31D322DEBC92B002A4AA3 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E31D312DEBC92B002A4AA3 /* HistoryViewController.swift */; };
+		95E31D342DEBC944002A4AA3 /* DebtsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E31D332DEBC944002A4AA3 /* DebtsViewController.swift */; };
+		95E31D362DEBCA6E002A4AA3 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E31D352DEBCA6D002A4AA3 /* MenuCell.swift */; };
+		95E31D502DEBD95D002A4AA3 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E31D4F2DEBD95D002A4AA3 /* NetworkManager.swift */; };
+		95E31D6A2DECF16A002A4AA3 /* TripService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E31D692DECF16A002A4AA3 /* TripService.swift */; };
 		95E969C12DB14CB700A14701 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E969C02DB14CB700A14701 /* AppDelegate.swift */; };
 		95E969C32DB14CB700A14701 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E969C22DB14CB700A14701 /* SceneDelegate.swift */; };
 		95E969C52DB14CB700A14701 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E969C42DB14CB700A14701 /* ViewController.swift */; };
@@ -20,20 +56,77 @@
 		95E969E02DB152C800A14701 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E969DF2DB152C800A14701 /* SecondViewController.swift */; };
 		95E969E22DB152E300A14701 /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E969E12DB152E300A14701 /* ThirdViewController.swift */; };
 		95E969E72DB1562000A14701 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E969E62DB1562000A14701 /* DataController.swift */; };
-		95E969EC2DB15DC800A14701 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E969EA2DB15DC800A14701 /* User+CoreDataClass.swift */; };
-		95E969ED2DB15DC800A14701 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E969EB2DB15DC800A14701 /* User+CoreDataProperties.swift */; };
 		95E969F02DB1B2C600A14701 /* UserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 95E969EE2DB1B2C600A14701 /* UserModel.xcdatamodeld */; };
-		95E969F72DB1B7FE00A14701 /* Trip+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E969F52DB1B7FE00A14701 /* Trip+CoreDataClass.swift */; };
-		95E969F82DB1B7FE00A14701 /* Trip+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E969F62DB1B7FE00A14701 /* Trip+CoreDataProperties.swift */; };
-		95E969FF2DB282B200A14701 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E969FE2DB282B200A14701 /* NetworkManager.swift */; };
 		95E96A012DB282D700A14701 /* AuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E96A002DB282D700A14701 /* AuthModels.swift */; };
-		95E96A032DB2830B00A14701 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E96A022DB2830B00A14701 /* UserProfile.swift */; };
-		95E96A052DB2832A00A14701 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E96A042DB2832900A14701 /* AuthService.swift */; };
 		95E96A072DB2835900A14701 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E96A062DB2835900A14701 /* KeychainHelper.swift */; };
+		95F83D992DED01A9008A6102 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F83D982DED01A9008A6102 /* AuthService.swift */; };
+		95F83D9C2DED0328008A6102 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 95F83D9B2DED0328008A6102 /* KeychainSwift */; };
+		95F83D9E2DED0DD6008A6102 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F83D9D2DED0DD6008A6102 /* TokenManager.swift */; };
+		95F83DA02DED0DF2008A6102 /* AuthPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F83D9F2DED0DF1008A6102 /* AuthPlugin.swift */; };
+		95F83DA22DED22B5008A6102 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F83DA12DED22B5008A6102 /* AuthManager.swift */; };
+		95F83DA42DED2D18008A6102 /* TripModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F83DA32DED2D18008A6102 /* TripModels.swift */; };
+		95F83DA62DED2DBF008A6102 /* ParticipantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F83DA52DED2DBF008A6102 /* ParticipantService.swift */; };
+		95F83DAA2DED3D85008A6102 /* BudgetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F83DA92DED3D85008A6102 /* BudgetService.swift */; };
+		95F83DAC2DED3DA1008A6102 /* ExpenseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F83DAB2DED3DA1008A6102 /* ExpenseService.swift */; };
+		95F83DAE2DED3DBC008A6102 /* SettlementService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F83DAD2DED3DBC008A6102 /* SettlementService.swift */; };
+		95F83DB02DED3E62008A6102 /* BudgetModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F83DAF2DED3E62008A6102 /* BudgetModels.swift */; };
+		95F83DB22DED3ED2008A6102 /* ExpenseModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F83DB12DED3ED2008A6102 /* ExpenseModels.swift */; };
+		95F83DB42DED3F03008A6102 /* SettlementModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F83DB32DED3F03008A6102 /* SettlementModels.swift */; };
+		95F83DB62DED3F96008A6102 /* TargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F83DB52DED3F96008A6102 /* TargetType.swift */; };
+		95F83DB82DED5266008A6102 /* AddExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F83DB72DED5266008A6102 /* AddExpenseViewController.swift */; };
+		95F83DBA2DED56E6008A6102 /* ExpenseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F83DB92DED56E6008A6102 /* ExpenseDetailViewController.swift */; };
+		95F83DC22DED5A39008A6102 /* TripPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F83DC12DED5A39008A6102 /* TripPreview.swift */; };
+		95F83DC62DED5AF8008A6102 /* TripCreationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F83DC52DED5AF8008A6102 /* TripCreationManager.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		9583C6552DEA3E8D00204190 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		9583C6212DE0D5B000204190 /* CreateTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTripViewController.swift; sourceTree = "<group>"; };
+		9583C6232DE8C51500204190 /* TripDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailsViewController.swift; sourceTree = "<group>"; };
+		9583C6252DE8C54900204190 /* TripBudgetConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripBudgetConfirmViewController.swift; sourceTree = "<group>"; };
+		9583C6272DE8C5B000204190 /* TripBudgetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripBudgetViewController.swift; sourceTree = "<group>"; };
+		9583C65A2DEA560500204190 /* TripParticipantsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripParticipantsViewController.swift; sourceTree = "<group>"; };
+		9583C65C2DEA591300204190 /* BudgetCategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetCategoriesViewController.swift; sourceTree = "<group>"; };
+		9583C65E2DEA5D9C00204190 /* BudgetAllocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetAllocationViewController.swift; sourceTree = "<group>"; };
+		9583C6862DEAAC3A00204190 /* BudgetCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetCategoryModel.swift; sourceTree = "<group>"; };
+		9583C6902DEB670B00204190 /* Budget+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Budget+CoreDataClass.swift"; path = "Travels/Model/CoreData/Budget+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		9583C6912DEB670B00204190 /* Budget+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Budget+CoreDataProperties.swift"; path = "Travels/Model/CoreData/Budget+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		9583C6AA2DEB681B00204190 /* Double+Format.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Format.swift"; sourceTree = "<group>"; };
+		9583C6AC2DEB68AA00204190 /* BudgetCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetCategoryCell.swift; sourceTree = "<group>"; };
+		9583C6AE2DEB84AC00204190 /* TripTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTableViewCell.swift; sourceTree = "<group>"; };
+		9583C6B02DEB8EBB00204190 /* TripDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailViewController.swift; sourceTree = "<group>"; };
+		9583C6BA2DEBB6CD00204190 /* BudgetCategory+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "BudgetCategory+CoreDataClass.swift"; path = "Travels/Model/CoreData/BudgetCategory+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		9583C6BB2DEBB6CD00204190 /* BudgetCategory+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "BudgetCategory+CoreDataProperties.swift"; path = "Travels/Model/CoreData/BudgetCategory+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		9583C6BC2DEBB6CD00204190 /* Participant+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Participant+CoreDataClass.swift"; path = "Travels/Model/CoreData/Participant+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		9583C6BD2DEBB6CD00204190 /* Participant+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Participant+CoreDataProperties.swift"; path = "Travels/Model/CoreData/Participant+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		9583C6BE2DEBB6CD00204190 /* Expense+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Expense+CoreDataClass.swift"; path = "Travels/Model/CoreData/Expense+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		9583C6BF2DEBB6CD00204190 /* Expense+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Expense+CoreDataProperties.swift"; path = "Travels/Model/CoreData/Expense+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		9583C6C02DEBB6CD00204190 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "User+CoreDataClass.swift"; path = "Travels/Model/CoreData/User+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		9583C6C12DEBB6CD00204190 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "User+CoreDataProperties.swift"; path = "Travels/Model/CoreData/User+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		9583C6C22DEBB6CD00204190 /* Trip+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Trip+CoreDataClass.swift"; path = "Travels/Model/CoreData/Trip+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		9583C6C32DEBB6CD00204190 /* Trip+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Trip+CoreDataProperties.swift"; path = "Travels/Model/CoreData/Trip+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		9583C6C42DEBB6CD00204190 /* Notification+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Notification+CoreDataClass.swift"; path = "Travels/Model/CoreData/Notification+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		9583C6C52DEBB6CD00204190 /* Notification+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Notification+CoreDataProperties.swift"; path = "Travels/Model/CoreData/Notification+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		9583C6C62DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ExpenseBeneficiary+CoreDataClass.swift"; path = "Travels/Model/CoreData/ExpenseBeneficiary+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		9583C6C72DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ExpenseBeneficiary+CoreDataProperties.swift"; path = "Travels/Model/CoreData/ExpenseBeneficiary+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		95E31D2D2DEBC811002A4AA3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		95E31D2F2DEBC89C002A4AA3 /* NotificationsViewConroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewConroller.swift; sourceTree = "<group>"; };
+		95E31D312DEBC92B002A4AA3 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
+		95E31D332DEBC944002A4AA3 /* DebtsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtsViewController.swift; sourceTree = "<group>"; };
+		95E31D352DEBCA6D002A4AA3 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
+		95E31D4F2DEBD95D002A4AA3 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		95E31D692DECF16A002A4AA3 /* TripService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripService.swift; sourceTree = "<group>"; };
 		95E969BD2DB14CB700A14701 /* Travels.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Travels.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95E969C02DB14CB700A14701 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		95E969C22DB14CB700A14701 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,16 +142,26 @@
 		95E969DF2DB152C800A14701 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		95E969E12DB152E300A14701 /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
 		95E969E62DB1562000A14701 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
-		95E969EA2DB15DC800A14701 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "User+CoreDataClass.swift"; path = "Travels/Model/User+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		95E969EB2DB15DC800A14701 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "User+CoreDataProperties.swift"; path = "Travels/Model/User+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		95E969EF2DB1B2C600A14701 /* Travels.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Travels.xcdatamodel; sourceTree = "<group>"; };
-		95E969F52DB1B7FE00A14701 /* Trip+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Trip+CoreDataClass.swift"; sourceTree = "<group>"; };
-		95E969F62DB1B7FE00A14701 /* Trip+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Trip+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		95E969FE2DB282B200A14701 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		95E96A002DB282D700A14701 /* AuthModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModels.swift; sourceTree = "<group>"; };
-		95E96A022DB2830B00A14701 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
-		95E96A042DB2832900A14701 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		95E96A062DB2835900A14701 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
+		95F83D982DED01A9008A6102 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		95F83D9D2DED0DD6008A6102 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
+		95F83D9F2DED0DF1008A6102 /* AuthPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPlugin.swift; sourceTree = "<group>"; };
+		95F83DA12DED22B5008A6102 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		95F83DA32DED2D18008A6102 /* TripModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripModels.swift; sourceTree = "<group>"; };
+		95F83DA52DED2DBF008A6102 /* ParticipantService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantService.swift; sourceTree = "<group>"; };
+		95F83DA92DED3D85008A6102 /* BudgetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetService.swift; sourceTree = "<group>"; };
+		95F83DAB2DED3DA1008A6102 /* ExpenseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseService.swift; sourceTree = "<group>"; };
+		95F83DAD2DED3DBC008A6102 /* SettlementService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettlementService.swift; sourceTree = "<group>"; };
+		95F83DAF2DED3E62008A6102 /* BudgetModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetModels.swift; sourceTree = "<group>"; };
+		95F83DB12DED3ED2008A6102 /* ExpenseModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseModels.swift; sourceTree = "<group>"; };
+		95F83DB32DED3F03008A6102 /* SettlementModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettlementModels.swift; sourceTree = "<group>"; };
+		95F83DB52DED3F96008A6102 /* TargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetType.swift; sourceTree = "<group>"; };
+		95F83DB72DED5266008A6102 /* AddExpenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenseViewController.swift; sourceTree = "<group>"; };
+		95F83DB92DED56E6008A6102 /* ExpenseDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailViewController.swift; sourceTree = "<group>"; };
+		95F83DC12DED5A39008A6102 /* TripPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TripPreview.swift; path = ../TripPreview.swift; sourceTree = "<group>"; };
+		95F83DC52DED5AF8008A6102 /* TripCreationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCreationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,17 +169,152 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9583C62B2DE8DAD400204190 /* Alamofire in Frameworks */,
+				9583C6B62DEB90CE00204190 /* DGCharts in Frameworks */,
+				95F83D9C2DED0328008A6102 /* KeychainSwift in Frameworks */,
+				9583C6582DEA3EB500204190 /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9583C6562DEA3EB500204190 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		95E31D372DEBCCFD002A4AA3 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				95F83DBC2DED58C8008A6102 /* Expense */,
+				95E31D3B2DEBCDF4002A4AA3 /* Profile */,
+				95E31D3A2DEBCD9F002A4AA3 /* Trips */,
+				95E31D392DEBCD89002A4AA3 /* Auth */,
+				95E31D382DEBCD71002A4AA3 /* Main */,
+				95E969E62DB1562000A14701 /* DataController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		95E31D382DEBCD71002A4AA3 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				95E969C42DB14CB700A14701 /* ViewController.swift */,
+				95E969DB2DB1528000A14701 /* MainTabBarController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		95E31D392DEBCD89002A4AA3 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				95E969D72DB14F4400A14701 /* AuthViewController.swift */,
+				95E969D92DB14F6700A14701 /* RegisterViewContoller.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		95E31D3A2DEBCD9F002A4AA3 /* Trips */ = {
+			isa = PBXGroup;
+			children = (
+				95F83DBB2DED5868008A6102 /* Creation */,
+				95E969DF2DB152C800A14701 /* SecondViewController.swift */,
+				95E969DD2DB152B000A14701 /* FirstViewController.swift */,
+				9583C6B02DEB8EBB00204190 /* TripDetailViewController.swift */,
+			);
+			path = Trips;
+			sourceTree = "<group>";
+		};
+		95E31D3B2DEBCDF4002A4AA3 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				95E969E12DB152E300A14701 /* ThirdViewController.swift */,
+				95E31D312DEBC92B002A4AA3 /* HistoryViewController.swift */,
+				95E31D2D2DEBC811002A4AA3 /* ProfileViewController.swift */,
+				95E31D2F2DEBC89C002A4AA3 /* NotificationsViewConroller.swift */,
+				95E31D332DEBC944002A4AA3 /* DebtsViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		95E31D402DEBD740002A4AA3 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				9583C6BB2DEBB6CD00204190 /* BudgetCategory+CoreDataProperties.swift */,
+				9583C6BA2DEBB6CD00204190 /* BudgetCategory+CoreDataClass.swift */,
+				9583C6912DEB670B00204190 /* Budget+CoreDataProperties.swift */,
+				9583C6902DEB670B00204190 /* Budget+CoreDataClass.swift */,
+				9583C6BD2DEBB6CD00204190 /* Participant+CoreDataProperties.swift */,
+				9583C6BE2DEBB6CD00204190 /* Expense+CoreDataClass.swift */,
+				9583C6BF2DEBB6CD00204190 /* Expense+CoreDataProperties.swift */,
+				9583C6C02DEBB6CD00204190 /* User+CoreDataClass.swift */,
+				9583C6C12DEBB6CD00204190 /* User+CoreDataProperties.swift */,
+				9583C6C22DEBB6CD00204190 /* Trip+CoreDataClass.swift */,
+				9583C6BC2DEBB6CD00204190 /* Participant+CoreDataClass.swift */,
+				9583C6C32DEBB6CD00204190 /* Trip+CoreDataProperties.swift */,
+				9583C6C42DEBB6CD00204190 /* Notification+CoreDataClass.swift */,
+				9583C6C52DEBB6CD00204190 /* Notification+CoreDataProperties.swift */,
+				9583C6C62DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataClass.swift */,
+				9583C6C72DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataProperties.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		95E31D412DEBD77C002A4AA3 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				95E96A002DB282D700A14701 /* AuthModels.swift */,
+				95F83DA32DED2D18008A6102 /* TripModels.swift */,
+				95F83DB12DED3ED2008A6102 /* ExpenseModels.swift */,
+				95F83DB32DED3F03008A6102 /* SettlementModels.swift */,
+				95F83DAF2DED3E62008A6102 /* BudgetModels.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
+		95E31D4C2DEBD8AC002A4AA3 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				95E31D4E2DEBD94A002A4AA3 /* Network */,
+				95E31D4D2DEBD8B7002A4AA3 /* API */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		95E31D4D2DEBD8B7002A4AA3 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				95E31D692DECF16A002A4AA3 /* TripService.swift */,
+				95F83D982DED01A9008A6102 /* AuthService.swift */,
+				95F83DA52DED2DBF008A6102 /* ParticipantService.swift */,
+				95F83DA92DED3D85008A6102 /* BudgetService.swift */,
+				95F83DAB2DED3DA1008A6102 /* ExpenseService.swift */,
+				95F83DAD2DED3DBC008A6102 /* SettlementService.swift */,
+				95F83DB52DED3F96008A6102 /* TargetType.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		95E31D4E2DEBD94A002A4AA3 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				95F83D9F2DED0DF1008A6102 /* AuthPlugin.swift */,
+				95F83D9D2DED0DD6008A6102 /* TokenManager.swift */,
+				95F83DA12DED22B5008A6102 /* AuthManager.swift */,
+				95E31D4F2DEBD95D002A4AA3 /* NetworkManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		95E969B42DB14CB700A14701 = {
 			isa = PBXGroup;
 			children = (
 				95E969BF2DB14CB700A14701 /* Travels */,
 				95E969BE2DB14CB700A14701 /* Products */,
+				9583C6562DEA3EB500204190 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -91,28 +329,17 @@
 		95E969BF2DB14CB700A14701 /* Travels */ = {
 			isa = PBXGroup;
 			children = (
+				95E969D12DB14CBB00A14701 /* Info.plist */,
+				95F83DC92DED5B38008A6102 /* Resources */,
+				95F83DC32DED5AC5008A6102 /* View */,
+				95F83DBF2DED59D3008A6102 /* Helpers */,
+				95E31D4C2DEBD8AC002A4AA3 /* Services */,
+				95E31D372DEBCCFD002A4AA3 /* ViewController */,
 				95E969EE2DB1B2C600A14701 /* UserModel.xcdatamodeld */,
 				95E969F92DB23DE700A14701 /* Model */,
 				95E969C02DB14CB700A14701 /* AppDelegate.swift */,
 				95E969C22DB14CB700A14701 /* SceneDelegate.swift */,
-				95E969C42DB14CB700A14701 /* ViewController.swift */,
 				95E969C62DB14CB700A14701 /* Main.storyboard */,
-				95E969CC2DB14CBB00A14701 /* Assets.xcassets */,
-				95E969CE2DB14CBB00A14701 /* LaunchScreen.storyboard */,
-				95E969D12DB14CBB00A14701 /* Info.plist */,
-				95E969D72DB14F4400A14701 /* AuthViewController.swift */,
-				95E969D92DB14F6700A14701 /* RegisterViewContoller.swift */,
-				95E969DB2DB1528000A14701 /* MainTabBarController.swift */,
-				95E969DD2DB152B000A14701 /* FirstViewController.swift */,
-				95E969DF2DB152C800A14701 /* SecondViewController.swift */,
-				95E969E12DB152E300A14701 /* ThirdViewController.swift */,
-				95E969E62DB1562000A14701 /* DataController.swift */,
-				95E969FE2DB282B200A14701 /* NetworkManager.swift */,
-				95E96A002DB282D700A14701 /* AuthModels.swift */,
-				95E96A022DB2830B00A14701 /* UserProfile.swift */,
-				95E96A042DB2832900A14701 /* AuthService.swift */,
-				95E96A062DB2835900A14701 /* KeychainHelper.swift */,
-				9583C6212DE0D5B000204190 /* CreateTripViewController.swift */,
 			);
 			path = Travels;
 			sourceTree = "<group>";
@@ -120,12 +347,71 @@
 		95E969F92DB23DE700A14701 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				95E969F62DB1B7FE00A14701 /* Trip+CoreDataProperties.swift */,
-				95E969F52DB1B7FE00A14701 /* Trip+CoreDataClass.swift */,
-				95E969EB2DB15DC800A14701 /* User+CoreDataProperties.swift */,
-				95E969EA2DB15DC800A14701 /* User+CoreDataClass.swift */,
+				9583C6862DEAAC3A00204190 /* BudgetCategoryModel.swift */,
+				95F83DC12DED5A39008A6102 /* TripPreview.swift */,
+				95E31D412DEBD77C002A4AA3 /* DTO */,
+				95E31D402DEBD740002A4AA3 /* CoreData */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		95F83DBB2DED5868008A6102 /* Creation */ = {
+			isa = PBXGroup;
+			children = (
+				9583C65E2DEA5D9C00204190 /* BudgetAllocationViewController.swift */,
+				9583C65C2DEA591300204190 /* BudgetCategoriesViewController.swift */,
+				9583C65A2DEA560500204190 /* TripParticipantsViewController.swift */,
+				9583C6272DE8C5B000204190 /* TripBudgetViewController.swift */,
+				9583C6252DE8C54900204190 /* TripBudgetConfirmViewController.swift */,
+				9583C6232DE8C51500204190 /* TripDetailsViewController.swift */,
+			);
+			path = Creation;
+			sourceTree = "<group>";
+		};
+		95F83DBC2DED58C8008A6102 /* Expense */ = {
+			isa = PBXGroup;
+			children = (
+				95F83DB92DED56E6008A6102 /* ExpenseDetailViewController.swift */,
+				95F83DB72DED5266008A6102 /* AddExpenseViewController.swift */,
+			);
+			path = Expense;
+			sourceTree = "<group>";
+		};
+		95F83DBF2DED59D3008A6102 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				95F83DC52DED5AF8008A6102 /* TripCreationManager.swift */,
+				9583C6AA2DEB681B00204190 /* Double+Format.swift */,
+				95E96A062DB2835900A14701 /* KeychainHelper.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		95F83DC32DED5AC5008A6102 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				95F83DC42DED5ACD008A6102 /* Cells */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		95F83DC42DED5ACD008A6102 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				95E31D352DEBCA6D002A4AA3 /* MenuCell.swift */,
+				9583C6AE2DEB84AC00204190 /* TripTableViewCell.swift */,
+				9583C6AC2DEB68AA00204190 /* BudgetCategoryCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		95F83DC92DED5B38008A6102 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				95E969CE2DB14CBB00A14701 /* LaunchScreen.storyboard */,
+				95E969CC2DB14CBB00A14701 /* Assets.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,12 +424,19 @@
 				95E969B92DB14CB700A14701 /* Sources */,
 				95E969BA2DB14CB700A14701 /* Frameworks */,
 				95E969BB2DB14CB700A14701 /* Resources */,
+				9583C6552DEA3E8D00204190 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Travels;
+			packageProductDependencies = (
+				9583C62A2DE8DAD400204190 /* Alamofire */,
+				9583C6572DEA3EB500204190 /* Moya */,
+				9583C6B52DEB90CE00204190 /* DGCharts */,
+				95F83D9B2DED0328008A6102 /* KeychainSwift */,
+			);
 			productName = Travels;
 			productReference = 95E969BD2DB14CB700A14701 /* Travels.app */;
 			productType = "com.apple.product-type.application";
@@ -172,6 +465,12 @@
 				Base,
 			);
 			mainGroup = 95E969B42DB14CB700A14701;
+			packageReferences = (
+				9583C6292DE8DAD400204190 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				9583C62E2DE8DC1C00204190 /* XCRemoteSwiftPackageReference "Moya" */,
+				9583C6B42DEB90CD00204190 /* XCRemoteSwiftPackageReference "Charts" */,
+				95F83D9A2DED0328008A6102 /* XCRemoteSwiftPackageReference "keychain-swift" */,
+			);
 			productRefGroup = 95E969BE2DB14CB700A14701 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -198,26 +497,69 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95E31D362DEBCA6E002A4AA3 /* MenuCell.swift in Sources */,
+				9583C6C82DEBB6CD00204190 /* BudgetCategory+CoreDataClass.swift in Sources */,
+				9583C6C92DEBB6CD00204190 /* BudgetCategory+CoreDataProperties.swift in Sources */,
+				95F83DB42DED3F03008A6102 /* SettlementModels.swift in Sources */,
+				95F83DA62DED2DBF008A6102 /* ParticipantService.swift in Sources */,
+				9583C6CA2DEBB6CD00204190 /* Participant+CoreDataClass.swift in Sources */,
+				9583C6CB2DEBB6CD00204190 /* Participant+CoreDataProperties.swift in Sources */,
+				9583C6CC2DEBB6CD00204190 /* Expense+CoreDataClass.swift in Sources */,
+				9583C6CD2DEBB6CD00204190 /* Expense+CoreDataProperties.swift in Sources */,
+				9583C6CE2DEBB6CD00204190 /* User+CoreDataClass.swift in Sources */,
+				9583C6CF2DEBB6CD00204190 /* User+CoreDataProperties.swift in Sources */,
+				95F83DB02DED3E62008A6102 /* BudgetModels.swift in Sources */,
+				95F83DA22DED22B5008A6102 /* AuthManager.swift in Sources */,
+				9583C6D02DEBB6CD00204190 /* Trip+CoreDataClass.swift in Sources */,
+				95F83DB62DED3F96008A6102 /* TargetType.swift in Sources */,
+				9583C6D12DEBB6CD00204190 /* Trip+CoreDataProperties.swift in Sources */,
+				95F83D992DED01A9008A6102 /* AuthService.swift in Sources */,
+				9583C6D22DEBB6CD00204190 /* Notification+CoreDataClass.swift in Sources */,
+				95F83DA02DED0DF2008A6102 /* AuthPlugin.swift in Sources */,
+				95F83DC62DED5AF8008A6102 /* TripCreationManager.swift in Sources */,
+				9583C6D32DEBB6CD00204190 /* Notification+CoreDataProperties.swift in Sources */,
+				9583C6D42DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataClass.swift in Sources */,
+				9583C6D52DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataProperties.swift in Sources */,
+				9583C6872DEAAC3B00204190 /* BudgetCategoryModel.swift in Sources */,
 				95E969C52DB14CB700A14701 /* ViewController.swift in Sources */,
+				95E31D302DEBC89C002A4AA3 /* NotificationsViewConroller.swift in Sources */,
 				95E969E72DB1562000A14701 /* DataController.swift in Sources */,
-				95E969F72DB1B7FE00A14701 /* Trip+CoreDataClass.swift in Sources */,
 				95E96A072DB2835900A14701 /* KeychainHelper.swift in Sources */,
+				95E31D6A2DECF16A002A4AA3 /* TripService.swift in Sources */,
+				95E31D322DEBC92B002A4AA3 /* HistoryViewController.swift in Sources */,
 				95E96A012DB282D700A14701 /* AuthModels.swift in Sources */,
-				95E969F82DB1B7FE00A14701 /* Trip+CoreDataProperties.swift in Sources */,
-				95E969FF2DB282B200A14701 /* NetworkManager.swift in Sources */,
-				95E96A052DB2832A00A14701 /* AuthService.swift in Sources */,
-				9583C6222DE0D5B000204190 /* CreateTripViewController.swift in Sources */,
+				95F83DB82DED5266008A6102 /* AddExpenseViewController.swift in Sources */,
+				9583C6AB2DEB681B00204190 /* Double+Format.swift in Sources */,
+				9583C6242DE8C51500204190 /* TripDetailsViewController.swift in Sources */,
+				9583C6B12DEB8EBB00204190 /* TripDetailViewController.swift in Sources */,
+				95F83DAA2DED3D85008A6102 /* BudgetService.swift in Sources */,
+				9583C6A02DEB670B00204190 /* Budget+CoreDataClass.swift in Sources */,
+				9583C6A12DEB670B00204190 /* Budget+CoreDataProperties.swift in Sources */,
+				95F83DBA2DED56E6008A6102 /* ExpenseDetailViewController.swift in Sources */,
+				95F83D9E2DED0DD6008A6102 /* TokenManager.swift in Sources */,
+				95F83DAE2DED3DBC008A6102 /* SettlementService.swift in Sources */,
+				9583C6AD2DEB68AA00204190 /* BudgetCategoryCell.swift in Sources */,
+				9583C6282DE8C5B000204190 /* TripBudgetViewController.swift in Sources */,
+				9583C65B2DEA560500204190 /* TripParticipantsViewController.swift in Sources */,
 				95E969E22DB152E300A14701 /* ThirdViewController.swift in Sources */,
-				95E969EC2DB15DC800A14701 /* User+CoreDataClass.swift in Sources */,
-				95E96A032DB2830B00A14701 /* UserProfile.swift in Sources */,
-				95E969ED2DB15DC800A14701 /* User+CoreDataProperties.swift in Sources */,
+				95F83DC22DED5A39008A6102 /* TripPreview.swift in Sources */,
+				9583C6262DE8C54900204190 /* TripBudgetConfirmViewController.swift in Sources */,
+				9583C65F2DEA5D9C00204190 /* BudgetAllocationViewController.swift in Sources */,
 				95E969D82DB14F4400A14701 /* AuthViewController.swift in Sources */,
 				95E969E02DB152C800A14701 /* SecondViewController.swift in Sources */,
+				95E31D342DEBC944002A4AA3 /* DebtsViewController.swift in Sources */,
 				95E969DE2DB152B000A14701 /* FirstViewController.swift in Sources */,
 				95E969DC2DB1528000A14701 /* MainTabBarController.swift in Sources */,
+				9583C65D2DEA591300204190 /* BudgetCategoriesViewController.swift in Sources */,
+				95F83DAC2DED3DA1008A6102 /* ExpenseService.swift in Sources */,
+				9583C6AF2DEB84AC00204190 /* TripTableViewCell.swift in Sources */,
 				95E969C12DB14CB700A14701 /* AppDelegate.swift in Sources */,
+				95F83DB22DED3ED2008A6102 /* ExpenseModels.swift in Sources */,
 				95E969DA2DB14F6700A14701 /* RegisterViewContoller.swift in Sources */,
 				95E969F02DB1B2C600A14701 /* UserModel.xcdatamodeld in Sources */,
+				95F83DA42DED2D18008A6102 /* TripModels.swift in Sources */,
+				95E31D502DEBD95D002A4AA3 /* NetworkManager.swift in Sources */,
+				95E31D2E2DEBC811002A4AA3 /* ProfileViewController.swift in Sources */,
 				95E969C32DB14CB700A14701 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -370,6 +712,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 522TJP2C7K;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Travels/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -397,6 +740,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 522TJP2C7K;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Travels/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -439,6 +783,64 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9583C6292DE8DAD400204190 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		9583C62E2DE8DC1C00204190 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
+		9583C6B42DEB90CD00204190 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
+		95F83D9A2DED0328008A6102 /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/evgenyneu/keychain-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 24.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9583C62A2DE8DAD400204190 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9583C6292DE8DAD400204190 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		9583C6572DEA3EB500204190 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9583C62E2DE8DC1C00204190 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		9583C6B52DEB90CE00204190 /* DGCharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9583C6B42DEB90CD00204190 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGCharts;
+		};
+		95F83D9B2DED0328008A6102 /* KeychainSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 95F83D9A2DED0328008A6102 /* XCRemoteSwiftPackageReference "keychain-swift" */;
+			productName = KeychainSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		95E969EE2DB1B2C600A14701 /* UserModel.xcdatamodeld */ = {

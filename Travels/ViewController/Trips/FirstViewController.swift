@@ -93,7 +93,6 @@ class FirstViewController: UIViewController {
         titleButton.translatesAutoresizingMaskIntoConstraints = false
         titleButton.addTarget(self, action: #selector(showTripSelector), for: .touchUpInside)
 
-        // Информационные карточки
         let budgetAmount = Int(currentTrip?.budget?.totalBudget ?? 0)
         let myExpenses = 100
 

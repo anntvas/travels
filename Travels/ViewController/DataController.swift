@@ -11,7 +11,6 @@ import CoreData
 class DataController {
     static let shared = DataController()
     
-    // DataController.swift
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "UserModel")
 

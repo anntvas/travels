@@ -1,0 +1,8 @@
+//
+//  TripService.swift
+//  Travels
+//
+//  Created by Anna on 01.06.2025.
+//
+
+import Foundation

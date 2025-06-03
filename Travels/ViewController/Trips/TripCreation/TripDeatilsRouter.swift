@@ -6,3 +6,16 @@
 //
 
 import Foundation
+import UIKit
+
+protocol TripDetailsRouterProtocol {
+    func navigateToParticipants(from vc: UIViewController, user: User?)
+}
+
+final class TripDetailsRouter: TripDetailsRouterProtocol {
+    func navigateToParticipants(from vc: UIViewController, user: User?) {
+        let participantsVC = TripParticipantsViewController()
+        participantsVC.currentUser = user
+        vc.navigationController?.pushViewController(participantsVC, animated: true)
+    }
+}

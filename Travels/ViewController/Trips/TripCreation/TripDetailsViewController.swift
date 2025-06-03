@@ -5,13 +5,11 @@
 //  Created by Anna on 29.05.2025.
 //
 
-import Foundation
 import UIKit
-import CoreData
 
-class TripDetailsViewController: UIViewController {
+final class TripDetailsViewController: UIViewController, TripDetailsViewProtocol {
 
-    var currentUser: User!
+    var presenter: TripDetailsPresenter!
 
     private let titleField = UITextField()
     private let fromCityField = UITextField()
@@ -27,6 +25,16 @@ class TripDetailsViewController: UIViewController {
         setupUI()
     }
 
+    func showError(message: String) {
+        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+
+    func goToParticipants(for user: User?) {
+        presenter.router.navigateToParticipants(from: self, user: user)
+    }
+
     private func setupUI() {
         titleField.placeholder = "Название поездки"
         fromCityField.placeholder = "Город отправления"
@@ -40,7 +48,6 @@ class TripDetailsViewController: UIViewController {
         titleField.borderStyle = .roundedRect
         fromCityField.borderStyle = .roundedRect
         toCityField.borderStyle = .roundedRect
-
         startDatePicker.datePickerMode = .date
         endDatePicker.datePickerMode = .date
 
@@ -72,53 +79,17 @@ class TripDetailsViewController: UIViewController {
     }
 
     @objc private func nextTapped() {
-        guard let title = titleField.text, !title.isEmpty,
-              let fromCity = fromCityField.text, !fromCity.isEmpty,
-              let toCity = toCityField.text, !toCity.isEmpty else {
-            showAlert(message: "Пожалуйста, заполните все поля")
-            return
-        }
-
-        // Сохраняем данные в менеджер
-        // Пример создания поездки
-        let tripRequest = TripRequest(
-            title: titleField.text!,
-            description: "Летний отпуск с поездкой на море",
-            startDate: formatDate(from: startDatePicker),
-            endDate: formatDate(from: endDatePicker),
-            departureCity: fromCityField.text!,
-            destinationCity: toCityField.text!,
-            createdBy: 1
-        )
-
-        NetworkManager.shared.createTrip(trip: tripRequest) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let tripResponse):
-                    print("Поездка создана: \(tripResponse)")
-                    // Обновить UI или перейти к следующему экрану
-                case .failure(let error):
-                    print("Ошибка создания поездки: \(error.localizedDescription)")
-                    // Показать ошибку пользователю
-                }
-            }
-        }
-
-        let participantsVC = TripParticipantsViewController()
-        participantsVC.currentUser = currentUser
-        navigationController?.pushViewController(participantsVC, animated: true)
-    }
-    
-    func formatDate(from datePicker: UIDatePicker) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        
-        return formatter.string(from: datePicker.date)
-    }
+        let start = formatter.string(from: startDatePicker.date)
+        let end = formatter.string(from: endDatePicker.date)
 
-    private func showAlert(message: String) {
-        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
+        presenter.didTapNext(
+            title: titleField.text,
+            from: fromCityField.text,
+            to: toCityField.text,
+            startDate: start,
+            endDate: end
+        )
     }
 }

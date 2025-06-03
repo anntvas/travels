@@ -4,12 +4,11 @@
 //
 //  Created by Anna on 29.05.2025.
 //
-import Foundation
 import UIKit
 
-class TripBudgetViewController: UIViewController {
+final class TripBudgetViewController: UIViewController, TripBudgetViewProtocol {
 
-    var currentUser: User!
+    var presenter: TripBudgetPresenter!
 
     private let budgetField = UITextField()
     private let nextButton = UIButton(type: .system)
@@ -49,22 +48,16 @@ class TripBudgetViewController: UIViewController {
     }
 
     @objc private func nextTapped() {
-        guard let budgetText = budgetField.text,
-              let budget = Double(budgetText) else {
-            showAlert(message: "Введите корректный бюджет")
-            return
-        }
-
-        TripCreationManager.shared.totalBudget = budget
-
-        let confirmVC = TripBudgetConfirmViewController()
-        confirmVC.currentUser = currentUser
-        navigationController?.pushViewController(confirmVC, animated: true)
+        presenter.nextTapped(with: budgetField.text)
     }
 
-    private func showAlert(message: String) {
+    func showError(message: String) {
         let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+
+    func navigateToConfirmation() {
+        presenter.router.navigateToConfirm(from: self, user: presenter.currentUser)
     }
 }

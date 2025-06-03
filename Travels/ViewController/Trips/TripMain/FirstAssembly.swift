@@ -6,3 +6,16 @@
 //
 
 import Foundation
+import UIKit
+
+enum FirstAssembly {
+    static func build() -> UIViewController {
+        let view = FirstViewController()
+        let model = FirstModel()
+        let router = FirstRouter()
+        let presenter = FirstPresenter(view: view, model: model, router: router)
+        view.inject(presenter: presenter)
+        router.viewController = view
+        return view
+    }
+}

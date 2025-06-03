@@ -6,12 +6,10 @@
 //
 
 import UIKit
-import CoreData
 
-class TripParticipantsViewController: UIViewController {
+final class TripParticipantsViewController: UIViewController, TripParticipantsViewProtocol {
 
-    var currentUser: User!
-    private var participants: [Participant] = []
+    var presenter: TripParticipantsPresenter!
 
     private let tableView = UITableView()
     private let nextButton = UIButton(type: .system)
@@ -64,64 +62,39 @@ class TripParticipantsViewController: UIViewController {
     }
 
     @objc private func addParticipantTapped() {
-        showAddParticipantAlert()
-    }
-
-    @objc private func nextTapped() {
-        guard !participants.isEmpty else {
-            showAlert(message: "Добавьте хотя бы одного участника")
-            return
-        }
-
-        TripCreationManager.shared.participants = participants
-
-        let budgetVC = TripBudgetViewController()
-        budgetVC.currentUser = currentUser
-        navigationController?.pushViewController(budgetVC, animated: true)
-    }
-
-    private func showAddParticipantAlert() {
         let alert = UIAlertController(
             title: "Добавить участника",
             message: "Введите имя и номер телефона участника",
             preferredStyle: .alert
         )
 
-        alert.addTextField { textField in
-            textField.placeholder = "Имя"
-        }
-
-        alert.addTextField { textField in
-            textField.placeholder = "Номер телефона"
-            textField.keyboardType = .phonePad
+        alert.addTextField { $0.placeholder = "Имя" }
+        alert.addTextField {
+            $0.placeholder = "Номер телефона"
+            $0.keyboardType = .phonePad
         }
 
         let addAction = UIAlertAction(title: "Добавить", style: .default) { [weak self] _ in
-            guard let self = self,
-                  let name = alert.textFields?[0].text, !name.isEmpty,
-                  let phone = alert.textFields?[1].text, !phone.isEmpty else {
-                return
-            }
+            guard let name = alert.textFields?[0].text, !name.isEmpty,
+                  let phone = alert.textFields?[1].text, !phone.isEmpty else { return }
 
-            let context = DataController.shared.context
-            let participant = Participant(context: context)
-            participant.name = name
-            participant.contact = phone
-            participant.confirmed = true
-
-            self.participants.append(participant)
-            self.tableView.reloadData()
+            self?.presenter.addParticipant(name: name, phone: phone)
         }
 
-        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
-
         alert.addAction(addAction)
-        alert.addAction(cancelAction)
-
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel))
         present(alert, animated: true)
     }
 
-    private func showAlert(message: String) {
+    @objc private func nextTapped() {
+        presenter.nextTapped()
+    }
+
+    func reloadParticipants() {
+        tableView.reloadData()
+    }
+
+    func showAlert(message: String) {
         let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
@@ -130,20 +103,19 @@ class TripParticipantsViewController: UIViewController {
 
 extension TripParticipantsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return participants.count
+        presenter.getParticipantsCount()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let participant = presenter.getParticipant(at: indexPath.row)
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let participant = participants[indexPath.row]
         cell.textLabel?.text = "\(participant.name ?? "") (\(participant.contact ?? ""))"
         return cell
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            participants.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            presenter.removeParticipant(at: indexPath.row)
         }
     }
 }

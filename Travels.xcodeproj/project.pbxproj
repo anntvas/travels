@@ -37,6 +37,22 @@
 		9583C6D32DEBB6CD00204190 /* Notification+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6C52DEBB6CD00204190 /* Notification+CoreDataProperties.swift */; };
 		9583C6D42DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6C62DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataClass.swift */; };
 		9583C6D52DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6C72DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataProperties.swift */; };
+		95DB93632DEF68BA00BEA09F /* FirstViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB93622DEF68BA00BEA09F /* FirstViewModel.swift */; };
+		95DB93652DEF68D600BEA09F /* FirstPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB93642DEF68D600BEA09F /* FirstPresenter.swift */; };
+		95DB93672DEF68EC00BEA09F /* FirstRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB93662DEF68EC00BEA09F /* FirstRouter.swift */; };
+		95DB93692DEF692100BEA09F /* FirstAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB93682DEF692100BEA09F /* FirstAssembly.swift */; };
+		95DB936B2DEF694500BEA09F /* TripDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB936A2DEF694500BEA09F /* TripDetailsModel.swift */; };
+		95DB936D2DEF695B00BEA09F /* TripDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB936C2DEF695B00BEA09F /* TripDetailsPresenter.swift */; };
+		95DB936F2DEF696F00BEA09F /* TripDeatilsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB936E2DEF696F00BEA09F /* TripDeatilsRouter.swift */; };
+		95DB93712DEF699800BEA09F /* TripDetailsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB93702DEF699800BEA09F /* TripDetailsAssembly.swift */; };
+		95DB93742DEF6A1B00BEA09F /* TripParticipantsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB93732DEF6A1B00BEA09F /* TripParticipantsModel.swift */; };
+		95DB93762DEF6A3000BEA09F /* TripParticipantsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB93752DEF6A3000BEA09F /* TripParticipantsPresenter.swift */; };
+		95DB93782DEF6A4700BEA09F /* TripParticipantsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB93772DEF6A4700BEA09F /* TripParticipantsRouter.swift */; };
+		95DB937A2DEF6A5400BEA09F /* TripParticipantsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB93792DEF6A5400BEA09F /* TripParticipantsAssembly.swift */; };
+		95DB937D2DEF6B1B00BEA09F /* TripBudgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB937C2DEF6B1B00BEA09F /* TripBudgetModel.swift */; };
+		95DB937F2DEF6B2600BEA09F /* TripBudgetPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB937E2DEF6B2600BEA09F /* TripBudgetPresenter.swift */; };
+		95DB93812DEF6B3300BEA09F /* TripBudgetAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB93802DEF6B3300BEA09F /* TripBudgetAssembly.swift */; };
+		95DB93832DEF6B3E00BEA09F /* TripBudgetRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB93822DEF6B3E00BEA09F /* TripBudgetRouter.swift */; };
 		95E31D2E2DEBC811002A4AA3 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E31D2D2DEBC811002A4AA3 /* ProfileViewController.swift */; };
 		95E31D302DEBC89C002A4AA3 /* NotificationsViewConroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E31D2F2DEBC89C002A4AA3 /* NotificationsViewConroller.swift */; };
 		95E31D322DEBC92B002A4AA3 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E31D312DEBC92B002A4AA3 /* HistoryViewController.swift */; };
@@ -120,6 +136,22 @@
 		9583C6C52DEBB6CD00204190 /* Notification+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Notification+CoreDataProperties.swift"; path = "Travels/Model/CoreData/Notification+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		9583C6C62DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ExpenseBeneficiary+CoreDataClass.swift"; path = "Travels/Model/CoreData/ExpenseBeneficiary+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		9583C6C72DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ExpenseBeneficiary+CoreDataProperties.swift"; path = "Travels/Model/CoreData/ExpenseBeneficiary+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		95DB93622DEF68BA00BEA09F /* FirstViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewModel.swift; sourceTree = "<group>"; };
+		95DB93642DEF68D600BEA09F /* FirstPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstPresenter.swift; sourceTree = "<group>"; };
+		95DB93662DEF68EC00BEA09F /* FirstRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstRouter.swift; sourceTree = "<group>"; };
+		95DB93682DEF692100BEA09F /* FirstAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstAssembly.swift; sourceTree = "<group>"; };
+		95DB936A2DEF694500BEA09F /* TripDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailsModel.swift; sourceTree = "<group>"; };
+		95DB936C2DEF695B00BEA09F /* TripDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailsPresenter.swift; sourceTree = "<group>"; };
+		95DB936E2DEF696F00BEA09F /* TripDeatilsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDeatilsRouter.swift; sourceTree = "<group>"; };
+		95DB93702DEF699800BEA09F /* TripDetailsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailsAssembly.swift; sourceTree = "<group>"; };
+		95DB93732DEF6A1B00BEA09F /* TripParticipantsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripParticipantsModel.swift; sourceTree = "<group>"; };
+		95DB93752DEF6A3000BEA09F /* TripParticipantsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripParticipantsPresenter.swift; sourceTree = "<group>"; };
+		95DB93772DEF6A4700BEA09F /* TripParticipantsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripParticipantsRouter.swift; sourceTree = "<group>"; };
+		95DB93792DEF6A5400BEA09F /* TripParticipantsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripParticipantsAssembly.swift; sourceTree = "<group>"; };
+		95DB937C2DEF6B1B00BEA09F /* TripBudgetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripBudgetModel.swift; sourceTree = "<group>"; };
+		95DB937E2DEF6B2600BEA09F /* TripBudgetPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripBudgetPresenter.swift; sourceTree = "<group>"; };
+		95DB93802DEF6B3300BEA09F /* TripBudgetAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripBudgetAssembly.swift; sourceTree = "<group>"; };
+		95DB93822DEF6B3E00BEA09F /* TripBudgetRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripBudgetRouter.swift; sourceTree = "<group>"; };
 		95E31D2D2DEBC811002A4AA3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		95E31D2F2DEBC89C002A4AA3 /* NotificationsViewConroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewConroller.swift; sourceTree = "<group>"; };
 		95E31D312DEBC92B002A4AA3 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +218,54 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		95DB93602DEF687400BEA09F /* TripCreation */ = {
+			isa = PBXGroup;
+			children = (
+				95DB936A2DEF694500BEA09F /* TripDetailsModel.swift */,
+				95DB936C2DEF695B00BEA09F /* TripDetailsPresenter.swift */,
+				9583C6232DE8C51500204190 /* TripDetailsViewController.swift */,
+				95DB936E2DEF696F00BEA09F /* TripDeatilsRouter.swift */,
+				95DB93702DEF699800BEA09F /* TripDetailsAssembly.swift */,
+			);
+			path = TripCreation;
+			sourceTree = "<group>";
+		};
+		95DB93612DEF689400BEA09F /* TripMain */ = {
+			isa = PBXGroup;
+			children = (
+				95E969DD2DB152B000A14701 /* FirstViewController.swift */,
+				95DB93622DEF68BA00BEA09F /* FirstViewModel.swift */,
+				95DB93642DEF68D600BEA09F /* FirstPresenter.swift */,
+				95DB93662DEF68EC00BEA09F /* FirstRouter.swift */,
+				95DB93682DEF692100BEA09F /* FirstAssembly.swift */,
+			);
+			path = TripMain;
+			sourceTree = "<group>";
+		};
+		95DB93722DEF69FE00BEA09F /* TripParticipants */ = {
+			isa = PBXGroup;
+			children = (
+				9583C65A2DEA560500204190 /* TripParticipantsViewController.swift */,
+				95DB93732DEF6A1B00BEA09F /* TripParticipantsModel.swift */,
+				95DB93752DEF6A3000BEA09F /* TripParticipantsPresenter.swift */,
+				95DB93772DEF6A4700BEA09F /* TripParticipantsRouter.swift */,
+				95DB93792DEF6A5400BEA09F /* TripParticipantsAssembly.swift */,
+			);
+			path = TripParticipants;
+			sourceTree = "<group>";
+		};
+		95DB937B2DEF6B0800BEA09F /* TripBudget */ = {
+			isa = PBXGroup;
+			children = (
+				9583C6272DE8C5B000204190 /* TripBudgetViewController.swift */,
+				95DB937C2DEF6B1B00BEA09F /* TripBudgetModel.swift */,
+				95DB937E2DEF6B2600BEA09F /* TripBudgetPresenter.swift */,
+				95DB93802DEF6B3300BEA09F /* TripBudgetAssembly.swift */,
+				95DB93822DEF6B3E00BEA09F /* TripBudgetRouter.swift */,
+			);
+			path = TripBudget;
+			sourceTree = "<group>";
+		};
 		95E31D372DEBCCFD002A4AA3 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,9 +300,12 @@
 		95E31D3A2DEBCD9F002A4AA3 /* Trips */ = {
 			isa = PBXGroup;
 			children = (
+				95DB937B2DEF6B0800BEA09F /* TripBudget */,
+				95DB93722DEF69FE00BEA09F /* TripParticipants */,
+				95DB93612DEF689400BEA09F /* TripMain */,
+				95DB93602DEF687400BEA09F /* TripCreation */,
 				95F83DBB2DED5868008A6102 /* Creation */,
 				95E969DF2DB152C800A14701 /* SecondViewController.swift */,
-				95E969DD2DB152B000A14701 /* FirstViewController.swift */,
 				9583C6B02DEB8EBB00204190 /* TripDetailViewController.swift */,
 			);
 			path = Trips;
@@ -360,10 +443,7 @@
 			children = (
 				9583C65E2DEA5D9C00204190 /* BudgetAllocationViewController.swift */,
 				9583C65C2DEA591300204190 /* BudgetCategoriesViewController.swift */,
-				9583C65A2DEA560500204190 /* TripParticipantsViewController.swift */,
-				9583C6272DE8C5B000204190 /* TripBudgetViewController.swift */,
 				9583C6252DE8C54900204190 /* TripBudgetConfirmViewController.swift */,
-				9583C6232DE8C51500204190 /* TripDetailsViewController.swift */,
 			);
 			path = Creation;
 			sourceTree = "<group>";
@@ -497,21 +577,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95DB936B2DEF694500BEA09F /* TripDetailsModel.swift in Sources */,
 				95E31D362DEBCA6E002A4AA3 /* MenuCell.swift in Sources */,
 				9583C6C82DEBB6CD00204190 /* BudgetCategory+CoreDataClass.swift in Sources */,
 				9583C6C92DEBB6CD00204190 /* BudgetCategory+CoreDataProperties.swift in Sources */,
 				95F83DB42DED3F03008A6102 /* SettlementModels.swift in Sources */,
 				95F83DA62DED2DBF008A6102 /* ParticipantService.swift in Sources */,
 				9583C6CA2DEBB6CD00204190 /* Participant+CoreDataClass.swift in Sources */,
+				95DB93762DEF6A3000BEA09F /* TripParticipantsPresenter.swift in Sources */,
 				9583C6CB2DEBB6CD00204190 /* Participant+CoreDataProperties.swift in Sources */,
 				9583C6CC2DEBB6CD00204190 /* Expense+CoreDataClass.swift in Sources */,
+				95DB937F2DEF6B2600BEA09F /* TripBudgetPresenter.swift in Sources */,
+				95DB936F2DEF696F00BEA09F /* TripDeatilsRouter.swift in Sources */,
+				95DB93672DEF68EC00BEA09F /* FirstRouter.swift in Sources */,
 				9583C6CD2DEBB6CD00204190 /* Expense+CoreDataProperties.swift in Sources */,
+				95DB93652DEF68D600BEA09F /* FirstPresenter.swift in Sources */,
 				9583C6CE2DEBB6CD00204190 /* User+CoreDataClass.swift in Sources */,
 				9583C6CF2DEBB6CD00204190 /* User+CoreDataProperties.swift in Sources */,
 				95F83DB02DED3E62008A6102 /* BudgetModels.swift in Sources */,
+				95DB93692DEF692100BEA09F /* FirstAssembly.swift in Sources */,
 				95F83DA22DED22B5008A6102 /* AuthManager.swift in Sources */,
 				9583C6D02DEBB6CD00204190 /* Trip+CoreDataClass.swift in Sources */,
 				95F83DB62DED3F96008A6102 /* TargetType.swift in Sources */,
+				95DB93812DEF6B3300BEA09F /* TripBudgetAssembly.swift in Sources */,
 				9583C6D12DEBB6CD00204190 /* Trip+CoreDataProperties.swift in Sources */,
 				95F83D992DED01A9008A6102 /* AuthService.swift in Sources */,
 				9583C6D22DEBB6CD00204190 /* Notification+CoreDataClass.swift in Sources */,
@@ -521,15 +609,19 @@
 				9583C6D42DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataClass.swift in Sources */,
 				9583C6D52DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataProperties.swift in Sources */,
 				9583C6872DEAAC3B00204190 /* BudgetCategoryModel.swift in Sources */,
+				95DB936D2DEF695B00BEA09F /* TripDetailsPresenter.swift in Sources */,
 				95E969C52DB14CB700A14701 /* ViewController.swift in Sources */,
 				95E31D302DEBC89C002A4AA3 /* NotificationsViewConroller.swift in Sources */,
 				95E969E72DB1562000A14701 /* DataController.swift in Sources */,
 				95E96A072DB2835900A14701 /* KeychainHelper.swift in Sources */,
 				95E31D6A2DECF16A002A4AA3 /* TripService.swift in Sources */,
+				95DB93742DEF6A1B00BEA09F /* TripParticipantsModel.swift in Sources */,
 				95E31D322DEBC92B002A4AA3 /* HistoryViewController.swift in Sources */,
 				95E96A012DB282D700A14701 /* AuthModels.swift in Sources */,
+				95DB93632DEF68BA00BEA09F /* FirstViewModel.swift in Sources */,
 				95F83DB82DED5266008A6102 /* AddExpenseViewController.swift in Sources */,
 				9583C6AB2DEB681B00204190 /* Double+Format.swift in Sources */,
+				95DB93832DEF6B3E00BEA09F /* TripBudgetRouter.swift in Sources */,
 				9583C6242DE8C51500204190 /* TripDetailsViewController.swift in Sources */,
 				9583C6B12DEB8EBB00204190 /* TripDetailViewController.swift in Sources */,
 				95F83DAA2DED3D85008A6102 /* BudgetService.swift in Sources */,
@@ -538,8 +630,11 @@
 				95F83DBA2DED56E6008A6102 /* ExpenseDetailViewController.swift in Sources */,
 				95F83D9E2DED0DD6008A6102 /* TokenManager.swift in Sources */,
 				95F83DAE2DED3DBC008A6102 /* SettlementService.swift in Sources */,
+				95DB937A2DEF6A5400BEA09F /* TripParticipantsAssembly.swift in Sources */,
 				9583C6AD2DEB68AA00204190 /* BudgetCategoryCell.swift in Sources */,
+				95DB93712DEF699800BEA09F /* TripDetailsAssembly.swift in Sources */,
 				9583C6282DE8C5B000204190 /* TripBudgetViewController.swift in Sources */,
+				95DB937D2DEF6B1B00BEA09F /* TripBudgetModel.swift in Sources */,
 				9583C65B2DEA560500204190 /* TripParticipantsViewController.swift in Sources */,
 				95E969E22DB152E300A14701 /* ThirdViewController.swift in Sources */,
 				95F83DC22DED5A39008A6102 /* TripPreview.swift in Sources */,
@@ -556,6 +651,7 @@
 				95E969C12DB14CB700A14701 /* AppDelegate.swift in Sources */,
 				95F83DB22DED3ED2008A6102 /* ExpenseModels.swift in Sources */,
 				95E969DA2DB14F6700A14701 /* RegisterViewContoller.swift in Sources */,
+				95DB93782DEF6A4700BEA09F /* TripParticipantsRouter.swift in Sources */,
 				95E969F02DB1B2C600A14701 /* UserModel.xcdatamodeld in Sources */,
 				95F83DA42DED2D18008A6102 /* TripModels.swift in Sources */,
 				95E31D502DEBD95D002A4AA3 /* NetworkManager.swift in Sources */,

@@ -7,8 +7,18 @@
 import UIKit
 
 final class TripBudgetViewController: UIViewController, TripBudgetViewProtocol {
+    
+    private let presenter: TripBudgetPresenter
 
-    var presenter: TripBudgetPresenter!
+    init(presenter: TripBudgetPresenter) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
 
     private let budgetField = UITextField()
     private let nextButton = UIButton(type: .system)
@@ -57,7 +67,4 @@ final class TripBudgetViewController: UIViewController, TripBudgetViewProtocol {
         present(alert, animated: true)
     }
 
-    func navigateToConfirmation() {
-        presenter.router.navigateToConfirm(from: self, user: presenter.currentUser)
-    }
 }

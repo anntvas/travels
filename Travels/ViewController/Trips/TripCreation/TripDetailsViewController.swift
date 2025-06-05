@@ -8,8 +8,8 @@
 import UIKit
 
 final class TripDetailsViewController: UIViewController, TripDetailsViewProtocol {
-
-    var presenter: TripDetailsPresenter!
+    
+    private let presenter: TripDetailsPresenterProtocol
 
     private let titleField = UITextField()
     private let fromCityField = UITextField()
@@ -17,6 +17,15 @@ final class TripDetailsViewController: UIViewController, TripDetailsViewProtocol
     private let startDatePicker = UIDatePicker()
     private let endDatePicker = UIDatePicker()
     private let nextButton = UIButton(type: .system)
+
+    init(presenter: TripDetailsPresenterProtocol) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,9 +40,6 @@ final class TripDetailsViewController: UIViewController, TripDetailsViewProtocol
         present(alert, animated: true)
     }
 
-    func goToParticipants(for user: User?) {
-        presenter.router.navigateToParticipants(from: self, user: user)
-    }
 
     private func setupUI() {
         titleField.placeholder = "Название поездки"

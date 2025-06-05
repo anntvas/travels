@@ -7,23 +7,35 @@
 
 import Foundation
 
+protocol FirstPresenterProtocol {
+    func viewDidLoad()
+    func didTapCreateTrip()
+    func didSelectTrip(_ trip: Trip)
+    func didTapParticipants(for trip: Trip?)
+    func attachView(_ view: FirstViewProtocol)
+}
+
 protocol FirstViewProtocol: AnyObject {
     func displayTrips(current: Trip?, all: [Trip])
 }
 
-final class FirstPresenter {
-    weak var view: FirstViewProtocol?
+final class FirstPresenter: FirstPresenterProtocol {
+    private weak var view: FirstViewProtocol?
     private let model: FirstModelProtocol
     private let router: FirstRouterProtocol
 
     private var allTrips: [Trip] = []
     private var currentTrip: Trip?
 
-    init(view: FirstViewProtocol, model: FirstModelProtocol, router: FirstRouterProtocol) {
-        self.view = view
+    init(model: FirstModelProtocol, router: FirstRouterProtocol) {
         self.model = model
         self.router = router
     }
+        
+    func attachView(_ view: FirstViewProtocol) {
+        self.view = view
+    }
+
 
     func viewDidLoad() {
         model.fetchUserAndTrips { [weak self] user, trips in

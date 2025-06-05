@@ -9,17 +9,13 @@ import Foundation
 import UIKit
 
 enum TripDetailsAssembly {
-    static func build(user: User? = nil) -> TripDetailsViewController {
-        let view = TripDetailsViewController()
+    static func build(user: User? = nil) -> UIViewController {
         let model = TripDetailsModel()
         let router = TripDetailsRouter()
-        let presenter = TripDetailsPresenter(
-            view: view,
-            model: model,
-            router: router,
-            user: user
-        )
-        view.presenter = presenter
+        let presenter: TripDetailsPresenterProtocol = TripDetailsPresenter(model: model, router: router, user: user)
+        let view = TripDetailsViewController(presenter: presenter)
+        presenter.attachView(view)
+        router.setViewController(view)
         return view
     }
 }

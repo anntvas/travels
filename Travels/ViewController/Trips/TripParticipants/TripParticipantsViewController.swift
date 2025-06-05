@@ -9,10 +9,19 @@ import UIKit
 
 final class TripParticipantsViewController: UIViewController, TripParticipantsViewProtocol {
 
-    var presenter: TripParticipantsPresenter!
+    private let presenter: TripParticipantsPresenterProtocol
 
     private let tableView = UITableView()
     private let nextButton = UIButton(type: .system)
+    
+    init(presenter: TripParticipantsPresenterProtocol) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

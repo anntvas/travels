@@ -9,7 +9,6 @@ import Foundation
 
 protocol TripBudgetViewProtocol: AnyObject {
     func showError(message: String)
-    func navigateToConfirmation()
 }
 
 final class TripBudgetPresenter {
@@ -18,8 +17,7 @@ final class TripBudgetPresenter {
     private let router: TripBudgetRouterProtocol
     var currentUser: User?
 
-    init(view: TripBudgetViewProtocol, model: TripBudgetModelProtocol, router: TripBudgetRouterProtocol, currentUser: User?) {
-        self.view = view
+    init(model: TripBudgetModelProtocol, router: TripBudgetRouterProtocol, currentUser: User?) {
         self.model = model
         self.router = router
         self.currentUser = currentUser
@@ -32,6 +30,10 @@ final class TripBudgetPresenter {
         }
 
         model.saveBudget(budget)
-        view?.navigateToConfirmation()
     }
+    
+    func attachView(_ view: TripBudgetViewProtocol) {
+        self.view = view
+    }
+
 }

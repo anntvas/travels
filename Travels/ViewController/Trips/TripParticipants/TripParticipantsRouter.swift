@@ -5,17 +5,22 @@
 //  Created by Anna on 03.06.2025.
 //
 
-import Foundation
 import UIKit
 
 protocol TripParticipantsRouterProtocol {
-    func navigateToBudgetScreen(from vc: UIViewController, user: User?)
+    func navigateToBudgetScreen(user: User?)
+    func setViewController(_ vc: UIViewController)
 }
 
 final class TripParticipantsRouter: TripParticipantsRouterProtocol {
-    func navigateToBudgetScreen(from vc: UIViewController, user: User?) {
-        let budgetVC = TripBudgetViewController()
-        budgetVC.currentUser = user
-        vc.navigationController?.pushViewController(budgetVC, animated: true)
+    private weak var viewController: UIViewController?
+    
+    func setViewController(_ vc: UIViewController) {
+        self.viewController = vc
+    }
+    
+    func navigateToBudgetScreen(user: User?) {
+        let budgetVC = TripBudgetAssembly.build(user: user)
+        viewController?.navigationController?.pushViewController(budgetVC, animated: true)
     }
 }

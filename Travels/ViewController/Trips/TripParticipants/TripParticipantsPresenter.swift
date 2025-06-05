@@ -7,24 +7,35 @@
 
 import Foundation
 
+protocol TripParticipantsPresenterProtocol {
+    func addParticipant(name: String, phone: String)
+    func removeParticipant(at index: Int)
+    func nextTapped()
+    func getParticipantsCount() -> Int
+    func getParticipant(at index: Int) -> Participant
+    func attachView(_ view: TripParticipantsViewProtocol)
+}
+
 protocol TripParticipantsViewProtocol: AnyObject {
     func reloadParticipants()
     func showAlert(message: String)
-    func navigateToBudgetScreen()
 }
 
-final class TripParticipantsPresenter {
-    weak var view: TripParticipantsViewProtocol?
+final class TripParticipantsPresenter: TripParticipantsPresenterProtocol {
+    private weak var view: TripParticipantsViewProtocol?
     private let model: TripParticipantsModelProtocol
     private let router: TripParticipantsRouterProtocol
-    var participants: [Participant] = []
-    var currentUser: User?
+    private var participants: [Participant] = []
+    private var currentUser: User?
 
-    init(view: TripParticipantsViewProtocol, model: TripParticipantsModelProtocol, router: TripParticipantsRouterProtocol, currentUser: User?) {
-        self.view = view
+    init(model: TripParticipantsModelProtocol, router: TripParticipantsRouterProtocol, currentUser: User?) {
         self.model = model
         self.router = router
         self.currentUser = currentUser
+    }
+    
+    func attachView(_ view: TripParticipantsViewProtocol) {
+        self.view = view
     }
 
     func addParticipant(name: String, phone: String) {
@@ -44,7 +55,7 @@ final class TripParticipantsPresenter {
             return
         }
         TripCreationManager.shared.participants = participants
-        router.navigateToBudgetScreen(from: view as! UIViewController, user: currentUser)
+        router.navigateToBudgetScreen(user: currentUser)
     }
 
     func getParticipantsCount() -> Int {

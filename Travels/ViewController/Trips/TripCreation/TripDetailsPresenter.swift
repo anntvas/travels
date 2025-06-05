@@ -7,22 +7,29 @@
 
 import Foundation
 
+protocol TripDetailsPresenterProtocol {
+    func didTapNext(title: String?, from: String?, to: String?, startDate: String, endDate: String)
+    func attachView(_ view: TripDetailsViewProtocol)
+}
+
 protocol TripDetailsViewProtocol: AnyObject {
     func showError(message: String)
-    func goToParticipants(for user: User?)
 }
 
 final class TripDetailsPresenter {
-    weak var view: TripDetailsViewProtocol?
+    private weak var view: TripDetailsViewProtocol?
     private let model: TripDetailsModelProtocol
     private let router: TripDetailsRouterProtocol
     private let user: User?
 
-    init(view: TripDetailsViewProtocol, model: TripDetailsModelProtocol, router: TripDetailsRouterProtocol, user: User?) {
-        self.view = view
+    init(model: TripDetailsModelProtocol, router: TripDetailsRouterProtocol, user: User?) {
         self.model = model
         self.router = router
         self.user = user
+    }
+
+    func attachView(_ view: TripDetailsViewProtocol) {
+        self.view = view
     }
 
     func didTapNext(title: String?, from: String?, to: String?, startDate: String, endDate: String) {
@@ -48,7 +55,7 @@ final class TripDetailsPresenter {
                 switch result {
                 case .success(let tripResponse):
                     print("Поездка создана: \(tripResponse)")
-                    self?.view?.goToParticipants(for: self?.user)
+                    self?.router.navigateToParticipants(user: self?.user)
                 case .failure(let error):
                     self?.view?.showError(message: error.localizedDescription)
                 }

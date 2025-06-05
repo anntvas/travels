@@ -5,21 +5,16 @@
 //  Created by Anna on 03.06.2025.
 //
 
-import Foundation
 import UIKit
 
 enum TripParticipantsAssembly {
     static func build(user: User?) -> UIViewController {
-        let view = TripParticipantsViewController()
         let model = TripParticipantsModel()
         let router = TripParticipantsRouter()
-        let presenter = TripParticipantsPresenter(
-            view: view,
-            model: model,
-            router: router,
-            currentUser: user
-        )
-        view.presenter = presenter
+        let presenter: TripParticipantsPresenterProtocol = TripParticipantsPresenter(model: model, router: router, currentUser: user)
+        let view = TripParticipantsViewController(presenter: presenter)
+        presenter.attachView(view)
+        router.setViewController(view)
         return view
     }
 }

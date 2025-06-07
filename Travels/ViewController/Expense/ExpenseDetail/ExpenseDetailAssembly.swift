@@ -6,3 +6,13 @@
 //
 
 import Foundation
+import UIKit
+enum ExpenseDetailAssembly {
+    static func build() -> UIViewController {
+        let view = ExpenseDetailViewController()
+        let model = ExpenseDetailModel()
+        let presenter = ExpenseDetailPresenter(view: view, model: model)
+        view.presenter = presenter
+        return view
+    }
+}

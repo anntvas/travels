@@ -6,3 +6,28 @@
 //
 
 import Foundation
+import UIKit
+
+protocol SecondRouterProtocol {
+    func openCreateTrip()
+    func showTripDetails(_ trip: Trip)
+}
+
+final class SecondRouter: SecondRouterProtocol {
+    private weak var viewController: UIViewController?
+    
+    init(viewController: UIViewController?) {
+        self.viewController = viewController
+    }
+    
+    func openCreateTrip() {
+        let tripVC = TripDetailsAssembly.build()
+        viewController?.present(UINavigationController(rootViewController: tripVC), animated: true)
+    }
+    
+    func showTripDetails(_ trip: Trip) {
+        let detailVC = TripDetailViewController()
+        detailVC.configure(with: trip)
+        viewController?.navigationController?.pushViewController(detailVC, animated: true)
+    }
+}

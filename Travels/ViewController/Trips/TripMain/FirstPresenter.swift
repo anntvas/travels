@@ -7,20 +7,21 @@
 
 import Foundation
 
-protocol FirstPresenterProtocol {
+protocol FirstPresenterProtocol: AnyObject {
     func viewDidLoad()
+    func viewWillAppear()
     func didTapCreateTrip()
     func didSelectTrip(_ trip: Trip)
-    func didTapParticipants(for trip: Trip?)
-    func attachView(_ view: FirstViewProtocol)
+    func showTripSelection()
 }
 
 protocol FirstViewProtocol: AnyObject {
     func displayTrips(current: Trip?, all: [Trip])
+    func showError(_ message: String)
 }
 
 final class FirstPresenter: FirstPresenterProtocol {
-    private weak var view: FirstViewProtocol?
+    weak var view: FirstViewProtocol?
     private let model: FirstModelProtocol
     private let router: FirstRouterProtocol
 
@@ -31,18 +32,13 @@ final class FirstPresenter: FirstPresenterProtocol {
         self.model = model
         self.router = router
     }
-        
-    func attachView(_ view: FirstViewProtocol) {
-        self.view = view
-    }
-
 
     func viewDidLoad() {
-        model.fetchUserAndTrips { [weak self] user, trips in
-            self?.allTrips = trips
-            self?.currentTrip = trips.first
-            self?.view?.displayTrips(current: self?.currentTrip, all: trips)
-        }
+        loadTrips()
+    }
+
+    func viewWillAppear() {
+        loadTrips()
     }
 
     func didTapCreateTrip() {
@@ -54,7 +50,22 @@ final class FirstPresenter: FirstPresenterProtocol {
         view?.displayTrips(current: currentTrip, all: allTrips)
     }
 
-    func didTapParticipants(for trip: Trip?) {
-        router.showParticipants(for: trip)
+    func showTripSelection() {
+        view?.displayTrips(current: currentTrip, all: allTrips)
+    }
+
+    private func loadTrips() {
+        model.fetchTrips { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let trips):
+                    self?.allTrips = trips
+                    self?.currentTrip = trips.first
+                    self?.view?.displayTrips(current: self?.currentTrip, all: trips)
+                case .failure(let error):
+                    self?.view?.showError(error.localizedDescription)
+                }
+            }
+        }
     }
 }

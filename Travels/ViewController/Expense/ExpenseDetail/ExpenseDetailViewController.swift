@@ -5,26 +5,26 @@
 //  Created by Anna on 02.06.2025.
 //
 
-import Foundation
 import UIKit
 
-class ExpenseDetailViewController: UIViewController {
 
+final class ExpenseDetailViewController: UIViewController, ExpenseDetailViewProtocol {
+    var presenter: ExpenseDetailPresenterProtocol?
+
+    private var expenses: [ExpenseDetail] = []
     private let tableView = UITableView()
-    private var expenses: [(name: String, amount: Int, category: String, time: String, isCurrentUser: Bool, date: String?)] = [
-        ("Вы", -52000, "Отель", "11:11", true, nil),
-        ("Олег", -2000, "Питание", "20:33", false, nil),
-        ("Анастасия", -2000, "Питание", "20:33", false, "31 марта")
-    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         title = "Это Питер, детка!"
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addExpense))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                            target: self,
+                                                            action: #selector(addExpense))
 
         setupTableView()
+        presenter?.onViewDidLoad()
     }
 
     private func setupTableView() {
@@ -44,7 +44,12 @@ class ExpenseDetailViewController: UIViewController {
     }
 
     @objc private func addExpense() {
-        // Добавление нового расхода — открой экран добавления
+        presenter?.addExpenseTapped()
+    }
+
+    func showExpenses(_ expenses: [ExpenseDetail]) {
+        self.expenses = expenses
+        tableView.reloadData()
     }
 }
 
@@ -60,7 +65,11 @@ extension ExpenseDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let expense = expenses[indexPath.section]
         let cell = tableView.dequeueReusableCell(withIdentifier: "ExpenseMessageCell", for: indexPath) as! ExpenseMessageCell
-        cell.configure(name: expense.name, amount: expense.amount, category: expense.category, time: expense.time, isCurrentUser: expense.isCurrentUser)
+        cell.configure(name: expense.name,
+                       amount: expense.amount,
+                       category: expense.category,
+                       time: expense.time,
+                       isCurrentUser: expense.isCurrentUser)
         cell.selectionStyle = .none
         return cell
     }
@@ -70,8 +79,18 @@ extension ExpenseDetailViewController: UITableViewDataSource {
     }
 }
 
-class ExpenseMessageCell: UITableViewCell {
+// MARK: - ExpenseDetail Entity
+struct ExpenseDetail {
+    let name: String
+    let amount: Int
+    let category: String
+    let time: String
+    let isCurrentUser: Bool
+    let date: String?
+}
 
+// MARK: - Custom Cell
+class ExpenseMessageCell: UITableViewCell {
     private let bubbleView = UIView()
     private let nameLabel = UILabel()
     private let amountLabel = UILabel()
@@ -139,4 +158,3 @@ class ExpenseMessageCell: UITableViewCell {
         }
     }
 }
-

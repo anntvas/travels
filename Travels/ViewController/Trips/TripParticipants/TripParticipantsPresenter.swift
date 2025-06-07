@@ -6,63 +6,119 @@
 //
 
 import Foundation
+import UIKit
 
 protocol TripParticipantsPresenterProtocol {
-    func addParticipant(name: String, phone: String)
-    func removeParticipant(at index: Int)
-    func nextTapped()
-    func getParticipantsCount() -> Int
-    func getParticipant(at index: Int) -> Participant
-    func attachView(_ view: TripParticipantsViewProtocol)
+    func viewDidLoad()
+    func didTapAddParticipant()
+    func didTapNextButton()
+    func didDeleteParticipant(at index: Int)
+    func numberOfParticipants() -> Int
+    func participant(at index: Int) -> Participant
 }
 
 protocol TripParticipantsViewProtocol: AnyObject {
-    func reloadParticipants()
-    func showAlert(message: String)
+    func reloadTableView()
+    func showError(message: String)
+    func showLoading()
+    func hideLoading()
 }
 
 final class TripParticipantsPresenter: TripParticipantsPresenterProtocol {
-    private weak var view: TripParticipantsViewProtocol?
+    weak var view: TripParticipantsViewProtocol?
     private let model: TripParticipantsModelProtocol
     private let router: TripParticipantsRouterProtocol
     private var participants: [Participant] = []
-    private var currentUser: User?
-
-    init(model: TripParticipantsModelProtocol, router: TripParticipantsRouterProtocol, currentUser: User?) {
+    private let user: User
+    
+    init(
+        view: TripParticipantsViewProtocol,
+        model: TripParticipantsModelProtocol,
+        router: TripParticipantsRouterProtocol,
+        user: User
+    ) {
+        self.view = view
         self.model = model
         self.router = router
-        self.currentUser = currentUser
+        self.user = user
     }
     
-    func attachView(_ view: TripParticipantsViewProtocol) {
-        self.view = view
+    func viewDidLoad() {
+        participants = model.fetchParticipants()
+        view?.reloadTableView()
     }
-
-    func addParticipant(name: String, phone: String) {
-        let newParticipant = model.createParticipant(name: name, phone: phone)
-        participants.append(newParticipant)
-        view?.reloadParticipants()
+    
+    func didTapAddParticipant() {
+        showAddParticipantAlert()
     }
-
-    func removeParticipant(at index: Int) {
-        participants.remove(at: index)
-        view?.reloadParticipants()
+    
+    private func showAddParticipantAlert() {
+        let alert = UIAlertController(
+            title: "Добавить участника",
+            message: "Введите имя и номер телефона участника",
+            preferredStyle: .alert
+        )
+        
+        alert.addTextField { textField in
+            textField.placeholder = "Имя"
+        }
+        
+        alert.addTextField { textField in
+            textField.placeholder = "Номер телефона"
+            textField.keyboardType = .phonePad
+        }
+        
+        let addAction = UIAlertAction(title: "Добавить", style: .default) { [weak self] _ in
+            guard let self = self,
+                  let name = alert.textFields?[0].text, !name.isEmpty,
+                  let phone = alert.textFields?[1].text, !phone.isEmpty else {
+                return
+            }
+            
+            self.view?.showLoading()
+            self.model.addParticipant(name: name, phone: phone) { [weak self] result in
+                DispatchQueue.main.async {
+                    self?.view?.hideLoading()
+                    switch result {
+                    case .success(let participant):
+                        self?.participants.append(participant)
+                        self?.view?.reloadTableView()
+                    case .failure(let error):
+                        self?.view?.showError(message: error.localizedDescription)
+                    }
+                }
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
+        
+        alert.addAction(addAction)
+        alert.addAction(cancelAction)
+        
+        (view as? UIViewController)?.present(alert, animated: true)
     }
-
-    func nextTapped() {
+    
+    func didTapNextButton() {
         guard !participants.isEmpty else {
-            view?.showAlert(message: "Добавьте хотя бы одного участника")
+            view?.showError(message: "Добавьте хотя бы одного участника")
             return
         }
-        TripCreationManager.shared.participants = participants
-        router.navigateToBudgetScreen(user: currentUser)
+        router.navigateToTripBudget(with: user, participants: participants)
     }
-
-    func getParticipantsCount() -> Int {
+    
+    func didDeleteParticipant(at index: Int) {
+        guard index >= 0 && index < participants.count else { return }
+        let participant = participants[index]
+        model.deleteParticipant(participant)
+        participants.remove(at: index)
+        view?.reloadTableView()
+    }
+    
+    func numberOfParticipants() -> Int {
         return participants.count
     }
-
-    func getParticipant(at index: Int) -> Participant {
+    
+    func participant(at index: Int) -> Participant {
         return participants[index]
     }
 }

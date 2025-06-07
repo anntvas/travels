@@ -8,38 +8,34 @@
 import UIKit
 
 
-class BeginViewController: UIViewController {
+final class BeginViewController: UIViewController, BeginViewProtocol {
+    var presenter: BeginPresenterProtocol?
     
-    private let logoImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "logo") // Замените на ваше изображение
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    private let logoImageView = UIImageView()
+    private let loginButton = UIButton(type: .custom)
     
-    private let loginButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.backgroundColor = UIColor(hex: "#FFDD2D")
-        button.setTitle("Войти", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.layer.cornerRadius = 15
-        button.layer.masksToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
-        
-        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
     }
     
     private func setupViews() {
         view.backgroundColor = .white
+        
+        logoImageView.image = UIImage(named: "logo")
+        logoImageView.contentMode = .scaleAspectFit
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        loginButton.backgroundColor = UIColor(hex: "#FFDD2D")
+        loginButton.setTitle("Войти", for: .normal)
+        loginButton.setTitleColor(.black, for: .normal)
+        loginButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        loginButton.layer.cornerRadius = 15
+        loginButton.layer.masksToBounds = true
+        loginButton.translatesAutoresizingMaskIntoConstraints = false
+        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        
         view.addSubview(logoImageView)
         view.addSubview(loginButton)
     }
@@ -59,8 +55,7 @@ class BeginViewController: UIViewController {
     }
     
     @objc private func loginButtonTapped() {
-        let authVC = AuthViewController()
-        navigationController?.pushViewController(authVC, animated: true)
+        presenter?.loginButtonTapped()
     }
 }
 

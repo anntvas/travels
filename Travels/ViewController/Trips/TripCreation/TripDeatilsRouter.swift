@@ -9,18 +9,18 @@ import UIKit
 
 protocol TripDetailsRouterProtocol {
     func navigateToParticipants(user: User?)
-    func setViewController(_ vc: UIViewController)
 }
 
 final class TripDetailsRouter: TripDetailsRouterProtocol {
     private weak var viewController: UIViewController?
 
-    func setViewController(_ vc: UIViewController) {
-        self.viewController = vc
+    init(viewController: UIViewController?) {
+        self.viewController = viewController
     }
 
     func navigateToParticipants(user: User?) {
-        let participantsVC = TripParticipantsAssembly.build(user: user)
-        viewController?.navigationController?.pushViewController(participantsVC, animated: true)
+ //       guard let user = user else { return }
+//        let participantsVC = TripParticipantsAssembly.build(user: user)
+//        viewController?.navigationController?.pushViewController(participantsVC, animated: true)
     }
 }

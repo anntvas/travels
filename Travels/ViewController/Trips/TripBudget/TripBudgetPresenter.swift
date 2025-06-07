@@ -8,32 +8,50 @@
 import Foundation
 
 protocol TripBudgetViewProtocol: AnyObject {
-    func showError(message: String)
+    func showValidationError(message: String)
+    func setInitialBudget(_ budget: Double?)
+}
+protocol TripBudgetPresenterProtocol {
+    func viewDidLoad()
+    func didTapNextButton(budgetText: String?)
 }
 
-final class TripBudgetPresenter {
+final class TripBudgetPresenter: TripBudgetPresenterProtocol {
     weak var view: TripBudgetViewProtocol?
     private let model: TripBudgetModelProtocol
     private let router: TripBudgetRouterProtocol
-    var currentUser: User?
-
-    init(model: TripBudgetModelProtocol, router: TripBudgetRouterProtocol, currentUser: User?) {
+    private let user: User
+    
+    init(
+        view: TripBudgetViewProtocol,
+        model: TripBudgetModelProtocol,
+        router: TripBudgetRouterProtocol,
+        user: User
+    ) {
+        self.view = view
         self.model = model
         self.router = router
-        self.currentUser = currentUser
-    }
-
-    func nextTapped(with budgetText: String?) {
-        guard let text = budgetText, let budget = Double(text) else {
-            view?.showError(message: "Введите корректный бюджет")
-            return
-        }
-
-        model.saveBudget(budget)
+        self.user = user
     }
     
-    func attachView(_ view: TripBudgetViewProtocol) {
-        self.view = view
+    func viewDidLoad() {
+        if let currentBudget = model.getCurrentBudget() {
+            view?.setInitialBudget(currentBudget)
+        }
     }
-
+    
+    func didTapNextButton(budgetText: String?) {
+        guard let budgetText = budgetText, !budgetText.isEmpty else {
+            view?.showValidationError(message: "Введите бюджет")
+            return
+        }
+        
+        guard let budget = Double(budgetText), budget > 0 else {
+            view?.showValidationError(message: "Введите корректный бюджет")
+            return
+        }
+        
+        model.saveBudget(budget)
+        router.navigateToBudgetConfirm(with: user)
+    }
 }

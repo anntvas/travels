@@ -15,11 +15,11 @@ struct LoginRequest: Codable {
 
 struct RegisterRequest: Codable {
     let username: String
-    let password: String
-    let phone: String
     let firstName: String
     let lastName: String
     let email: String
+    let phone: String
+    let password: String
 }
 
 // MARK: - Модели для ответов

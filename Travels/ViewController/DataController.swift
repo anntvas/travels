@@ -12,7 +12,7 @@ class DataController {
     static let shared = DataController()
     
     lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "UserModel")
+        let container = NSPersistentContainer(name: "Travels")
 
         container.loadPersistentStores { storeDescription, error in
             if let error = error as NSError? {

@@ -7,19 +7,9 @@
 import UIKit
 
 final class TripBudgetViewController: UIViewController, TripBudgetViewProtocol {
+    var presenter: TripBudgetPresenterProtocol?
+    var currentUser: User!
     
-    private let presenter: TripBudgetPresenter
-
-    init(presenter: TripBudgetPresenter) {
-        self.presenter = presenter
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-
     private let budgetField = UITextField()
     private let nextButton = UIButton(type: .system)
 
@@ -28,10 +18,7 @@ final class TripBudgetViewController: UIViewController, TripBudgetViewProtocol {
         view.backgroundColor = .systemBackground
         title = "Бюджет"
         setupUI()
-
-        if TripCreationManager.shared.totalBudget > 0 {
-            budgetField.text = String(TripCreationManager.shared.totalBudget)
-        }
+        presenter?.viewDidLoad()
     }
 
     private func setupUI() {
@@ -56,15 +43,21 @@ final class TripBudgetViewController: UIViewController, TripBudgetViewProtocol {
             nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
-
+    
     @objc private func nextTapped() {
-        presenter.nextTapped(with: budgetField.text)
+        presenter?.didTapNextButton(budgetText: budgetField.text)
     }
-
-    func showError(message: String) {
+    
+    // MARK: - TripBudgetViewProtocol
+    func showValidationError(message: String) {
         let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
-
+    
+    func setInitialBudget(_ budget: Double?) {
+        if let budget = budget {
+            budgetField.text = String(budget)
+        }
+    }
 }

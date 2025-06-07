@@ -8,12 +8,19 @@
 import UIKit
 
 enum TripBudgetAssembly {
-    static func build(user: User?) -> UIViewController {
+    static func build(with user: User) -> UIViewController {
+        let view = TripBudgetViewController()
         let model = TripBudgetModel()
-        let router = TripBudgetRouter()
-        let presenter = TripBudgetPresenter(model: model, router: router, currentUser: user)
-        let view = TripBudgetViewController(presenter: presenter)
-        presenter.attachView(view)
+        let router = TripBudgetRouter(viewController: view)
+        let presenter = TripBudgetPresenter(
+            view: view,
+            model: model,
+            router: router,
+            user: user
+        )
+        
+        view.presenter = presenter
+        view.currentUser = user
         return view
     }
 }

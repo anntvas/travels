@@ -7,16 +7,16 @@
 
 import UIKit
 
-class ThirdViewController: UIViewController {
+struct MenuItem {
+    let title: String
+    let icon: String
+    let controller: UIViewController.Type
+}
+
+final class ThirdViewController: UIViewController, ThirdViewProtocol {
     
+    var presenter: ThirdPresenterProtocol!
     private let tableView = UITableView(frame: .zero, style: .plain)
-    
-    private let menuItems: [(title: String, icon: String, controller: UIViewController.Type)] = [
-        ("Профиль", "person.circle", ProfileViewController.self),
-        ("История", "clock.arrow.circlepath", HistoryViewController.self),
-        ("Уведомления", "bell", NotificationsViewController.self),
-        ("Долги", "banknote", DebtsViewController.self)
-    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,13 +43,18 @@ class ThirdViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    // MARK: - ThirdViewProtocol
+    func reloadData() {
+        tableView.reloadData()
+    }
 }
 
 // MARK: - UITableViewDataSource & Delegate
 extension ThirdViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return menuItems.count
+        return presenter.numberOfSections
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -71,15 +76,13 @@ extension ThirdViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let (title, icon, _) = menuItems[indexPath.section]
+        let item = presenter.itemForSection(indexPath.section)
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCell", for: indexPath) as! MenuCell
-        cell.configure(title: title, iconName: icon)
+        cell.configure(title: item.title, iconName: item.icon)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let (_, _, controllerType) = menuItems[indexPath.section]
-        let vc = controllerType.init()
-        navigationController?.pushViewController(vc, animated: true)
+        presenter.didSelectItem(at: indexPath.section)
     }
 }

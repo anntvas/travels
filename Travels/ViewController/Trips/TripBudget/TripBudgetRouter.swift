@@ -8,15 +8,20 @@
 import UIKit
 
 protocol TripBudgetRouterProtocol {
-    func navigateToConfirm(user: User?)
+    func navigateToBudgetConfirm(with user: User)
 }
+import UIKit
 
 final class TripBudgetRouter: TripBudgetRouterProtocol {
-    
     weak var viewController: UIViewController?
-
-    func navigateToConfirm(user: User?) {
-        let confirmVC = TripBudgetConfirmAssembly.build(user: user)
+    
+    init(viewController: UIViewController) {
+        self.viewController = viewController
+    }
+    
+    func navigateToBudgetConfirm(with user: User) {
+        let confirmVC = TripBudgetConfirmViewController()
+        confirmVC.currentUser = user
         viewController?.navigationController?.pushViewController(confirmVC, animated: true)
     }
 }

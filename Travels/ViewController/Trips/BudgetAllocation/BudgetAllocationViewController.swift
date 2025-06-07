@@ -7,12 +7,9 @@
 
 import UIKit
 
-class BudgetAllocationViewController: UIViewController {
-
-    var currentUser: User!
-    private var categories: [BudgetCategoryModel] = TripCreationManager.shared.categories
-    private let totalBudget: Double = TripCreationManager.shared.totalBudget
-
+final class BudgetAllocationViewController: UIViewController, BudgetAllocationViewProtocol {
+    var presenter: BudgetAllocationPresenterProtocol!
+    
     private let tableView = UITableView()
     private let nextButton = UIButton(type: .system)
     private let totalLabel = UILabel()
@@ -24,7 +21,7 @@ class BudgetAllocationViewController: UIViewController {
         title = "Распределение бюджета"
         setupUI()
         setupTableView()
-        updateTotalLabels()
+        presenter.viewDidLoad()
     }
 
     private func setupUI() {
@@ -78,87 +75,74 @@ class BudgetAllocationViewController: UIViewController {
         tableView.register(BudgetCategoryCell.self, forCellReuseIdentifier: "categoryCell")
         tableView.rowHeight = 60
     }
-
-    private func updateTotalLabels() {
-        let allocated = categories.reduce(0) { $0 + $1.allocatedAmount }
-        totalLabel.text = "Общий бюджет: \(totalBudget.formattedWithSeparator) ₽"
-
-        let remaining = totalBudget - allocated
-        remainingLabel.text = "Остаток: \(remaining.formattedWithSeparator) ₽"
-        remainingLabel.textColor = remaining < 0 ? .systemRed : .systemGreen
-    }
-
+    
     @objc private func nextTapped() {
-        let allocated = categories.reduce(0) { $0 + $1.allocatedAmount }
-
-        guard allocated > 0 else {
-            showAlert(title: "Ошибка", message: "Распределите бюджет по категориям")
-            return
-        }
-
-        guard abs(allocated - totalBudget) < 0.01 else {
-            showAlert(title: "Ошибка", message: "Сумма по категориям (\(allocated.formattedWithSeparator) ₽) должна равняться общему бюджету (\(totalBudget.formattedWithSeparator) ₽)")
-            return
-        }
-
-        TripCreationManager.shared.categories = categories
-        let newTrip = TripCreationManager.shared.createTrip(in: DataController.shared.context)
-            
-            do {
-                try DataController.shared.context.save()
-                
-                // Затем синхронизируем с сервером
-                TripCreationManager.shared.syncTrip { success in
-                    if success {
-                        self.dismissAndNotify()
-                    } else {
-                        self.showSyncError()
-                    }
-                }
-            } catch {
-                print("Ошибка сохранения: \(error)")
-            }
+        presenter.didTapNextButton()
     }
-
-    private func showAlert(title: String, message: String) {
+    
+    // MARK: - BudgetAllocationViewProtocol
+    func updateTotalLabels(total: String, remaining: String, remainingColor: UIColor) {
+        totalLabel.text = total
+        remainingLabel.text = remaining
+        remainingLabel.textColor = remainingColor
+    }
+    
+    func showValidationError(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
-    private func dismissAndNotify() {
-        TripCreationManager.shared.reset()
-        dismiss(animated: true) {
-            NotificationCenter.default.post(name: NSNotification.Name("TripCreated"), object: nil)
-        }
-    }
-
-    private func showSyncError() {
-        showAlert(
-            title: "Ошибка синхронизации",
-            message: "Данные сохранены локально, но не синхронизированы с сервером"
+    
+    func showSyncSuccess() {
+        let alert = UIAlertController(
+            title: "Успешно",
+            message: "Поездка создана",
+            preferredStyle: .alert
         )
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            self?.presenter?.reset()
+            self?.dismiss(animated: true) {
+                NotificationCenter.default.post(name: NSNotification.Name("TripCreated"), object: nil)
+            }
+        })
+        present(alert, animated: true)
+    }
+    
+    func showSyncError(message: String) {
+        let alert = UIAlertController(
+            title: "Ошибка синхронизации",
+            message: message,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+    
+    func reloadTableView() {
+        tableView.reloadData()
     }
 }
 
 extension BudgetAllocationViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories.count
+        return presenter.numberOfCategories()
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as? BudgetCategoryCell else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "categoryCell",
+            for: indexPath
+        ) as? BudgetCategoryCell else {
             return UITableViewCell()
         }
-
-        let category = categories[indexPath.row]
-        cell.configure(with: category, totalBudget: totalBudget)
-
+        
+        let category = presenter.category(at: indexPath.row)
+        cell.configure(with: category, totalBudget: presenter.totalBudget)
+        
         cell.onAmountChanged = { [weak self] amount in
-            self?.categories[indexPath.row].allocatedAmount = amount
-            self?.updateTotalLabels()
+            self?.presenter.didUpdateAmount(amount, forCategoryAt: indexPath.row)
         }
-
+        
         return cell
     }
 }
-

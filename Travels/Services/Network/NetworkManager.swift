@@ -10,21 +10,48 @@ import Alamofire
 import KeychainSwift
 import Foundation
 
-class NetworkManager {
+protocol NetworkManagerProtocol {
+    // MARK: - Auth Methods
+    func login(request: LoginRequest, completion: @escaping (Result<TokenResponse, Error>) -> Void)
+    func register(request: RegisterRequest, completion: @escaping (Result<UserResponse, Error>) -> Void)
+    func getUserProfile(completion: @escaping (Result<UserResponse, Error>) -> Void)
+    func refreshToken(completion: @escaping (Result<TokenResponse, Error>) -> Void)
+    
+    // MARK: - Trip Methods
+    func createTrip(trip: TripRequest, completion: @escaping (Result<TripResponse, Error>) -> Void)
+    func getTrips(completion: @escaping (Result<[TripResponse], Error>) -> Void)
+    func getTripDetails(tripId: Int, completion: @escaping (Result<TripResponse, Error>) -> Void)
+    func updateTrip(tripId: Int, trip: TripRequest, completion: @escaping (Result<Void, Error>) -> Void)
+    func deleteTrip(tripId: Int, completion: @escaping (Result<Void, Error>) -> Void)
+    
+    // MARK: - Participant Methods
+    func listParticipants(tripId: Int, completion: @escaping (Result<[ParticipantResponse], Error>) -> Void)
+    func addParticipant(tripId: Int, participant: ParticipantRequest,
+                      completion: @escaping (Result<ParticipantResponse, Error>) -> Void)
+    func deleteParticipant(tripId: Int, participantId: Int,
+                         completion: @escaping (Result<Void, Error>) -> Void)
+    func confirmParticipation(tripId: Int, participantId: Int,
+                            completion: @escaping (Result<Void, Error>) -> Void)
+    func cancelParticipation(tripId: Int, participantId: Int,
+                           completion: @escaping (Result<Void, Error>) -> Void)
+}
+
+final class NetworkManager: NetworkManagerProtocol {
     static let shared = NetworkManager()
     private let keychain = KeychainSwift()
-        
+    
     private lazy var authProvider: MoyaProvider<AuthService> = {
         #if DEBUG
         let config = NetworkLoggerPlugin.Configuration(logOptions: .verbose)
         let logger = NetworkLoggerPlugin(configuration: config)
-        let authPlugin = AuthPlugin(keychain: self.keychain) // Создаем плагин с keychain
+        let authPlugin = AuthPlugin(keychain: self.keychain)
         return MoyaProvider<AuthService>(plugins: [authPlugin, logger])
         #else
-        let authPlugin = AuthPlugin(keychain: self.keychain) // Создаем плагин с keychain
+        let authPlugin = AuthPlugin(keychain: self.keychain)
         return MoyaProvider<AuthService>(plugins: [authPlugin])
         #endif
     }()
+    
     private lazy var tripProvider: MoyaProvider<TripService> = {
         #if DEBUG
         let config = NetworkLoggerPlugin.Configuration(logOptions: .verbose)
@@ -36,6 +63,7 @@ class NetworkManager {
         return MoyaProvider<TripService>(plugins: [authPlugin])
         #endif
     }()
+    
     private lazy var participantProvider: MoyaProvider<ParticipantService> = {
         #if DEBUG
         let config = NetworkLoggerPlugin.Configuration(logOptions: .verbose)
@@ -49,7 +77,6 @@ class NetworkManager {
     }()
     
     // MARK: - Auth Methods
-    
     func login(request: LoginRequest, completion: @escaping (Result<TokenResponse, Error>) -> Void) {
         authProvider.request(.login(request: request)) { result in
             switch result {

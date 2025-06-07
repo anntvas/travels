@@ -10,25 +10,23 @@ import UIKit
 protocol FirstRouterProtocol {
     func openCreateTrip()
     func showParticipants(for trip: Trip?)
-    func setViewController(_ vc: UIViewController)
 }
 
 final class FirstRouter: FirstRouterProtocol {
     private weak var viewController: UIViewController?
-
-    func setViewController(_ vc: UIViewController) {
-        self.viewController = vc
+    
+    init(viewController: UIViewController?) {
+        self.viewController = viewController
     }
     
     func openCreateTrip() {
         let vc = TripDetailsAssembly.build()
-        viewController?.present(UINavigationController(rootViewController: vc), animated: true)
+        viewController?.navigationController?.pushViewController(vc, animated: true)
     }
 
     func showParticipants(for trip: Trip?) {
-        guard let trip = trip else { return }
-        let participantsVC = TripParticipantsViewController()
-        participantsVC.participants = trip.participants as? Set<Participant> ?? []
-        viewController?.present(participantsVC, animated: true)
+        // Реализация перехода к участникам
+        // let participantsVC = TripParticipantsAssembly.build(trip: trip)
+        // viewController?.navigationController?.pushViewController(participantsVC, animated: true)
     }
 }

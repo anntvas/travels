@@ -8,8 +8,7 @@
 import UIKit
 
 final class TripDetailsViewController: UIViewController, TripDetailsViewProtocol {
-    
-    private let presenter: TripDetailsPresenterProtocol
+    var presenter: TripDetailsPresenterProtocol?
 
     private let titleField = UITextField()
     private let fromCityField = UITextField()
@@ -17,48 +16,38 @@ final class TripDetailsViewController: UIViewController, TripDetailsViewProtocol
     private let startDatePicker = UIDatePicker()
     private let endDatePicker = UIDatePicker()
     private let nextButton = UIButton(type: .system)
-
-    init(presenter: TripDetailsPresenterProtocol) {
-        self.presenter = presenter
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private let activityIndicator = UIActivityIndicatorView(style: .medium)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         title = "Создание поездки"
         setupUI()
+        presenter?.viewDidLoad()
     }
-
-    func showError(message: String) {
-        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
-    }
-
 
     private func setupUI() {
+        [titleField, fromCityField, toCityField].forEach {
+            $0.borderStyle = .roundedRect
+        }
         titleField.placeholder = "Название поездки"
         fromCityField.placeholder = "Город отправления"
         toCityField.placeholder = "Город назначения"
 
-        [titleField, fromCityField, toCityField, startDatePicker, endDatePicker, nextButton].forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview($0)
-        }
-
-        titleField.borderStyle = .roundedRect
-        fromCityField.borderStyle = .roundedRect
-        toCityField.borderStyle = .roundedRect
         startDatePicker.datePickerMode = .date
         endDatePicker.datePickerMode = .date
+        endDatePicker.minimumDate = Date()
 
         nextButton.setTitle("Далее", for: .normal)
         nextButton.addTarget(self, action: #selector(nextTapped), for: .touchUpInside)
+
+        activityIndicator.hidesWhenStopped = true
+
+        [titleField, fromCityField, toCityField, startDatePicker,
+         endDatePicker, nextButton, activityIndicator].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview($0)
+        }
 
         NSLayoutConstraint.activate([
             titleField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -80,22 +69,50 @@ final class TripDetailsViewController: UIViewController, TripDetailsViewProtocol
             endDatePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
             nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
 
     @objc private func nextTapped() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        let start = formatter.string(from: startDatePicker.date)
-        let end = formatter.string(from: endDatePicker.date)
-
-        presenter.didTapNext(
+        presenter?.nextButtonTapped(
             title: titleField.text,
-            from: fromCityField.text,
-            to: toCityField.text,
-            startDate: start,
-            endDate: end
+            fromCity: fromCityField.text,
+            toCity: toCityField.text,
+            startDate: startDatePicker.date,
+            endDate: endDatePicker.date
         )
+    }
+
+    // MARK: - TripDetailsViewProtocol
+
+    func showValidationError(message: String) {
+        showAlert(title: "Ошибка", message: message)
+    }
+
+    func showLoading() {
+        activityIndicator.startAnimating()
+        view.isUserInteractionEnabled = false
+    }
+
+    func hideLoading() {
+        activityIndicator.stopAnimating()
+        view.isUserInteractionEnabled = true
+    }
+
+    func showTripCreationSuccess() {
+        showAlert(title: "Успех", message: "Поездка создана")
+    }
+
+    func showTripCreationError(message: String) {
+        showAlert(title: "Ошибка", message: message)
+    }
+
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 }

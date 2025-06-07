@@ -144,14 +144,14 @@ class SecondViewController: UIViewController {
     }
 
     @objc private func addTripTapped() {
-        let tripVC = TripDetailsViewController()
-        
-        if let user = currentUser {
-            tripVC.currentUser = user
-        }
-        
-        let nav = UINavigationController(rootViewController: tripVC)
-        present(nav, animated: true)
+//        let tripVC = TripDetailsViewController()
+//        
+//        if let user = currentUser {
+//            tripVC.currentUser = user
+//        }
+//        
+//        let nav = UINavigationController(rootViewController: tripVC)
+//        present(nav, animated: true)
     }
     func dateFromString(_ dateString: String) -> Date? {
         let formatter = DateFormatter()

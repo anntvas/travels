@@ -8,14 +8,16 @@
 import UIKit
 
 enum BudgetAllocationAssembly {
-    static func build() -> UIViewController {
+    static func build(tripId: Int, budgetRequest: BudgetRequest) -> UIViewController {
         let view = BudgetAllocationViewController()
-        let model = BudgetAllocationModel()
+        let model = BudgetAllocationModel(budgetRequest: budgetRequest)
         let router = BudgetAllocationRouter(viewController: view)
         let presenter = BudgetAllocationPresenter(
             view: view,
             model: model,
-            router: router
+            router: router,
+            tripId: tripId,
+            budgetRequest: budgetRequest
         )
         
         view.presenter = presenter

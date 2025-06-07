@@ -8,42 +8,33 @@
 import CoreData
 
 protocol TripParticipantsModelProtocol {
-    func addParticipant(name: String, phone: String, completion: @escaping (Result<Participant, Error>) -> Void)
-    func deleteParticipant(_ participant: Participant)
-    func fetchParticipants() -> [Participant]
+    func addParticipant(to tripId: Int, phone: String, completion: @escaping (Result<ParticipantResponse, Error>) -> Void)
+    func fetchParticipants(
+        tripId: Int,
+        completion: @escaping (Result<[ParticipantResponse], Error>) -> Void
+    )
+
 }
 
-import CoreData
+
 
 final class TripParticipantsModel: TripParticipantsModelProtocol {
-    private let context: NSManagedObjectContext
-    
-    init(context: NSManagedObjectContext = DataController.shared.context) {
-        self.context = context
+
+    private let networkManager: NetworkManagerProtocol
+
+    init(networkManager: NetworkManagerProtocol = NetworkManager.shared) {
+        self.networkManager = networkManager
+    }
+
+    func addParticipant(to tripId: Int, phone: String, completion: @escaping (Result<ParticipantResponse, Error>) -> Void) {
+        networkManager.addParticipant(tripId: tripId, participant: ParticipantRequest(phone: phone), completion: completion)
     }
     
-    func addParticipant(name: String, phone: String, completion: @escaping (Result<Participant, Error>) -> Void) {
-        let participant = Participant(context: context)
-        participant.name = name
-        participant.contact = phone
-        participant.confirmed = true
-        
-        do {
-            try context.save()
-            completion(.success(participant))
-        } catch {
-            completion(.failure(error))
-        }
-    }
-    
-    func deleteParticipant(_ participant: Participant) {
-        context.delete(participant)
-        try? context.save()
-    }
-    
-    func fetchParticipants() -> [Participant] {
-        // В реальном приложении здесь должна быть логика загрузки участников
-        // Пока возвращаем пустой массив
-        return []
+    func fetchParticipants(
+        tripId: Int,
+        completion: @escaping (Result<[ParticipantResponse], Error>) -> Void
+    ) {
+        networkManager.fetchParticipants(tripId: tripId, completion: completion)
     }
 }
+

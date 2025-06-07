@@ -8,19 +8,12 @@
 import UIKit
 
 enum TripParticipantsAssembly {
-    static func build(with user: User) -> UIViewController {
+    static func build(tripId: Int) -> UIViewController {
         let view = TripParticipantsViewController()
         let model = TripParticipantsModel()
         let router = TripParticipantsRouter(viewController: view)
-        let presenter = TripParticipantsPresenter(
-            view: view,
-            model: model,
-            router: router,
-            user: user
-        )
-        
+        let presenter = TripParticipantsPresenter(view: view, model: model, router: router, tripId: tripId)
         view.presenter = presenter
-        view.currentUser = user
         return view
     }
 }

@@ -15,6 +15,7 @@ protocol NetworkManagerProtocol {
     func login(request: LoginRequest, completion: @escaping (Result<TokenResponse, Error>) -> Void)
     func register(request: RegisterRequest, completion: @escaping (Result<UserResponse, Error>) -> Void)
     func getUserProfile(completion: @escaping (Result<UserResponse, Error>) -> Void)
+    func getCurrentUserId(completion: @escaping (Result<Int, Error>) -> Void)
     func refreshToken(completion: @escaping (Result<TokenResponse, Error>) -> Void)
     
     // MARK: - Trip Methods
@@ -34,9 +35,36 @@ protocol NetworkManagerProtocol {
                             completion: @escaping (Result<Void, Error>) -> Void)
     func cancelParticipation(tripId: Int, participantId: Int,
                            completion: @escaping (Result<Void, Error>) -> Void)
+    func fetchParticipants(
+        tripId: Int,
+        completion: @escaping (Result<[ParticipantResponse], Error>) -> Void
+    )
+    func setBudget(tripId: Int, request: BudgetRequest, completion: @escaping (Result<Void, Error>) -> Void)
+    func getBudget(tripId: Int, completion: @escaping (Result<BudgetResponse, Error>) -> Void)
+
 }
 
 final class NetworkManager: NetworkManagerProtocol {
+    func fetchParticipants(
+        tripId: Int,
+        completion: @escaping (Result<[ParticipantResponse], Error>) -> Void
+    ) {
+        participantProvider.request(.listParticipants(tripId: tripId)) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let participants = try JSONDecoder().decode([ParticipantResponse].self, from: response.data)
+                    completion(.success(participants))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    
     static let shared = NetworkManager()
     private let keychain = KeychainSwift()
     
@@ -75,6 +103,19 @@ final class NetworkManager: NetworkManagerProtocol {
         return MoyaProvider<ParticipantService>(plugins: [authPlugin])
         #endif
     }()
+    
+    private lazy var budgetProvider: MoyaProvider<BudgetService> = {
+        #if DEBUG
+        let config = NetworkLoggerPlugin.Configuration(logOptions: .verbose)
+        let logger = NetworkLoggerPlugin(configuration: config)
+        let authPlugin = AuthPlugin(keychain: self.keychain)
+        return MoyaProvider<BudgetService>(plugins: [authPlugin, logger])
+        #else
+        let authPlugin = AuthPlugin(keychain: self.keychain)
+        return MoyaProvider<BudgetService>(plugins: [authPlugin])
+        #endif
+    }()
+
     
     // MARK: - Auth Methods
     func login(request: LoginRequest, completion: @escaping (Result<TokenResponse, Error>) -> Void) {
@@ -132,6 +173,23 @@ final class NetworkManager: NetworkManagerProtocol {
             }
         }
     }
+    
+    func getCurrentUserId(completion: @escaping (Result<Int, Error>) -> Void) {
+        authProvider.request(.getUserId) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let id = try JSONDecoder().decode(Int.self, from: response.data)
+                    completion(.success(id))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
     
     func refreshToken(completion: @escaping (Result<TokenResponse, Error>) -> Void) {
         guard let refreshToken = keychain.get("refreshToken") else {
@@ -299,4 +357,38 @@ extension NetworkManager {
             }
         }
     }
+}
+extension NetworkManager {
+    func setBudget(tripId: Int, request: BudgetRequest, completion: @escaping (Result<Void, Error>) -> Void) {
+        budgetProvider.request(.setBudget(tripId: tripId, budget: request)) { result in
+            switch result {
+            case .success(let response):
+                if (200...299).contains(response.statusCode) {
+                    completion(.success(()))
+                } else {
+                    let message = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
+                    completion(.failure(NSError(domain: "", code: response.statusCode, userInfo: [NSLocalizedDescriptionKey: message])))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    func getBudget(tripId: Int, completion: @escaping (Result<BudgetResponse, Error>) -> Void) {
+        budgetProvider.request(.getBudget(tripId: tripId)) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let budget = try JSONDecoder().decode(BudgetResponse.self, from: response.data)
+                    completion(.success(budget))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+
 }

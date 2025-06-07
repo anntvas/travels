@@ -8,7 +8,7 @@
 import UIKit
 
 protocol TripBudgetRouterProtocol {
-    func navigateToBudgetConfirm(with user: User)
+    func navigateToBudgetConfirm(tripId: Int, budget: BudgetRequest)
 }
 import UIKit
 
@@ -19,9 +19,8 @@ final class TripBudgetRouter: TripBudgetRouterProtocol {
         self.viewController = viewController
     }
     
-    func navigateToBudgetConfirm(with user: User) {
-        let confirmVC = TripBudgetConfirmViewController()
-        confirmVC.currentUser = user
-        viewController?.navigationController?.pushViewController(confirmVC, animated: true)
+    func navigateToBudgetConfirm(tripId: Int, budget: BudgetRequest) {
+        let categoriesVC =  BudgetCategoriesAssembly.build(tripId: tripId, budgetRequest: budget)
+        viewController?.navigationController?.pushViewController(categoriesVC, animated: true)
     }
 }

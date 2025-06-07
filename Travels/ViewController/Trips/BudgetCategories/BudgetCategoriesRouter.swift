@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol BudgetCategoriesRouterProtocol {
-    func navigateToBudgetAllocation(with user: User)
+    func navigateToBudgetAllocation(tripId: Int, budgetRequest: BudgetRequest)
 }
 
 final class BudgetCategoriesRouter: BudgetCategoriesRouterProtocol {
@@ -19,9 +19,8 @@ final class BudgetCategoriesRouter: BudgetCategoriesRouterProtocol {
         self.viewController = viewController
     }
     
-    func navigateToBudgetAllocation(with user: User) {
-        let allocationVC = BudgetAllocationViewController()
-//        allocationVC.currentUser = user
+    func navigateToBudgetAllocation(tripId: Int, budgetRequest: BudgetRequest) {
+        let allocationVC = BudgetAllocationAssembly.build(tripId: tripId, budgetRequest: budgetRequest)
         viewController?.navigationController?.pushViewController(allocationVC, animated: true)
     }
 }

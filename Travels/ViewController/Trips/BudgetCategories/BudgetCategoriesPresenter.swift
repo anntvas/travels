@@ -23,18 +23,21 @@ final class BudgetCategoriesPresenter: BudgetCategoriesPresenterProtocol {
     weak var view: BudgetCategoriesViewProtocol?
     private let model: BudgetCategoriesModelProtocol
     private let router: BudgetCategoriesRouterProtocol
-    private let user: User
+    private let tripId: Int
+    private var budgetRequest: BudgetRequest
     
     init(
         view: BudgetCategoriesViewProtocol,
         model: BudgetCategoriesModelProtocol,
         router: BudgetCategoriesRouterProtocol,
-        user: User
+        tripId: Int,
+        budgetRequest: BudgetRequest
     ) {
         self.view = view
         self.model = model
         self.router = router
-        self.user = user
+        self.tripId = tripId
+        self.budgetRequest = budgetRequest
     }
     
     func viewDidLoad() {
@@ -47,12 +50,23 @@ final class BudgetCategoriesPresenter: BudgetCategoriesPresenterProtocol {
     }
     
     func didTapNextButton() {
-        guard !model.getSelectedCategories().isEmpty else {
-            view?.showValidationError(message: "Выберите хотя бы одну категорию")
-            return
+        let selectedModels = model.getSelectedCategories()
+
+        // Преобразуем к типу BudgetCategoryRequest
+        let categoryRequests: [BudgetCategoryRequest] = selectedModels.map {
+            BudgetCategoryRequest(category: $0.category, allocatedAmount: 0)
         }
-        router.navigateToBudgetAllocation(with: user)
+
+        // Создаём новый BudgetRequest
+        let updatedRequest = BudgetRequest(
+            totalBudget: budgetRequest.totalBudget,
+            categories: categoryRequests
+        )
+
+        router.navigateToBudgetAllocation(tripId: tripId, budgetRequest: updatedRequest)
+
     }
+
     
     func numberOfCategories() -> Int {
         return model.availableCategories.count

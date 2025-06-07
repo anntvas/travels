@@ -24,7 +24,8 @@ final class TripDetailsPresenter: TripDetailsPresenterProtocol {
     private weak var view: TripDetailsViewProtocol?
     private let model: TripDetailsModelProtocol
     private let router: TripDetailsRouterProtocol
-    private var currentUser: User?
+    private var tripId: Int?
+
 
     init(view: TripDetailsViewProtocol, model: TripDetailsModelProtocol, router: TripDetailsRouterProtocol) {
         self.view = view
@@ -54,32 +55,22 @@ final class TripDetailsPresenter: TripDetailsPresenterProtocol {
 
         view?.showLoading()
 
-        model.loadCurrentUser { [weak self] user in
-            guard let self = self, let user = user else {
-                DispatchQueue.main.async {
-                    self?.view?.hideLoading()
-                    self?.view?.showTripCreationError(message: "Не удалось загрузить пользователя")
-                }
-                return
-            }
-
-            self.model.createTrip(
-                title: title,
-                fromCity: fromCity,
-                toCity: toCity,
-                startDate: startDate,
-                endDate: endDate,
-                createdBy: user
-            ) { result in
-                DispatchQueue.main.async {
-                    self.view?.hideLoading()
-                    switch result {
-                    case .success:
-                        self.view?.showTripCreationSuccess()
-//                        self.router.navigateToParticipants()
-                    case .failure(let error):
-                        self.view?.showTripCreationError(message: error.localizedDescription)
-                    }
+        model.createTrip(
+            title: title,
+            fromCity: fromCity,
+            toCity: toCity,
+            startDate: startDate,
+            endDate: endDate
+        ) { [weak self] result in
+            DispatchQueue.main.async {
+                self?.view?.hideLoading()
+                switch result {
+                case .success(let trip):
+                    self?.tripId = trip.id
+                    print(trip.id)
+                    self?.router.navigateToParticipants(tripId: trip.id)
+                case .failure(let error):
+                    self?.view?.showTripCreationError(message: error.localizedDescription)
                 }
             }
         }

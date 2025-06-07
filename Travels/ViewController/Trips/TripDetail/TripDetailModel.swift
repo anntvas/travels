@@ -6,3 +6,17 @@
 //
 
 import Foundation
+protocol TripDetailModelProtocol {
+    func loadTripData() -> Trip
+}
+final class TripDetailModel: TripDetailModelProtocol {
+    private let trip: Trip
+
+    init(trip: Trip) {
+        self.trip = trip
+    }
+
+    func loadTripData() -> Trip {
+        return trip
+    }
+}

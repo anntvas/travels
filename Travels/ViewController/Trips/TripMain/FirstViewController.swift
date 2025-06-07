@@ -89,7 +89,12 @@ final class FirstViewController: UIViewController, FirstViewProtocol {
 
         placeholderLabel.isHidden = true
 
-        let budget = makeInfoCard(title: "Бюджет", amount: "\(Int(trip.budget?.totalBudget ?? 0)) ₽", iconName: "rublesign.circle.fill")
+        let budget = makeInfoCard(
+            title: "Бюджет",
+            amount: "\(Int(trip.budgetEntity?.totalBudget ?? 0)) ₽",
+            iconName: "rublesign.circle.fill"
+        )
+
         let myExpenses = makeInfoCard(title: "Мои траты", amount: "100 ₽", iconName: "wallet.pass.fill")
         let myDebts = makeInfoCard(title: "Мои долги", amount: "0 ₽", iconName: "creditcard.fill")
         let owedToMe = makeInfoCard(title: "Мне должны", amount: "5000 ₽", iconName: "wallet.pass")

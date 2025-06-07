@@ -8,7 +8,7 @@
 import UIKit
 
 protocol TripDetailsRouterProtocol {
-    func navigateToParticipants(user: User?)
+    func navigateToParticipants(tripId: Int)
 }
 
 final class TripDetailsRouter: TripDetailsRouterProtocol {
@@ -18,9 +18,12 @@ final class TripDetailsRouter: TripDetailsRouterProtocol {
         self.viewController = viewController
     }
 
-    func navigateToParticipants(user: User?) {
- //       guard let user = user else { return }
-//        let participantsVC = TripParticipantsAssembly.build(user: user)
-//        viewController?.navigationController?.pushViewController(participantsVC, animated: true)
+    func navigateToParticipants(tripId: Int) {
+        print("Навигация к участникам с tripId: \(tripId)")
+        let participantsVC = TripParticipantsAssembly.build(tripId: tripId)
+        print("VC создан: \(participantsVC)")
+        viewController?.navigationController?.pushViewController(participantsVC, animated: true)
+
     }
+
 }

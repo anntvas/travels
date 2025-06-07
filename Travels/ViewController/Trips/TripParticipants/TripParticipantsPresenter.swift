@@ -8,13 +8,11 @@
 import Foundation
 import UIKit
 
-protocol TripParticipantsPresenterProtocol {
+protocol TripParticipantsPresenterProtocol: AnyObject {
+    var participants: [Participant] { get }
     func viewDidLoad()
-    func didTapAddParticipant()
+    func showAddParticipantAlert()
     func didTapNextButton()
-    func didDeleteParticipant(at index: Int)
-    func numberOfParticipants() -> Int
-    func participant(at index: Int) -> Participant
 }
 
 protocol TripParticipantsViewProtocol: AnyObject {
@@ -28,59 +26,45 @@ final class TripParticipantsPresenter: TripParticipantsPresenterProtocol {
     weak var view: TripParticipantsViewProtocol?
     private let model: TripParticipantsModelProtocol
     private let router: TripParticipantsRouterProtocol
-    private var participants: [Participant] = []
-    private let user: User
+    internal var participants: [Participant] = []
+    private let tripId: Int
     
     init(
         view: TripParticipantsViewProtocol,
         model: TripParticipantsModelProtocol,
         router: TripParticipantsRouterProtocol,
-        user: User
+        tripId: Int
     ) {
         self.view = view
         self.model = model
         self.router = router
-        self.user = user
+        self.tripId = tripId
     }
     
     func viewDidLoad() {
-        participants = model.fetchParticipants()
-        view?.reloadTableView()
     }
     
     func didTapAddParticipant() {
         showAddParticipantAlert()
     }
     
-    private func showAddParticipantAlert() {
-        let alert = UIAlertController(
-            title: "Добавить участника",
-            message: "Введите имя и номер телефона участника",
-            preferredStyle: .alert
-        )
-        
-        alert.addTextField { textField in
-            textField.placeholder = "Имя"
-        }
-        
-        alert.addTextField { textField in
-            textField.placeholder = "Номер телефона"
-            textField.keyboardType = .phonePad
-        }
-        
+    internal func showAddParticipantAlert() {
+        let alert = UIAlertController(title: "Добавить участника", message: "Введите номер телефона", preferredStyle: .alert)
+        alert.addTextField { $0.placeholder = "Номер телефона" }
+
         let addAction = UIAlertAction(title: "Добавить", style: .default) { [weak self] _ in
-            guard let self = self,
-                  let name = alert.textFields?[0].text, !name.isEmpty,
-                  let phone = alert.textFields?[1].text, !phone.isEmpty else {
-                return
-            }
-            
-            self.view?.showLoading()
-            self.model.addParticipant(name: name, phone: phone) { [weak self] result in
+            guard let phone = alert.textFields?.first?.text, !phone.isEmpty else { return }
+            self?.view?.showLoading()
+            self?.model.addParticipant(to: self?.tripId ?? 0, phone: phone) { result in
                 DispatchQueue.main.async {
                     self?.view?.hideLoading()
                     switch result {
-                    case .success(let participant):
+                    case .success(let response):
+                        // создадим Participant для отображения в таблице
+                        let participant = Participant(context: DataController.shared.context)
+                        participant.name = response.name
+                        participant.contact = response.contact
+                        participant.confirmed = response.confirmed
                         self?.participants.append(participant)
                         self?.view?.reloadTableView()
                     case .failure(let error):
@@ -89,12 +73,8 @@ final class TripParticipantsPresenter: TripParticipantsPresenterProtocol {
                 }
             }
         }
-        
-        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
-        
         alert.addAction(addAction)
-        alert.addAction(cancelAction)
-        
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel))
         (view as? UIViewController)?.present(alert, animated: true)
     }
     
@@ -103,16 +83,16 @@ final class TripParticipantsPresenter: TripParticipantsPresenterProtocol {
             view?.showError(message: "Добавьте хотя бы одного участника")
             return
         }
-        router.navigateToTripBudget(with: user, participants: participants)
+        router.navigateToTripBudget(tripId: tripId)
     }
     
-    func didDeleteParticipant(at index: Int) {
-        guard index >= 0 && index < participants.count else { return }
-        let participant = participants[index]
-        model.deleteParticipant(participant)
-        participants.remove(at: index)
-        view?.reloadTableView()
-    }
+//    func didDeleteParticipant(at index: Int) {
+//        guard index >= 0 && index < participants.count else { return }
+//        let participant = participants[index]
+//        model.deleteParticipant(participant)
+//        participants.remove(at: index)
+//        view?.reloadTableView()
+//    }
     
     func numberOfParticipants() -> Int {
         return participants.count

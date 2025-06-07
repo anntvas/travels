@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 enum BudgetCategoriesAssembly {
-    static func build(with user: User) -> UIViewController {
+    static func build(tripId: Int, budgetRequest: BudgetRequest) -> UIViewController {
         let view = BudgetCategoriesViewController()
         let model = BudgetCategoriesModel()
         let router = BudgetCategoriesRouter(viewController: view)
@@ -16,11 +16,11 @@ enum BudgetCategoriesAssembly {
             view: view,
             model: model,
             router: router,
-            user: user
+            tripId: tripId,
+            budgetRequest: budgetRequest
         )
         
         view.presenter = presenter
-        view.currentUser = user
         return view
     }
 }

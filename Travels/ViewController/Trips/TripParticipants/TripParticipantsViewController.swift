@@ -6,12 +6,10 @@
 //
 
 import UIKit
-import CoreData
 
 final class TripParticipantsViewController: UIViewController, TripParticipantsViewProtocol {
     var presenter: TripParticipantsPresenterProtocol!
-    var currentUser: User!
-    
+
     private let tableView = UITableView()
     private let nextButton = UIButton(type: .system)
     private let activityIndicator = UIActivityIndicatorView(style: .medium)
@@ -30,7 +28,7 @@ final class TripParticipantsViewController: UIViewController, TripParticipantsVi
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
-        
+
         nextButton.setTitle("Далее", for: .normal)
         nextButton.backgroundColor = .systemBlue
         nextButton.setTitleColor(.white, for: .normal)
@@ -38,7 +36,7 @@ final class TripParticipantsViewController: UIViewController, TripParticipantsVi
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         nextButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nextButton)
-        
+
         activityIndicator.hidesWhenStopped = true
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(activityIndicator)
@@ -53,7 +51,7 @@ final class TripParticipantsViewController: UIViewController, TripParticipantsVi
             nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             nextButton.heightAnchor.constraint(equalToConstant: 50),
-            
+
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
@@ -74,31 +72,31 @@ final class TripParticipantsViewController: UIViewController, TripParticipantsVi
         )
         navigationItem.rightBarButtonItem = addButton
     }
-    
+
     @objc private func addButtonTapped() {
-        presenter.didTapAddParticipant()
+        presenter.showAddParticipantAlert()
     }
-    
+
     @objc private func nextButtonTapped() {
         presenter.didTapNextButton()
     }
-    
+
     // MARK: - TripParticipantsViewProtocol
     func reloadTableView() {
         tableView.reloadData()
     }
-    
+
     func showError(message: String) {
         let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
-    
+
     func showLoading() {
         activityIndicator.startAnimating()
         view.isUserInteractionEnabled = false
     }
-    
+
     func hideLoading() {
         activityIndicator.stopAnimating()
         view.isUserInteractionEnabled = true
@@ -107,19 +105,19 @@ final class TripParticipantsViewController: UIViewController, TripParticipantsVi
 
 extension TripParticipantsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter.numberOfParticipants()
+        return presenter.participants.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let participant = presenter.participant(at: indexPath.row)
+        let participant = presenter.participants[indexPath.row]
         cell.textLabel?.text = "\(participant.name ?? "") (\(participant.contact ?? ""))"
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            presenter.didDeleteParticipant(at: indexPath.row)
+            // опционально реализовать удаление участника с сервера
         }
     }
 }

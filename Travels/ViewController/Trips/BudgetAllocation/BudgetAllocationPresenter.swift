@@ -29,6 +29,8 @@ final class BudgetAllocationPresenter: BudgetAllocationPresenterProtocol {
     weak var view: BudgetAllocationViewProtocol?
     private var model: BudgetAllocationModelProtocol
     private let router: BudgetAllocationRouterProtocol
+    private let tripId: Int
+    private let budgetRequest: BudgetRequest
     
     var totalBudget: Double {
         return model.totalBudget
@@ -37,11 +39,15 @@ final class BudgetAllocationPresenter: BudgetAllocationPresenterProtocol {
     init(
         view: BudgetAllocationViewProtocol,
         model: BudgetAllocationModelProtocol,
-        router: BudgetAllocationRouterProtocol
+        router: BudgetAllocationRouterProtocol,
+        tripId: Int,
+        budgetRequest: BudgetRequest
     ) {
         self.view = view
         self.model = model
         self.router = router
+        self.tripId = tripId
+        self.budgetRequest = budgetRequest
     }
     
     func viewDidLoad() {
@@ -67,7 +73,17 @@ final class BudgetAllocationPresenter: BudgetAllocationPresenterProtocol {
             return
         }
         
-//        createTrip()
+        model.postBudgetToServer(tripId: tripId) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
+                    self?.view?.showSyncSuccess()
+                case .failure(let error):
+                    self?.view?.showSyncError(message: error.localizedDescription)
+                }
+            }
+        }
+
     }
     
 //    private func createTrip() {

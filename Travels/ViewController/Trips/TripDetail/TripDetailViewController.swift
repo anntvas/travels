@@ -6,12 +6,11 @@
 //
 
 import UIKit
-import CoreData
 import DGCharts
 
-class TripDetailViewController: UIViewController {
+final class TripDetailViewController: UIViewController, TripDetailViewProtocol {
 
-    var trip: Trip!
+    var presenter: TripDetailPresenterProtocol?
 
     private let scrollView = UIScrollView()
     private let contentStack = UIStackView()
@@ -29,12 +28,8 @@ class TripDetailViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupScrollView()
-        setupContent()
         layoutUI()
-    }
-
-    func configure(with trip: Trip) {
-        self.trip = trip
+        presenter?.viewDidLoad()
     }
 
     private func setupScrollView() {
@@ -61,24 +56,9 @@ class TripDetailViewController: UIViewController {
         ])
     }
 
-    private func setupContent() {
-        titleLabel.font = .boldSystemFont(ofSize: 24)
-        titleLabel.text = trip?.title ?? "Название поездки"
-
-        let routeText = "\(trip?.departureCity ?? "") - \(trip?.destinationCity ?? "")"
-        let routeCard = createCard(with: routeLabel, text: routeText, bgColor: .systemYellow)
-
-        budgetLabel.font = .boldSystemFont(ofSize: 22)
-        let budgetValue = trip?.budget?.totalBudget ?? 0
-        budgetLabel.text = "Общий бюджет: \(budgetValue) ₽"
-
-        setupPieChart()
-        setupCategoryBreakdown()
-        setupParticipantsSection()
-        setupExpensesSection()
-
+    private func layoutUI() {
         contentStack.addArrangedSubview(titleLabel)
-        contentStack.addArrangedSubview(routeCard)
+        contentStack.addArrangedSubview(createCard(with: routeLabel, text: "", bgColor: .systemYellow))
         contentStack.addArrangedSubview(budgetLabel)
         contentStack.addArrangedSubview(pieChart)
         contentStack.addArrangedSubview(categoriesStack)
@@ -86,33 +66,22 @@ class TripDetailViewController: UIViewController {
         contentStack.addArrangedSubview(expensesStack)
     }
 
-    private func layoutUI() {}
-
-    private func createCard(with label: UILabel, text: String, bgColor: UIColor) -> UIView {
-        let card = UIView()
-        card.backgroundColor = bgColor
-        card.layer.cornerRadius = 12
-        label.text = text
-        label.font = .systemFont(ofSize: 16, weight: .medium)
-        label.numberOfLines = 0
-        label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
-        card.addSubview(label)
-        NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: card.topAnchor, constant: 10),
-            label.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -10),
-            label.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 10),
-            label.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -10)
-        ])
-        return card
+    func displayTripTitle(_ title: String) {
+        titleLabel.font = .boldSystemFont(ofSize: 24)
+        titleLabel.text = title
     }
 
-    private func setupPieChart() {
-        let entries = [
-            PieChartDataEntry(value: 40000, label: "Отели"),
-            PieChartDataEntry(value: 20000, label: "Питание"),
-            PieChartDataEntry(value: 12000, label: "Развлечения")
-        ]
+    func displayRoute(_ route: String) {
+        routeLabel.text = route
+        routeLabel.font = .systemFont(ofSize: 16, weight: .medium)
+    }
+
+    func displayBudget(_ total: String) {
+        budgetLabel.font = .boldSystemFont(ofSize: 22)
+        budgetLabel.text = total
+    }
+
+    func displayPieChartData(_ entries: [PieChartDataEntry]) {
         let dataSet = PieChartDataSet(entries: entries)
         dataSet.sliceSpace = 2
         let data = PieChartData(dataSet: dataSet)
@@ -122,15 +91,10 @@ class TripDetailViewController: UIViewController {
         pieChart.heightAnchor.constraint(equalToConstant: 200).isActive = true
     }
 
-    private func setupCategoryBreakdown() {
+    func displayCategories(_ categories: [(title: String, amount: String, color: UIColor)]) {
         categoriesStack.axis = .vertical
         categoriesStack.spacing = 4
-
-        let categories = [
-            ("Отели", "40 000 ₽", UIColor.systemYellow),
-            ("Питание", "20 000 ₽", UIColor.systemPurple),
-            ("Развлечения", "12 000 ₽", UIColor.systemBlue)
-        ]
+        categoriesStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
 
         for (title, amount, color) in categories {
             let hStack = UIStackView()
@@ -154,21 +118,15 @@ class TripDetailViewController: UIViewController {
         }
     }
 
-    private func setupParticipantsSection() {
+    func displayParticipants(_ participants: [(name: String, subtitle: String?, color: UIColor)]) {
         participantsStack.axis = .vertical
         participantsStack.spacing = 8
+        participantsStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
 
         let title = UILabel()
         title.text = "Участники поездки"
         title.font = .boldSystemFont(ofSize: 18)
         participantsStack.addArrangedSubview(title)
-
-        let participants = [
-            ("Ева", "Админ", UIColor.systemYellow),
-            ("Руслан", nil, UIColor.systemBlue),
-            ("Анна", nil, UIColor.systemPurple),
-            ("ещё 4...", "Ольга, Дима, Дмитрий, Евчик", UIColor.systemGreen)
-        ]
 
         for (name, subtitle, color) in participants {
             let view = createParticipantCard(name: name, subtitle: subtitle, color: color)
@@ -176,11 +134,45 @@ class TripDetailViewController: UIViewController {
         }
     }
 
+    func displayExpenses(_ expenses: [(name: String, category: String, amount: String, color: UIColor)]) {
+        expensesStack.axis = .vertical
+        expensesStack.spacing = 8
+        expensesStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
+        let title = UILabel()
+        title.text = "Расходы участников"
+        title.font = .boldSystemFont(ofSize: 18)
+        expensesStack.addArrangedSubview(title)
+
+        for (name, category, amount, color) in expenses {
+            let button = createExpenseCard(name: name, category: category, amount: amount, color: color)
+            expensesStack.addArrangedSubview(button)
+        }
+    }
+
+    private func createCard(with label: UILabel, text: String, bgColor: UIColor) -> UIView {
+        let card = UIView()
+        card.backgroundColor = bgColor
+        card.layer.cornerRadius = 12
+        label.text = text
+        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.numberOfLines = 0
+        label.textColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        card.addSubview(label)
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: card.topAnchor, constant: 10),
+            label.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -10),
+            label.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 10),
+            label.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -10)
+        ])
+        return card
+    }
+
     private func createParticipantCard(name: String, subtitle: String?, color: UIColor) -> UIView {
         let card = UIView()
         card.backgroundColor = .secondarySystemBackground
         card.layer.cornerRadius = 12
-        card.translatesAutoresizingMaskIntoConstraints = false
 
         let colorCircle = UIView()
         colorCircle.backgroundColor = color
@@ -217,27 +209,6 @@ class TripDetailViewController: UIViewController {
         ])
 
         return card
-    }
-
-    private func setupExpensesSection() {
-        expensesStack.axis = .vertical
-        expensesStack.spacing = 8
-
-        let title = UILabel()
-        title.text = "Расходы участников"
-        title.font = .boldSystemFont(ofSize: 18)
-        expensesStack.addArrangedSubview(title)
-
-        let expenses = [
-            ("Ева", "Отель", "40 000 ₽", UIColor.systemYellow),
-            ("Руслан", "Развлечения", "5 000 ₽", UIColor.systemBlue),
-            ("Анна", "Питание", "7 000 ₽", UIColor.systemPurple)
-        ]
-
-        for (name, category, amount, color) in expenses {
-            let button = createExpenseCard(name: name, category: category, amount: amount, color: color)
-            expensesStack.addArrangedSubview(button)
-        }
     }
 
     private func createExpenseCard(name: String, category: String, amount: String, color: UIColor) -> UIButton {
@@ -290,7 +261,7 @@ class TripDetailViewController: UIViewController {
     }
 
     @objc private func expenseTapped() {
-        let detailVC = ExpenseDetailViewController() // или другой контроллер
+        let detailVC = ExpenseDetailViewController()
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }

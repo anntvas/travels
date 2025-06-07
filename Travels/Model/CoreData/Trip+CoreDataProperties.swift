@@ -28,6 +28,7 @@ extension Trip {
     @NSManaged public var expenses: NSSet?
     @NSManaged public var participants: NSSet?
 
+
 }
 
 // MARK: Generated accessors for expenses

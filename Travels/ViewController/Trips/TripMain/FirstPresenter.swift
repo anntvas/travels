@@ -60,12 +60,34 @@ final class FirstPresenter: FirstPresenterProtocol {
                 switch result {
                 case .success(let trips):
                     self?.allTrips = trips
-                    self?.currentTrip = trips.first
-                    self?.view?.displayTrips(current: self?.currentTrip, all: trips)
+                    guard let trip = trips.first else {
+                        self?.view?.displayTrips(current: nil, all: [])
+                        return
+                    }
+
+                    self?.currentTrip = trip
+
+                    // 👉 загружаем budget отдельно
+                    self?.model.fetchTripBudget(tripId: Int(trip.id)) { budgetResult in
+                        DispatchQueue.main.async {
+                            switch budgetResult {
+                            case .success(let totalBudget):
+                                trip.budgetEntity = BudgetEntity(totalBudget: totalBudget)
+                            case .failure:
+                                break // можно логировать, но не критично
+                            }
+                            self?.view?.displayTrips(current: trip, all: trips)
+                        }
+                    }
+
                 case .failure(let error):
                     self?.view?.showError(error.localizedDescription)
                 }
             }
         }
     }
+}
+
+struct BudgetEntity {
+    let totalBudget: Double
 }

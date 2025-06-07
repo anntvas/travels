@@ -8,7 +8,7 @@
 import UIKit
 
 protocol TripParticipantsRouterProtocol {
-    func navigateToTripBudget(with user: User, participants: [Participant])
+    func navigateToTripBudget(tripId: Int)
 }
 
 import UIKit
@@ -20,10 +20,8 @@ final class TripParticipantsRouter: TripParticipantsRouterProtocol {
         self.viewController = viewController
     }
     
-    func navigateToTripBudget(with user: User, participants: [Participant]) {
-        let budgetVC = TripBudgetViewController()
-        budgetVC.currentUser = user
-//        budgetVC.participants = participants
+    func navigateToTripBudget(tripId: Int) {
+        let budgetVC = TripBudgetAssembly.build(tripId: tripId)
         viewController?.navigationController?.pushViewController(budgetVC, animated: true)
     }
 }

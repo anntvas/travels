@@ -11,5 +11,5 @@ import CoreData
 
 @objc(Trip)
 public class Trip: NSManagedObject {
-
+    var budgetEntity: BudgetEntity?
 }

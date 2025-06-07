@@ -12,6 +12,7 @@ enum AuthService {
     case login(request: LoginRequest)
     case register(request: RegisterRequest)
     case getUserProfile
+    case getUserId
     case refreshToken(refreshToken: String)
 }
 
@@ -25,6 +26,8 @@ extension AuthService: TargetType {
             return "/v1/register"
         case .getUserProfile:
             return "/v1/user/profile"
+        case .getUserId:
+            return "/v1/user/id"
         case .refreshToken:
             return "/v1/refresh"
         }
@@ -32,8 +35,8 @@ extension AuthService: TargetType {
     
     var method: Moya.Method {
             switch self {
-            case .getUserProfile:
-                return .get 
+            case .getUserProfile, .getUserId:
+                return .get
             case .login, .register, .refreshToken:
                 return .post
             }
@@ -46,6 +49,8 @@ extension AuthService: TargetType {
         case .register(let request):
             return .requestJSONEncodable(request)
         case .getUserProfile:
+            return .requestPlain
+        case .getUserId:
             return .requestPlain
         case .refreshToken(let refreshToken):
             return .requestParameters(
@@ -103,6 +108,9 @@ extension AuthService: TargetType {
                 "tokenType": "Bearer"
             }
             """.data(using: .utf8)!
+        case .getUserId:
+            return "1".data(using: .utf8)!
+
         }
     }
 }

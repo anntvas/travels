@@ -20,24 +20,21 @@ final class TripBudgetPresenter: TripBudgetPresenterProtocol {
     weak var view: TripBudgetViewProtocol?
     private let model: TripBudgetModelProtocol
     private let router: TripBudgetRouterProtocol
-    private let user: User
+    private var tripId: Int
     
     init(
         view: TripBudgetViewProtocol,
         model: TripBudgetModelProtocol,
         router: TripBudgetRouterProtocol,
-        user: User
+        tripId: Int
     ) {
         self.view = view
         self.model = model
         self.router = router
-        self.user = user
+        self.tripId = tripId
     }
     
     func viewDidLoad() {
-        if let currentBudget = model.getCurrentBudget() {
-            view?.setInitialBudget(currentBudget)
-        }
     }
     
     func didTapNextButton(budgetText: String?) {
@@ -51,7 +48,10 @@ final class TripBudgetPresenter: TripBudgetPresenterProtocol {
             return
         }
         
-        model.saveBudget(budget)
-        router.navigateToBudgetConfirm(with: user)
+        let request = BudgetRequest(
+            totalBudget: budget,
+            categories: []
+        )
+        router.navigateToBudgetConfirm(tripId: tripId, budget: request)
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 enum TripBudgetAssembly {
-    static func build(with user: User) -> UIViewController {
+    static func build(tripId: Int) -> UIViewController {
         let view = TripBudgetViewController()
         let model = TripBudgetModel()
         let router = TripBudgetRouter(viewController: view)
@@ -16,11 +16,10 @@ enum TripBudgetAssembly {
             view: view,
             model: model,
             router: router,
-            user: user
+            tripId: tripId
         )
         
         view.presenter = presenter
-        view.currentUser = user
         return view
     }
 }

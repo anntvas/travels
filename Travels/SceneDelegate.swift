@@ -24,9 +24,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
 
         if UserDefaults.standard.string(forKey: "currentUserId") != nil {
-            window?.rootViewController = MainTabBarController()
+            window?.rootViewController = UINavigationController(rootViewController: MainTabBarAssembly.build())
         } else {
-            window?.rootViewController = UINavigationController(rootViewController: ViewController())
+            window?.rootViewController = UINavigationController(rootViewController: BeginAssembly.build())
         }
 
         window?.makeKeyAndVisible()

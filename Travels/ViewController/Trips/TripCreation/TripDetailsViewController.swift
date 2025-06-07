@@ -5,13 +5,10 @@
 //  Created by Anna on 29.05.2025.
 //
 
-import Foundation
 import UIKit
-import CoreData
 
-class TripDetailsViewController: UIViewController {
-
-    var currentUser: User!
+final class TripDetailsViewController: UIViewController, TripDetailsViewProtocol {
+    var presenter: TripDetailsPresenterProtocol?
 
     private let titleField = UITextField()
     private let fromCityField = UITextField()
@@ -19,33 +16,38 @@ class TripDetailsViewController: UIViewController {
     private let startDatePicker = UIDatePicker()
     private let endDatePicker = UIDatePicker()
     private let nextButton = UIButton(type: .system)
+    private let activityIndicator = UIActivityIndicatorView(style: .medium)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         title = "Создание поездки"
         setupUI()
+        presenter?.viewDidLoad()
     }
 
     private func setupUI() {
+        [titleField, fromCityField, toCityField].forEach {
+            $0.borderStyle = .roundedRect
+        }
         titleField.placeholder = "Название поездки"
         fromCityField.placeholder = "Город отправления"
         toCityField.placeholder = "Город назначения"
 
-        [titleField, fromCityField, toCityField, startDatePicker, endDatePicker, nextButton].forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview($0)
-        }
-
-        titleField.borderStyle = .roundedRect
-        fromCityField.borderStyle = .roundedRect
-        toCityField.borderStyle = .roundedRect
-
         startDatePicker.datePickerMode = .date
         endDatePicker.datePickerMode = .date
+        endDatePicker.minimumDate = Date()
 
         nextButton.setTitle("Далее", for: .normal)
         nextButton.addTarget(self, action: #selector(nextTapped), for: .touchUpInside)
+
+        activityIndicator.hidesWhenStopped = true
+
+        [titleField, fromCityField, toCityField, startDatePicker,
+         endDatePicker, nextButton, activityIndicator].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview($0)
+        }
 
         NSLayoutConstraint.activate([
             titleField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -67,57 +69,49 @@ class TripDetailsViewController: UIViewController {
             endDatePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
             nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
 
     @objc private func nextTapped() {
-        guard let title = titleField.text, !title.isEmpty,
-              let fromCity = fromCityField.text, !fromCity.isEmpty,
-              let toCity = toCityField.text, !toCity.isEmpty else {
-            showAlert(message: "Пожалуйста, заполните все поля")
-            return
-        }
-
-        // Сохраняем данные в менеджер
-        // Пример создания поездки
-        let tripRequest = TripRequest(
-            title: titleField.text!,
-            description: "Летний отпуск с поездкой на море",
-            startDate: formatDate(from: startDatePicker),
-            endDate: formatDate(from: endDatePicker),
-            departureCity: fromCityField.text!,
-            destinationCity: toCityField.text!,
-            createdBy: 1
+        presenter?.nextButtonTapped(
+            title: titleField.text,
+            fromCity: fromCityField.text,
+            toCity: toCityField.text,
+            startDate: startDatePicker.date,
+            endDate: endDatePicker.date
         )
-
-        NetworkManager.shared.createTrip(trip: tripRequest) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let tripResponse):
-                    print("Поездка создана: \(tripResponse)")
-                    // Обновить UI или перейти к следующему экрану
-                case .failure(let error):
-                    print("Ошибка создания поездки: \(error.localizedDescription)")
-                    // Показать ошибку пользователю
-                }
-            }
-        }
-
-        let participantsVC = TripParticipantsViewController()
-        participantsVC.currentUser = currentUser
-        navigationController?.pushViewController(participantsVC, animated: true)
-    }
-    
-    func formatDate(from datePicker: UIDatePicker) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        
-        return formatter.string(from: datePicker.date)
     }
 
-    private func showAlert(message: String) {
-        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+    // MARK: - TripDetailsViewProtocol
+
+    func showValidationError(message: String) {
+        showAlert(title: "Ошибка", message: message)
+    }
+
+    func showLoading() {
+        activityIndicator.startAnimating()
+        view.isUserInteractionEnabled = false
+    }
+
+    func hideLoading() {
+        activityIndicator.stopAnimating()
+        view.isUserInteractionEnabled = true
+    }
+
+    func showTripCreationSuccess() {
+        showAlert(title: "Успех", message: "Поездка создана")
+    }
+
+    func showTripCreationError(message: String) {
+        showAlert(title: "Ошибка", message: message)
+    }
+
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }

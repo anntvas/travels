@@ -71,8 +71,8 @@ class BudgetCategoryCell: UITableViewCell, UITextFieldDelegate {
     func configure(with category: BudgetCategoryModel, totalBudget: Double) {
         nameLabel.text = category.category
         amountField.text = category.allocatedAmount > 0 ? "\(category.allocatedAmount.formattedWithSeparator)" : ""
-        slider.maximumValue = Float(totalBudget)
-        slider.value = Float(category.allocatedAmount)
+        slider.maximumValue = totalBudget.isNaN ? 0 : Float(totalBudget)
+        slider.value = category.allocatedAmount.isNaN ? 0 : Float(category.allocatedAmount)
     }
 
     // MARK: - Actions

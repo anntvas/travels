@@ -68,16 +68,3 @@ extension ParticipantService: TargetType {
         return ["Content-Type": "application/json"]
     }
 }
-
-struct ParticipantRequest: Codable {
-    let name: String
-    let contact: String
-}
-
-struct ParticipantResponse: Codable {
-    let id: Int
-    let tripId: Int
-    let name: String
-    let contact: String
-    let confirmed: Bool
-}

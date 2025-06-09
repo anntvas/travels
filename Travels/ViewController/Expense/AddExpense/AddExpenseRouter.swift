@@ -12,6 +12,7 @@ protocol AddExpenseViewProtocol: AnyObject {
     func showSaveError(message: String)
     func setCategories(_ categories: [String])
     func setSelectedCategory(_ category: String)
+    func setParticipants(_ participants: [ParticipantResponse])
 }
 
 protocol AddExpensePresenterProtocol {
@@ -23,5 +24,5 @@ protocol AddExpensePresenterProtocol {
         paidBy: String?,
         forWhom: String?
     )
-    func categorySelected(at index: Int)
+//    func categorySelected(at index: Int)
 }

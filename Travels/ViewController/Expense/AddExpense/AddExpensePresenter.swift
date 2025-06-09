@@ -4,29 +4,44 @@
 //
 //  Created by Anna on 06.06.2025.
 //
-
 import Foundation
 
 final class AddExpensePresenter: AddExpensePresenterProtocol {
     weak var view: AddExpenseViewProtocol?
     private let model: AddExpenseModelProtocol
-    
-    var categories: [String] {
-        return model.categories
-    }
-    
+    private var categoryLookup: [BudgetCategoryLookup] = []
+
     init(view: AddExpenseViewProtocol, model: AddExpenseModelProtocol) {
         self.view = view
         self.model = model
     }
-    
+
     func viewDidLoad() {
-        view?.setCategories(model.categories)
-        if !model.categories.isEmpty {
-            view?.setSelectedCategory(model.categories[0])
+        model.fetchBudgetCategories { [weak self] result in
+            switch result {
+            case .success(let categories):
+                self?.categoryLookup = categories
+                let names = categories.map { $0.name }
+                DispatchQueue.main.async {
+                    self?.view?.setCategories(names)
+                }
+            case .failure(let error):
+                print("Ошибка загрузки категорий: \(error.localizedDescription)")
+            }
+        }
+
+        model.fetchParticipants { [weak self] result in
+            switch result {
+            case .success(let participants):
+                DispatchQueue.main.async {
+                    self?.view?.setParticipants(participants)
+                }
+            case .failure(let error):
+                print("Ошибка загрузки участников: \(error.localizedDescription)")
+            }
         }
     }
-    
+
     func saveExpense(
         title: String?,
         amount: String?,
@@ -34,43 +49,40 @@ final class AddExpensePresenter: AddExpensePresenterProtocol {
         paidBy: String?,
         forWhom: String?
     ) {
-        // Валидация данных
         guard let title = title, !title.isEmpty else {
             view?.showValidationError(message: "Введите название расхода")
             return
         }
-        
-        guard let amountString = amount,
-              let amount = Double(amountString),
-              amount > 0 else {
+        guard let amountStr = amount, let amount = Double(amountStr), amount > 0 else {
             view?.showValidationError(message: "Введите корректную сумму")
             return
         }
-        
-        guard categoryIndex >= 0 && categoryIndex < model.categories.count else {
+        guard categoryIndex >= 0 && categoryIndex < categoryLookup.count else {
             view?.showValidationError(message: "Выберите категорию")
             return
         }
-        
-        let category = model.categories[categoryIndex]
-        
-        guard let paidBy = paidBy, !paidBy.isEmpty else {
-            view?.showValidationError(message: "Укажите, кто оплатил")
+        let categoryId = categoryLookup[categoryIndex].id
+
+        guard let paidBy = paidBy, let paidById = Int(paidBy) else {
+            view?.showValidationError(message: "Некорректный ID оплатившего")
             return
         }
-        
+
         guard let forWhom = forWhom, !forWhom.isEmpty else {
-            view?.showValidationError(message: "Укажите, за кого оплачено")
+            view?.showValidationError(message: "Введите ID бенефициаров через запятую")
             return
         }
-        
-        // Сохранение данных
+
+        let beneficiaryIds = forWhom
+            .split(separator: ",")
+            .compactMap { Int($0.trimmingCharacters(in: .whitespaces)) }
+
         model.saveExpense(
             title: title,
             amount: amount,
-            category: category,
-            paidBy: paidBy,
-            forWhom: forWhom
+            categoryId: categoryId,
+            paidById: paidById,
+            beneficiaryIds: beneficiaryIds
         ) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
@@ -81,10 +93,5 @@ final class AddExpensePresenter: AddExpensePresenterProtocol {
                 }
             }
         }
-    }
-    
-    func categorySelected(at index: Int) {
-        guard index >= 0 && index < model.categories.count else { return }
-        view?.setSelectedCategory(model.categories[index])
     }
 }

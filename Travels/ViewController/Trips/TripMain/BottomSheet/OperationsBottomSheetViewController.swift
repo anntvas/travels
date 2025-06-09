@@ -4,31 +4,60 @@
 //
 //  Created by Anna on 08.06.2025.
 //
-
-import Foundation
 import UIKit
 
-final class OperationsBottomSheetViewController: UIViewController {
+class OperationsBottomSheetViewController: BottomSheetViewController, UITableViewDataSource {
+    private let tableView = UITableView()
+    private var expenses: [ExpenseResponse] = []
+    var tripId: Int = 24 // Set this before presenting
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        setupTableView()
+        fetchExpenses()
     }
 
-    private func setupUI() {
-        view.backgroundColor = .systemBackground
-        view.layer.cornerRadius = 20
-        view.clipsToBounds = true
+    private func setupTableView() {
+        tableView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ExpenseCell")
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.tableFooterView = UIView()
+        sheetView.addSubview(tableView)
 
-        let label = UILabel()
-        label.text = "All Operations"
-        label.font = .boldSystemFont(ofSize: 20)
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        view.addSubview(label)
         NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.topAnchor.constraint(equalTo: view.topAnchor, constant: 40)
+            tableView.topAnchor.constraint(equalTo: sheetView.topAnchor, constant: 24),
+            tableView.leadingAnchor.constraint(equalTo: sheetView.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: sheetView.trailingAnchor, constant: -16),
+            tableView.bottomAnchor.constraint(equalTo: sheetView.bottomAnchor, constant: -16)
         ])
     }
-}
 
+    private func fetchExpenses() {
+        NetworkManager.shared.getMyExpenses(tripId: tripId) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let expenses):
+                    self?.expenses = expenses
+                    self?.tableView.reloadData()
+                case .failure(let error):
+                    print("Failed to fetch expenses: \(error)")
+                }
+            }
+        }
+    }
+
+    // MARK: - UITableViewDataSource
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        expenses.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ExpenseCell", for: indexPath)
+        let expense = expenses[indexPath.row]
+        cell.textLabel?.text = "\(expense.description): \(expense.amount) ₽"
+        cell.textLabel?.numberOfLines = 2
+        return cell
+    }
+}
+        

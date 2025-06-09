@@ -14,6 +14,9 @@ enum AuthService {
     case getUserProfile
     case getUserId
     case refreshToken(refreshToken: String)
+    case updateUserProfile(request: UserRequest)
+    case logout(refreshToken: String)
+
 }
 
 extension AuthService: TargetType {
@@ -30,6 +33,11 @@ extension AuthService: TargetType {
             return "/v1/user/id"
         case .refreshToken:
             return "/v1/refresh"
+        case .updateUserProfile:
+            return "/v1/user/profile"
+        case .logout:
+            return "/v1/logout"
+
         }
     }
     
@@ -37,13 +45,17 @@ extension AuthService: TargetType {
             switch self {
             case .getUserProfile, .getUserId:
                 return .get
-            case .login, .register, .refreshToken:
+            case .login, .register, .refreshToken, .logout:
                 return .post
+            case .updateUserProfile:
+                return .put
             }
         }
     
     var task: Task {
         switch self {
+        case .updateUserProfile(let request):
+            return .requestJSONEncodable(request)
         case .login(let request):
             return .requestJSONEncodable(request)
         case .register(let request):
@@ -57,6 +69,9 @@ extension AuthService: TargetType {
                 parameters: ["refreshToken": refreshToken],
                 encoding: JSONEncoding.default
             )
+        case .logout(let token):
+            return .requestParameters(parameters: ["refreshToken": token], encoding: JSONEncoding.default)
+            
         }
     }
     
@@ -110,6 +125,18 @@ extension AuthService: TargetType {
             """.data(using: .utf8)!
         case .getUserId:
             return "1".data(using: .utf8)!
+
+        case .updateUserProfile(request: let request):
+            return """
+                   {
+                       "firstName": "Иван",
+                       "lastName": "Иванов",
+                       "phone": "+79991234567",
+                       "password": "new_secure_password"
+                   }
+                   """.data(using: .utf8) ?? Data()
+        case .logout:
+            return Data()
 
         }
     }

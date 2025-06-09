@@ -25,5 +25,7 @@ final class BudgetAllocationRouter: BudgetAllocationRouterProtocol {
                 object: nil
             )
         }
+        let vc = FirstAssembly.build()
+        viewController?.navigationController?.pushViewController(vc, animated: true)
     }
 }

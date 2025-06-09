@@ -7,11 +7,18 @@
 
 import UIKit
 
+// TripDetailAssembly.swift
 enum TripDetailAssembly {
-    static func build(with trip: Trip) -> UIViewController {
+    static func build(tripId: Int) -> UIViewController {
         let view = TripDetailViewController()
-        let model = TripDetailModel(trip: trip)
-        let presenter = TripDetailPresenter(view: view, model: model)
+        let model = TripDetailModel(tripId: tripId)
+        let router = TripDetailRouter(viewController: view)
+        let presenter = TripDetailPresenter(
+            view: view,
+            model: model,
+            tripId: tripId,
+            router: router
+        )
         view.presenter = presenter
         return view
     }

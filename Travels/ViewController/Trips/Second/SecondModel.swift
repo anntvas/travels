@@ -10,7 +10,9 @@ import CoreData
 
 protocol SecondModelProtocol {
     func loadCurrentUser(completion: @escaping (User?) -> Void)
-    func fetchTrips(completion: @escaping (Result<[Trip], Error>) -> Void)
+    func fetchTrips(completion: @escaping (Result<([TripResponse], [TripResponse]), Error>) -> Void)
+    func confirmParticipation(tripId: Int, completion: @escaping (Result<Void, Error>) -> Void)
+    func cancelParticipation(tripId: Int, completion: @escaping (Result<Void, Error>) -> Void)
 }
 
 final class SecondModel: SecondModelProtocol {
@@ -44,27 +46,46 @@ final class SecondModel: SecondModelProtocol {
         }
     }
     
-    func fetchTrips(completion: @escaping (Result<[Trip], Error>) -> Void) {
-        // Сначала пытаемся загрузить из сети
-        networkManager.getTrips { [weak self] result in
+    func fetchTrips(
+        completion: @escaping (Result<([TripResponse], [TripResponse]), Error>) -> Void
+    ) {
+        let group = DispatchGroup()
+        
+        var pendingTrips: [TripResponse] = []
+        var confirmedTrips: [TripResponse] = []
+        var errors: [Error] = []
+        
+        group.enter()
+        networkManager.getPendingTrips { result in
             switch result {
-            case .success(let networkTrips):
-                self?.processNetworkTrips(networkTrips: networkTrips) { localResult in
-                    switch localResult {
-                    case .success(let trips):
-                        completion(.success(trips))
-                    case .failure(let error):
-                        completion(.failure(error))
-                    }
-                }
-                
-            case .failure(let networkError):
-                // Если сеть не доступна, грузим из CoreData
-                self?.loadLocalTrips(completion: completion)
+            case .success(let trips):
+                pendingTrips = trips
+            case .failure(let error):
+                errors.append(error)
+            }
+            group.leave()
+        }
+        
+        group.enter()
+        networkManager.getConfirmedTrips { result in
+            switch result {
+            case .success(let trips):
+                confirmedTrips = trips
+            case .failure(let error):
+                errors.append(error)
+            }
+            group.leave()
+        }
+        
+        group.notify(queue: .main) {
+            if errors.isEmpty {
+                completion(.success((pendingTrips, confirmedTrips)))
+            } else {
+                completion(.failure(errors.first!))
             }
         }
     }
-    
+
     private func processNetworkTrips(
         networkTrips: [TripResponse],
         completion: @escaping (Result<[Trip], Error>) -> Void
@@ -116,5 +137,13 @@ final class SecondModel: SecondModelProtocol {
         formatter.dateFormat = "yyyy-MM-dd"
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter.date(from: dateString)
+    }
+    
+    func confirmParticipation(tripId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
+        networkManager.confirmParticipation(tripId: tripId, completion: completion)
+    }
+
+    func cancelParticipation(tripId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
+        networkManager.cancelParticipation(tripId: tripId, completion: completion)
     }
 }

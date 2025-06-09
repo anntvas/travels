@@ -44,3 +44,10 @@ struct ErrorResponse: Codable {
     let status: Int
     let message: String
 }
+
+struct UserRequest: Codable {
+    let firstName: String
+    let lastName: String
+    let phone: String
+    let password: String?
+}

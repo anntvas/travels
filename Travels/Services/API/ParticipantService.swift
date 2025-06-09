@@ -11,9 +11,9 @@ import Foundation
 enum ParticipantService {
     case listParticipants(tripId: Int)
     case addParticipant(tripId: Int, participant: ParticipantRequest)
-    case deleteParticipant(tripId: Int, participantId: Int)
-    case confirmParticipation(tripId: Int, participantId: Int)
-    case cancelParticipation(tripId: Int, participantId: Int)
+    case deleteParticipant(tripId: Int)
+    case confirmParticipation(tripId: Int)
+    case cancelParticipation(tripId: Int)
 }
 
 extension ParticipantService: TargetType {
@@ -22,25 +22,15 @@ extension ParticipantService: TargetType {
         switch self {
         case .listParticipants(let tripId), .addParticipant(let tripId, _):
             return "/v1/trips/\(tripId)/participants"
-        case .deleteParticipant(let tripId, let participantId),
-             .confirmParticipation(let tripId, let participantId),
-             .cancelParticipation(let tripId, let participantId):
-            return "/v1/trips/\(tripId)/participants/\(participantId)/\(self.pathSuffix)"
+        case .deleteParticipant(let tripId):
+            return "/v1/trips/\(tripId)/participants"
+        case .cancelParticipation(let tripId):
+            return "/v1/trips/\(tripId)/participants/сancel"
+        case .confirmParticipation(let tripId):
+            return "/v1/trips/\(tripId)/participants/confirm"
         }
     }
     
-    private var pathSuffix: String {
-        switch self {
-        case .deleteParticipant:
-            return ""
-        case .confirmParticipation:
-            return "confirm"
-        case .cancelParticipation:
-            return "cancel"
-        default:
-            return ""
-        }
-    }
     
     var method: Moya.Method {
         switch self {
@@ -68,3 +58,8 @@ extension ParticipantService: TargetType {
         return ["Content-Type": "application/json"]
     }
 }
+
+extension ParticipantService: AccessTokenAuthorizable {
+    var authorizationType: AuthorizationType? { .bearer }
+}
+

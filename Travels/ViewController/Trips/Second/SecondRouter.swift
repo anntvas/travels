@@ -26,8 +26,8 @@ final class SecondRouter: SecondRouterProtocol {
     }
     
     func showTripDetails(_ trip: Trip) {
-        let detailVC = TripDetailViewController()
-        detailVC.configure(with: trip)
+        let detailVC = TripDetailAssembly.build(tripId: Int(trip.id))
         viewController?.navigationController?.pushViewController(detailVC, animated: true)
     }
+
 }

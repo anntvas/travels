@@ -13,6 +13,7 @@ enum BudgetService {
     case setBudget(tripId: Int, budget: BudgetRequest)
     case updateBudget(tripId: Int, budget: BudgetRequest)
     case getCategories(tripId: Int)
+    case getAllCategories
 }
 
 extension BudgetService: TargetType {
@@ -25,12 +26,15 @@ extension BudgetService: TargetType {
             return "/v1/trips/\(tripId)/budget"
         case .getCategories(let tripId):
             return "/v1/trips/\(tripId)/budget/categories"
+        case .getAllCategories:
+            return "/v1/budget/categories"
+            
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .getBudget, .getCategories:
+        case .getBudget, .getCategories, .getAllCategories:
             return .get
         case .setBudget:
             return .post
@@ -43,7 +47,7 @@ extension BudgetService: TargetType {
         switch self {
         case .setBudget(_, let budget), .updateBudget(_, let budget):
             return .requestJSONEncodable(budget)
-        case .getBudget, .getCategories:
+        case .getBudget, .getCategories, .getAllCategories:
             return .requestPlain
         }
     }

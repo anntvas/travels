@@ -26,3 +26,8 @@ struct BudgetResponse: Codable {
     let totalBudget: Double
     let categories: [BudgetCategoryResponse]
 }
+
+struct BudgetCategoryLookup: Decodable {
+    let id: Int
+    let name: String
+}

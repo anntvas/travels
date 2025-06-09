@@ -17,6 +17,8 @@ protocol NetworkManagerProtocol {
     func getUserProfile(completion: @escaping (Result<UserResponse, Error>) -> Void)
     func getCurrentUserId(completion: @escaping (Result<Int, Error>) -> Void)
     func refreshToken(completion: @escaping (Result<TokenResponse, Error>) -> Void)
+    func logout(completion: @escaping (Result<Void, Error>) -> Void)
+
     
     // MARK: - Trip Methods
     func createTrip(trip: TripRequest, completion: @escaping (Result<TripResponse, Error>) -> Void)
@@ -24,6 +26,8 @@ protocol NetworkManagerProtocol {
     func getTripDetails(tripId: Int, completion: @escaping (Result<TripResponse, Error>) -> Void)
     func updateTrip(tripId: Int, trip: TripRequest, completion: @escaping (Result<Void, Error>) -> Void)
     func deleteTrip(tripId: Int, completion: @escaping (Result<Void, Error>) -> Void)
+    func getPendingTrips(completion: @escaping (Result<[TripResponse], Error>) -> Void)
+    func getConfirmedTrips(completion: @escaping (Result<[TripResponse], Error>) -> Void)
     
     // MARK: - Participant Methods
     func listParticipants(tripId: Int, completion: @escaping (Result<[ParticipantResponse], Error>) -> Void)
@@ -31,20 +35,26 @@ protocol NetworkManagerProtocol {
                       completion: @escaping (Result<ParticipantResponse, Error>) -> Void)
     func deleteParticipant(tripId: Int, participantId: Int,
                          completion: @escaping (Result<Void, Error>) -> Void)
-    func confirmParticipation(tripId: Int, participantId: Int,
-                            completion: @escaping (Result<Void, Error>) -> Void)
-    func cancelParticipation(tripId: Int, participantId: Int,
-                           completion: @escaping (Result<Void, Error>) -> Void)
+    func confirmParticipation(tripId: Int, completion: @escaping (Result<Void, Error>) -> Void)
+    func cancelParticipation(tripId: Int, completion: @escaping (Result<Void, Error>) -> Void)
     func fetchParticipants(
         tripId: Int,
         completion: @escaping (Result<[ParticipantResponse], Error>) -> Void
     )
     func setBudget(tripId: Int, request: BudgetRequest, completion: @escaping (Result<Void, Error>) -> Void)
     func getBudget(tripId: Int, completion: @escaping (Result<BudgetResponse, Error>) -> Void)
+    
+    func addExpense(tripId: Int, request: ExpenseRequest, completion: @escaping (Result<Void, Error>) -> Void)
+    func listExpenses(tripId: Int, completion: @escaping (Result<[ExpenseResponse], Error>) -> Void) 
+    func getMyExpenses(tripId: Int, completion: @escaping (Result<[ExpenseResponse], Error>) -> Void)
+    
+    func getAllBudgetCategories(completion: @escaping (Result<[BudgetCategoryLookup], Error>) -> Void)
+    func updateUserProfile(request: UserRequest, completion: @escaping (Result<Void, Error>) -> Void)
 
 }
 
 final class NetworkManager: NetworkManagerProtocol {
+    
     func fetchParticipants(
         tripId: Int,
         completion: @escaping (Result<[ParticipantResponse], Error>) -> Void
@@ -113,6 +123,30 @@ final class NetworkManager: NetworkManagerProtocol {
         #else
         let authPlugin = AuthPlugin(keychain: self.keychain)
         return MoyaProvider<BudgetService>(plugins: [authPlugin])
+        #endif
+    }()
+    
+    private lazy var expenseProvider: MoyaProvider<ExpenseService> = {
+        #if DEBUG
+        let config = NetworkLoggerPlugin.Configuration(logOptions: .verbose)
+        let logger = NetworkLoggerPlugin(configuration: config)
+        let authPlugin = AuthPlugin(keychain: self.keychain)
+        return MoyaProvider<ExpenseService>(plugins: [authPlugin, logger])
+        #else
+        let authPlugin = AuthPlugin(keychain: self.keychain)
+        return MoyaProvider<ExpenseService>(plugins: [authPlugin])
+        #endif
+    }()
+    
+    private lazy var settlementProvider: MoyaProvider<SettlementService> = {
+        #if DEBUG
+        let config = NetworkLoggerPlugin.Configuration(logOptions: .verbose)
+        let logger = NetworkLoggerPlugin(configuration: config)
+        let authPlugin = AuthPlugin(keychain: self.keychain)
+        return MoyaProvider<SettlementService>(plugins: [authPlugin, logger])
+        #else
+        let authPlugin = AuthPlugin(keychain: self.keychain)
+        return MoyaProvider<SettlementService>(plugins: [authPlugin])
         #endif
     }()
 
@@ -189,6 +223,24 @@ final class NetworkManager: NetworkManagerProtocol {
             }
         }
     }
+    
+    func updateUserProfile(request: UserRequest, completion: @escaping (Result<Void, Error>) -> Void) {
+        authProvider.request(.updateUserProfile(request: request)) { result in
+            switch result {
+            case .success(let response):
+                if (200...299).contains(response.statusCode) {
+                    completion(.success(()))
+                } else {
+                    let message = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
+                    completion(.failure(NSError(domain: "", code: response.statusCode,
+                                                userInfo: [NSLocalizedDescriptionKey: message])))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
 
     
     func refreshToken(completion: @escaping (Result<TokenResponse, Error>) -> Void) {
@@ -211,6 +263,32 @@ final class NetworkManager: NetworkManagerProtocol {
             }
         }
     }
+    
+    func logout(completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let refreshToken = keychain.get("refreshToken") else {
+            completion(.failure(NSError(domain: "Auth", code: 401, userInfo: [NSLocalizedDescriptionKey: "Refresh token not found"])))
+            return
+        }
+
+        authProvider.request(.logout(refreshToken: refreshToken)) { result in
+            switch result {
+            case .success(let response):
+                if (200...299).contains(response.statusCode) {
+                    // Удаляем токены из keychain
+                    self.keychain.delete("accessToken")
+                    self.keychain.delete("refreshToken")
+                    completion(.success(()))
+                } else {
+                    let message = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
+                    completion(.failure(NSError(domain: "", code: response.statusCode,
+                                                userInfo: [NSLocalizedDescriptionKey: message])))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
 }
 
 extension NetworkManager {
@@ -289,7 +367,7 @@ extension NetworkManager {
 }
 
 extension NetworkManager {
-
+    
     
     // MARK: - Participant Methods
     
@@ -326,7 +404,7 @@ extension NetworkManager {
     }
     
     func deleteParticipant(tripId: Int, participantId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
-        participantProvider.request(.deleteParticipant(tripId: tripId, participantId: participantId)) { result in
+        participantProvider.request(.deleteParticipant(tripId: tripId)) { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -336,8 +414,8 @@ extension NetworkManager {
         }
     }
     
-    func confirmParticipation(tripId: Int, participantId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
-        participantProvider.request(.confirmParticipation(tripId: tripId, participantId: participantId)) { result in
+    func confirmParticipation(tripId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
+        participantProvider.request(.confirmParticipation(tripId: tripId)) { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -347,8 +425,8 @@ extension NetworkManager {
         }
     }
     
-    func cancelParticipation(tripId: Int, participantId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
-        participantProvider.request(.cancelParticipation(tripId: tripId, participantId: participantId)) { result in
+    func cancelParticipation(tripId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
+        participantProvider.request(.cancelParticipation(tripId: tripId)) { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -389,6 +467,154 @@ extension NetworkManager {
             }
         }
     }
+    func getAllBudgetCategories(completion: @escaping (Result<[BudgetCategoryLookup], Error>) -> Void) {
+        budgetProvider.request(.getAllCategories) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let categories = try JSONDecoder().decode([BudgetCategoryLookup].self, from: response.data)
+                    completion(.success(categories))
+                } catch {
+                    completion(.failure(error))
+                }
+
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
 
 
+}
+
+extension NetworkManager {
+    func addExpense(tripId: Int, request: ExpenseRequest, completion: @escaping (Result<Void, Error>) -> Void) {
+        expenseProvider.request(.addExpense(tripId: tripId, expense: request)) { result in
+            switch result {
+            case .success(let response):
+                if (200...299).contains(response.statusCode) {
+                    completion(.success(()))
+                } else {
+                    let message = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
+                    completion(.failure(NSError(domain: "", code: response.statusCode,
+                                                userInfo: [NSLocalizedDescriptionKey: message])))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    func listExpenses(tripId: Int, completion: @escaping (Result<[ExpenseResponse], Error>) -> Void) {
+        expenseProvider.request(.listExpenses(tripId: tripId)) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let expenses = try JSONDecoder().decode([ExpenseResponse].self, from: response.data)
+                    completion(.success(expenses))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    func getMyExpenses(tripId: Int, completion: @escaping (Result<[ExpenseResponse], any Error>) -> Void) {
+        expenseProvider.request(.getMyExpenses(tripId: tripId)) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let expenses = try JSONDecoder().decode([ExpenseResponse].self, from: response.data)
+                    completion(.success(expenses))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+}
+
+extension NetworkManager {
+    func getPendingTrips(completion: @escaping (Result<[TripResponse], Error>) -> Void) {
+        tripProvider.request(.getPendingTrips) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let trips = try JSONDecoder().decode([TripResponse].self, from: response.data)
+                    completion(.success(trips))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func getConfirmedTrips(completion: @escaping (Result<[TripResponse], Error>) -> Void) {
+        tripProvider.request(.getConfirmedTrips) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let trips = try JSONDecoder().decode([TripResponse].self, from: response.data)
+                    completion(.success(trips))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func getSettlements(tripId: Int, completion: @escaping (Result<[SettlementItem], Error>) -> Void) {
+        settlementProvider.request(.getSettlements(tripId: tripId)) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let settlementResponse = try JSONDecoder().decode(SettlementResponse.self, from: response.data)
+                    completion(.success(settlementResponse.settlements))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func getSettlementsReceivable(tripId: Int, completion: @escaping (Result<[SettlementItem], Error>) -> Void) {
+        settlementProvider.request(.getSettlementsReceivable(tripId: tripId)) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let settlements = try JSONDecoder().decode([SettlementItem].self, from: response.data)
+                    completion(.success(settlements))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    func getSettlementsPayable(tripId: Int, completion: @escaping (Result<[SettlementItem], Error>) -> Void) {
+        settlementProvider.request(.getSettlementsPayable(tripId: tripId)) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let settlements = try JSONDecoder().decode([SettlementItem].self, from: response.data)
+                    completion(.success(settlements))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
 }

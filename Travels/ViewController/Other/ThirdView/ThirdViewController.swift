@@ -10,21 +10,45 @@ import UIKit
 struct MenuItem {
     let title: String
     let icon: String
-    let controller: UIViewController.Type
+    let build: () -> UIViewController
 }
+
 
 final class ThirdViewController: UIViewController, ThirdViewProtocol {
     
     var presenter: ThirdPresenterProtocol!
     private let tableView = UITableView(frame: .zero, style: .plain)
+    private let logoutButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Выйти", for: .normal)
+        button.setTitleColor(.systemRed, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .semibold)
+        button.backgroundColor = .systemGray6
+        button.layer.cornerRadius = 12
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Ещё"
         view.backgroundColor = .systemGroupedBackground
         setupTableView()
+        view.addSubview(logoutButton)
+        setupLogoutButton()
     }
     
+    private func setupLogoutButton() {
+        logoutButton.addTarget(self, action: #selector(logoutTapped), for: .touchUpInside)
+        NSLayoutConstraint.activate([
+            logoutButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            logoutButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            logoutButton.heightAnchor.constraint(equalToConstant: 48)
+        ])
+
+    }
     private func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -42,7 +66,13 @@ final class ThirdViewController: UIViewController, ThirdViewProtocol {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+
     }
+    
+    @objc private func logoutTapped() {
+        presenter?.logoutTapped()
+    }
+
     
     // MARK: - ThirdViewProtocol
     func reloadData() {

@@ -11,6 +11,7 @@ import CoreData
 protocol FirstModelProtocol {
     func fetchTrips(completion: @escaping (Result<[Trip], Error>) -> Void)
     func fetchTripBudget(tripId: Int, completion: @escaping (Result<Double, Error>) -> Void)
+    func fetchMyExpenses(tripId: Int, completion: @escaping (Result<[ExpenseResponse], Error>) -> Void)
 }
 
 final class FirstModel: FirstModelProtocol {
@@ -24,6 +25,8 @@ final class FirstModel: FirstModelProtocol {
         self.networkManager = networkManager
         self.context = context
     }
+    
+    
 
     func fetchTrips(completion: @escaping (Result<[Trip], Error>) -> Void) {
         networkManager.getTrips { [weak self] result in
@@ -45,8 +48,17 @@ final class FirstModel: FirstModelProtocol {
             }
         }
     }
-
-
+    
+    func fetchMyExpenses(tripId: Int, completion: @escaping (Result<[ExpenseResponse], Error>) -> Void) {
+        networkManager.getMyExpenses(tripId: tripId) { result in
+            switch result {
+            case .success(let expenses):
+                completion(.success(expenses))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
 
     private func saveTripsToCoreData(_ responses: [TripResponse], completion: @escaping (Result<[Trip], Error>) -> Void) {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Trip.fetchRequest()

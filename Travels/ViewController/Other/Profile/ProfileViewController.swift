@@ -27,6 +27,15 @@ final class ProfileViewController: UIViewController, ProfileViewProtocol {
         button.setTitle("Изменить фото", for: .normal)
         return button
     }()
+    private let editAccountButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Изменить аккаунт", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
+        return button
+    }()
+    
+    
 
     private let nameLabel = UILabel()
     private let phoneLabel = UILabel()
@@ -39,8 +48,20 @@ final class ProfileViewController: UIViewController, ProfileViewProtocol {
         label.isHidden = true
         return label
     }()
-    var stack = UIStackView()
-
+    private lazy var stack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [
+            avatarImageView,
+            changePhotoButton,
+            nameLabel,
+            phoneLabel,
+            emailLabel,
+            editAccountButton
+        ])
+        stack.axis = .vertical
+        stack.spacing = 12
+        stack.alignment = .center
+        return stack
+    }()
     private let loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .medium)
         indicator.hidesWhenStopped = true
@@ -70,17 +91,6 @@ final class ProfileViewController: UIViewController, ProfileViewProtocol {
         emailLabel.textAlignment = .center
         emailLabel.textColor = .secondaryLabel
 
-        stack = UIStackView(arrangedSubviews: [
-            avatarImageView,
-            changePhotoButton,
-            nameLabel,
-            phoneLabel,
-            emailLabel
-        ])
-        stack.axis = .vertical
-        stack.spacing = 12
-        stack.alignment = .center
-
         view.addSubview(stack)
         view.addSubview(errorLabel)
         view.addSubview(loadingIndicator)
@@ -107,11 +117,17 @@ final class ProfileViewController: UIViewController, ProfileViewProtocol {
         let avatarTap = UITapGestureRecognizer(target: self, action: #selector(onAvatarTap))
         avatarImageView.addGestureRecognizer(avatarTap)
         changePhotoButton.addTarget(self, action: #selector(onAvatarTap), for: .touchUpInside)
+        editAccountButton.addTarget(self, action: #selector(editAccountTapped), for: .touchUpInside)
     }
 
     @objc private func onAvatarTap() {
         presenter?.onAvatarTapped()
         showImagePickerOptions()
+    }
+    
+    @objc private func editAccountTapped() {
+        print("helo")
+        presenter?.editAccountTapped()
     }
 
     private func showImagePickerOptions() {
@@ -152,6 +168,7 @@ final class ProfileViewController: UIViewController, ProfileViewProtocol {
     }
 
     // MARK: - ProfileViewProtocol
+    
 
     func showLoading() {
         loadingIndicator.startAnimating()

@@ -12,8 +12,9 @@ enum ProfileAssembly {
         let view = ProfileViewController()
         let model = ProfileModel()
         let router = ProfileRouter()
-//        let presenter = ProfilePresenter(view: view, model: model, router: router)
-//        view.presenter = presenter
+        let presenter = ProfilePresenter(view: view, model: model, router: router)
+        view.presenter = presenter
+        router.viewController = view
         return view
     }
 }

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		955DC7962DF5E4F300CB52D2 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955DC7952DF5E4F300CB52D2 /* BottomSheetViewController.swift */; };
+		955DC7982DF5F4BE00CB52D2 /* OperationsBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955DC7972DF5F4BE00CB52D2 /* OperationsBottomSheetViewController.swift */; };
+		955DC79A2DF5FF8700CB52D2 /* ParticipantsBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955DC7992DF5FF8700CB52D2 /* ParticipantsBottomSheetViewController.swift */; };
+		955DC79C2DF6023700CB52D2 /* ReceivableBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955DC79B2DF6023700CB52D2 /* ReceivableBottomSheetViewController.swift */; };
+		955DC79E2DF6044B00CB52D2 /* PayableBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955DC79D2DF6044A00CB52D2 /* PayableBottomSheetViewController.swift */; };
+		955DC7A02DF60F9200CB52D2 /* ParticipantCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955DC79F2DF60F9200CB52D2 /* ParticipantCell.swift */; };
 		9583C6242DE8C51500204190 /* TripDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6232DE8C51500204190 /* TripDetailsViewController.swift */; };
 		9583C6262DE8C54900204190 /* TripBudgetConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6252DE8C54900204190 /* TripBudgetConfirmViewController.swift */; };
 		9583C6282DE8C5B000204190 /* TripBudgetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583C6272DE8C5B000204190 /* TripBudgetViewController.swift */; };
@@ -100,6 +106,11 @@
 		95B1186E2DF4965F00FF01E9 /* TripDetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1186D2DF4965F00FF01E9 /* TripDetailRouter.swift */; };
 		95B118702DF4967200FF01E9 /* TripDetailAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1186F2DF4967200FF01E9 /* TripDetailAssembly.swift */; };
 		95B118722DF4968300FF01E9 /* TripDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B118712DF4968300FF01E9 /* TripDetailPresenter.swift */; };
+		95B118742DF4E36200FF01E9 /* TripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B118732DF4E36200FF01E9 /* TripCell.swift */; };
+		95B118772DF5AB3B00FF01E9 /* EditAccountController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B118762DF5AB3B00FF01E9 /* EditAccountController.swift */; };
+		95B118792DF5AB5100FF01E9 /* EditAccountAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B118782DF5AB5100FF01E9 /* EditAccountAssembly.swift */; };
+		95B1187B2DF5AB6300FF01E9 /* EditAccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1187A2DF5AB6300FF01E9 /* EditAccountPresenter.swift */; };
+		95B1187D2DF5AB7400FF01E9 /* EditAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1187C2DF5AB7400FF01E9 /* EditAccountModel.swift */; };
 		95DB93632DEF68BA00BEA09F /* FirstModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB93622DEF68BA00BEA09F /* FirstModel.swift */; };
 		95DB93652DEF68D600BEA09F /* FirstPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB93642DEF68D600BEA09F /* FirstPresenter.swift */; };
 		95DB93672DEF68EC00BEA09F /* FirstRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DB93662DEF68EC00BEA09F /* FirstRouter.swift */; };
@@ -172,6 +183,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		955DC7952DF5E4F300CB52D2 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
+		955DC7972DF5F4BE00CB52D2 /* OperationsBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationsBottomSheetViewController.swift; sourceTree = "<group>"; };
+		955DC7992DF5FF8700CB52D2 /* ParticipantsBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantsBottomSheetViewController.swift; sourceTree = "<group>"; };
+		955DC79B2DF6023700CB52D2 /* ReceivableBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivableBottomSheetViewController.swift; sourceTree = "<group>"; };
+		955DC79D2DF6044A00CB52D2 /* PayableBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayableBottomSheetViewController.swift; sourceTree = "<group>"; };
+		955DC79F2DF60F9200CB52D2 /* ParticipantCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantCell.swift; sourceTree = "<group>"; };
 		9583C6232DE8C51500204190 /* TripDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailsViewController.swift; sourceTree = "<group>"; };
 		9583C6252DE8C54900204190 /* TripBudgetConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripBudgetConfirmViewController.swift; sourceTree = "<group>"; };
 		9583C6272DE8C5B000204190 /* TripBudgetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripBudgetViewController.swift; sourceTree = "<group>"; };
@@ -262,6 +279,11 @@
 		95B1186D2DF4965F00FF01E9 /* TripDetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailRouter.swift; sourceTree = "<group>"; };
 		95B1186F2DF4967200FF01E9 /* TripDetailAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailAssembly.swift; sourceTree = "<group>"; };
 		95B118712DF4968300FF01E9 /* TripDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailPresenter.swift; sourceTree = "<group>"; };
+		95B118732DF4E36200FF01E9 /* TripCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCell.swift; sourceTree = "<group>"; };
+		95B118762DF5AB3B00FF01E9 /* EditAccountController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountController.swift; sourceTree = "<group>"; };
+		95B118782DF5AB5100FF01E9 /* EditAccountAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountAssembly.swift; sourceTree = "<group>"; };
+		95B1187A2DF5AB6300FF01E9 /* EditAccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountPresenter.swift; sourceTree = "<group>"; };
+		95B1187C2DF5AB7400FF01E9 /* EditAccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountModel.swift; sourceTree = "<group>"; };
 		95DB93622DEF68BA00BEA09F /* FirstModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstModel.swift; sourceTree = "<group>"; };
 		95DB93642DEF68D600BEA09F /* FirstPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstPresenter.swift; sourceTree = "<group>"; };
 		95DB93662DEF68EC00BEA09F /* FirstRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstRouter.swift; sourceTree = "<group>"; };
@@ -337,11 +359,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9583C6562DEA3EB500204190 /* Frameworks */ = {
+		955DC7942DF5E4D900CB52D2 /* BottomSheet */ = {
 			isa = PBXGroup;
 			children = (
+				955DC7952DF5E4F300CB52D2 /* BottomSheetViewController.swift */,
+				955DC7972DF5F4BE00CB52D2 /* OperationsBottomSheetViewController.swift */,
+				955DC7992DF5FF8700CB52D2 /* ParticipantsBottomSheetViewController.swift */,
+				955DC79B2DF6023700CB52D2 /* ReceivableBottomSheetViewController.swift */,
+				955DC79D2DF6044A00CB52D2 /* PayableBottomSheetViewController.swift */,
+				955DC79F2DF60F9200CB52D2 /* ParticipantCell.swift */,
 			);
-			name = Frameworks;
+			path = BottomSheet;
 			sourceTree = "<group>";
 		};
 		958BA6742DF36C0D00BAF074 /* BudgetCategories */ = {
@@ -430,6 +458,7 @@
 		958BA67B2DF36CE200BAF074 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				95B118752DF5AB1F00FF01E9 /* EditAccount */,
 				95E31D2D2DEBC811002A4AA3 /* ProfileViewController.swift */,
 				958BA6A12DF36F2700BAF074 /* ProfileModel.swift */,
 				958BA6A32DF36F3200BAF074 /* ProfileRouter.swift */,
@@ -534,6 +563,17 @@
 			path = TripDetail;
 			sourceTree = "<group>";
 		};
+		95B118752DF5AB1F00FF01E9 /* EditAccount */ = {
+			isa = PBXGroup;
+			children = (
+				95B118762DF5AB3B00FF01E9 /* EditAccountController.swift */,
+				95B118782DF5AB5100FF01E9 /* EditAccountAssembly.swift */,
+				95B1187A2DF5AB6300FF01E9 /* EditAccountPresenter.swift */,
+				95B1187C2DF5AB7400FF01E9 /* EditAccountModel.swift */,
+			);
+			path = EditAccount;
+			sourceTree = "<group>";
+		};
 		95DB93602DEF687400BEA09F /* TripCreation */ = {
 			isa = PBXGroup;
 			children = (
@@ -549,6 +589,7 @@
 		95DB93612DEF689400BEA09F /* TripMain */ = {
 			isa = PBXGroup;
 			children = (
+				955DC7942DF5E4D900CB52D2 /* BottomSheet */,
 				95E969DD2DB152B000A14701 /* FirstViewController.swift */,
 				95DB93622DEF68BA00BEA09F /* FirstModel.swift */,
 				95DB93642DEF68D600BEA09F /* FirstPresenter.swift */,
@@ -716,7 +757,6 @@
 			children = (
 				95E969BF2DB14CB700A14701 /* Travels */,
 				95E969BE2DB14CB700A14701 /* Products */,
-				9583C6562DEA3EB500204190 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -790,6 +830,7 @@
 				95E31D352DEBCA6D002A4AA3 /* MenuCell.swift */,
 				9583C6AE2DEB84AC00204190 /* TripTableViewCell.swift */,
 				9583C6AC2DEB68AA00204190 /* BudgetCategoryCell.swift */,
+				95B118732DF4E36200FF01E9 /* TripCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -859,6 +900,7 @@
 				9583C62E2DE8DC1C00204190 /* XCRemoteSwiftPackageReference "Moya" */,
 				9583C6B42DEB90CD00204190 /* XCRemoteSwiftPackageReference "Charts" */,
 				95F83D9A2DED0328008A6102 /* XCRemoteSwiftPackageReference "keychain-swift" */,
+				955DC7A12DF63A3000CB52D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 95E969BE2DB14CB700A14701 /* Products */;
 			projectDirPath = "";
@@ -887,6 +929,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95DB936B2DEF694500BEA09F /* TripDetailsModel.swift in Sources */,
+				95B118792DF5AB5100FF01E9 /* EditAccountAssembly.swift in Sources */,
 				95E31D362DEBCA6E002A4AA3 /* MenuCell.swift in Sources */,
 				958BA69E2DF36EE500BAF074 /* NotificationsModel.swift in Sources */,
 				958BA6B02DF36FAA00BAF074 /* HistoryPresenter.swift in Sources */,
@@ -913,6 +956,7 @@
 				95DB93652DEF68D600BEA09F /* FirstPresenter.swift in Sources */,
 				95B118692DF4106300FF01E9 /* ParticipantModels.swift in Sources */,
 				9583C6CE2DEBB6CD00204190 /* User+CoreDataClass.swift in Sources */,
+				95B118772DF5AB3B00FF01E9 /* EditAccountController.swift in Sources */,
 				958BA73F2DF39A0E00BAF074 /* RegisterAssembly.swift in Sources */,
 				9583C6CF2DEBB6CD00204190 /* User+CoreDataProperties.swift in Sources */,
 				95F83DB02DED3E62008A6102 /* BudgetModels.swift in Sources */,
@@ -921,8 +965,10 @@
 				958BA6A42DF36F3200BAF074 /* ProfileRouter.swift in Sources */,
 				958BA68C2DF36E1B00BAF074 /* ExpenseDetailModel.swift in Sources */,
 				95F83DA22DED22B5008A6102 /* AuthManager.swift in Sources */,
+				955DC79E2DF6044B00CB52D2 /* PayableBottomSheetViewController.swift in Sources */,
 				958BA6962DF36E6600BAF074 /* DebtsAssembly.swift in Sources */,
 				9583C6D02DEBB6CD00204190 /* Trip+CoreDataClass.swift in Sources */,
+				955DC7962DF5E4F300CB52D2 /* BottomSheetViewController.swift in Sources */,
 				958BA7462DF39C3300BAF074 /* MainTabBarRouter.swift in Sources */,
 				95F83DB62DED3F96008A6102 /* TargetType.swift in Sources */,
 				958BA6822DF36DB600BAF074 /* AddExpenseAssembly.swift in Sources */,
@@ -933,6 +979,7 @@
 				9583C6D22DEBB6CD00204190 /* Notification+CoreDataClass.swift in Sources */,
 				958BA7352DF3916900BAF074 /* AuthAssembly.swift in Sources */,
 				95F83DA02DED0DF2008A6102 /* AuthPlugin.swift in Sources */,
+				955DC79A2DF5FF8700CB52D2 /* ParticipantsBottomSheetViewController.swift in Sources */,
 				95F83DC62DED5AF8008A6102 /* TripCreationManager.swift in Sources */,
 				9583C6D32DEBB6CD00204190 /* Notification+CoreDataProperties.swift in Sources */,
 				9583C6D42DEBB6CD00204190 /* ExpenseBeneficiary+CoreDataClass.swift in Sources */,
@@ -955,8 +1002,10 @@
 				958BA6AA2DF36F7900BAF074 /* HistoryAssembly.swift in Sources */,
 				958BA6902DF36E3100BAF074 /* ExpenseDetailAssembly.swift in Sources */,
 				958BA69A2DF36E8F00BAF074 /* NotificationsAssembly.swift in Sources */,
+				955DC7982DF5F4BE00CB52D2 /* OperationsBottomSheetViewController.swift in Sources */,
 				95DB93742DEF6A1B00BEA09F /* TripParticipantsModel.swift in Sources */,
 				958BA6B82DF3702600BAF074 /* TripBudgetConfirmRouter.swift in Sources */,
+				955DC7A02DF60F9200CB52D2 /* ParticipantCell.swift in Sources */,
 				95E31D322DEBC92B002A4AA3 /* HistoryViewController.swift in Sources */,
 				958BA74D2DF3A46C00BAF074 /* SecondPresenter.swift in Sources */,
 				95E96A012DB282D700A14701 /* AuthModels.swift in Sources */,
@@ -974,6 +1023,7 @@
 				95B118702DF4967200FF01E9 /* TripDetailAssembly.swift in Sources */,
 				9583C6B12DEB8EBB00204190 /* TripDetailViewController.swift in Sources */,
 				958BA7432DF39A2900BAF074 /* RegisterModel.swift in Sources */,
+				95B118742DF4E36200FF01E9 /* TripCell.swift in Sources */,
 				958BA6AC2DF36F8B00BAF074 /* HistoryRouter.swift in Sources */,
 				958BA7592DF3A79B00BAF074 /* ThirdAssembly.swift in Sources */,
 				958BA6842DF36DCC00BAF074 /* AddExpenseModel.swift in Sources */,
@@ -984,10 +1034,12 @@
 				958BA7572DF3A78900BAF074 /* ThirdPresenter.swift in Sources */,
 				958BA7512DF3A49500BAF074 /* SecondRouter.swift in Sources */,
 				95F83DBA2DED56E6008A6102 /* ExpenseDetailViewController.swift in Sources */,
+				95B1187D2DF5AB7400FF01E9 /* EditAccountModel.swift in Sources */,
 				958BA75B2DF3C05200BAF074 /* NotificationCell.swift in Sources */,
 				958BA73B2DF3926B00BAF074 /* AuthModel.swift in Sources */,
 				958BA7482DF39C5100BAF074 /* MainTabBarAssembly.swift in Sources */,
 				958BA6C42DF3708B00BAF074 /* BudgetCategoriesRouter.swift in Sources */,
+				955DC79C2DF6023700CB52D2 /* ReceivableBottomSheetViewController.swift in Sources */,
 				95F83D9E2DED0DD6008A6102 /* TokenManager.swift in Sources */,
 				95F83DAE2DED3DBC008A6102 /* SettlementService.swift in Sources */,
 				95DB937A2DEF6A5400BEA09F /* TripParticipantsAssembly.swift in Sources */,
@@ -995,6 +1047,7 @@
 				95DB93712DEF699800BEA09F /* TripDetailsAssembly.swift in Sources */,
 				9583C6282DE8C5B000204190 /* TripBudgetViewController.swift in Sources */,
 				958BA74A2DF39C6000BAF074 /* MainTabBarPresenter.swift in Sources */,
+				95B1187B2DF5AB6300FF01E9 /* EditAccountPresenter.swift in Sources */,
 				95DB937D2DEF6B1B00BEA09F /* TripBudgetModel.swift in Sources */,
 				9583C65B2DEA560500204190 /* TripParticipantsViewController.swift in Sources */,
 				95B118722DF4968300FF01E9 /* TripDetailPresenter.swift in Sources */,
@@ -1188,6 +1241,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1216,6 +1270,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1253,6 +1308,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		955DC7A12DF63A3000CB52D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.14.0;
+			};
+		};
 		9583C6292DE8DAD400204190 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";

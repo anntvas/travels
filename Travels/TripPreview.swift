@@ -13,12 +13,12 @@ enum AvatarType {
 }
 
 enum TripStatus {
-    case invited
-    case joined
-    case past
+    case pending
+    case confirmed
 }
 
 struct TripPreview {
+    let id: Int
     let title: String
     let subtitle: String
     let avatar: AvatarType

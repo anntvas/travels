@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol FirstPresenterProtocol: AnyObject {
     func viewDidLoad()
@@ -13,10 +14,12 @@ protocol FirstPresenterProtocol: AnyObject {
     func didTapCreateTrip()
     func didSelectTrip(_ trip: Trip)
     func showTripSelection()
+    func didTapCard(with tag: Int)
 }
 
 protocol FirstViewProtocol: AnyObject {
     func displayTrips(current: Trip?, all: [Trip])
+    func displayTripSelection(trips: [Trip])
     func showError(_ message: String)
 }
 
@@ -47,12 +50,26 @@ final class FirstPresenter: FirstPresenterProtocol {
 
     func didSelectTrip(_ trip: Trip) {
         currentTrip = trip
-        view?.displayTrips(current: currentTrip, all: allTrips)
+        // Fetch budget for the selected trip
+        model.fetchTripBudget(tripId: Int(trip.id)) { [weak self] budgetResult in
+            DispatchQueue.main.async {
+                switch budgetResult {
+                case .success(let totalBudget):
+                    trip.budgetEntity = BudgetEntity(totalBudget: totalBudget)
+                case .failure:
+                    break
+                }
+                self?.view?.displayTrips(current: trip, all: self?.allTrips ?? [])
+            }
+        }
     }
+    
 
+    
     func showTripSelection() {
-        view?.displayTrips(current: currentTrip, all: allTrips)
+        view?.displayTripSelection(trips: allTrips)
     }
+    
 
     private func loadTrips() {
         model.fetchTrips { [weak self] result in
@@ -84,6 +101,25 @@ final class FirstPresenter: FirstPresenterProtocol {
                     self?.view?.showError(error.localizedDescription)
                 }
             }
+        }
+    }
+    
+    func didTapCard(with tag: Int) {
+        switch tag {
+        case 0:
+            router.showOperations(for: currentTrip)
+        case 1:
+            router.showParticipants(for: currentTrip)
+        case 2:
+            router.showBudget(for: currentTrip)
+        case 3:
+            router.showMyExpenses(for: currentTrip)
+        case 4:
+            router.showMyDebts(for: currentTrip)
+        case 5:
+            router.showOwedToMe(for: currentTrip)
+        default:
+            break
         }
     }
 }

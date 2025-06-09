@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PayableViewController: BottomSheetViewController, UITableViewDataSource {
+class PayableBottomSheetViewController: BottomSheetViewController, UITableViewDataSource {
     private let tableView = UITableView()
     private var settlements: [SettlementItem] = []
     var tripId: Int = 24 // Set this before presenting

@@ -5,12 +5,17 @@
 //  Created by Anna on 06.06.2025.
 //
 
-import Foundation
+import UIKit
 
 protocol ProfileRouterProtocol: AnyObject {
-    // Навигационные методы при необходимости
+    func navigateToEditAccount()
 }
 
 final class ProfileRouter: ProfileRouterProtocol {
-    // Пока не требуется навигация
+    weak var viewController: UIViewController?
+    
+    func navigateToEditAccount() {
+        let editAccountVC = EditAccountAssembly.build() // Замените на ваш модуль
+        viewController?.navigationController?.pushViewController(editAccountVC, animated: true)
+    }
 }

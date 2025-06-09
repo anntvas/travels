@@ -9,7 +9,6 @@ import UIKit
 import DGCharts
 
 final class TripDetailViewController: UIViewController, TripDetailViewProtocol {
-
     var presenter: TripDetailPresenterProtocol?
 
     private let scrollView = UIScrollView()
@@ -27,13 +26,16 @@ final class TripDetailViewController: UIViewController, TripDetailViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        addGradientBackground()
         setupScrollView()
         layoutUI()
+        setupNavigationBar()
         presenter?.viewDidLoad()
     }
 
     private func setupScrollView() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.backgroundColor = .clear
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -57,34 +59,76 @@ final class TripDetailViewController: UIViewController, TripDetailViewProtocol {
     }
 
     private func layoutUI() {
+        titleLabel.font = .boldSystemFont(ofSize: 24)
         contentStack.addArrangedSubview(titleLabel)
-        contentStack.addArrangedSubview(createCard(with: routeLabel, text: "", bgColor: .systemYellow))
-        contentStack.addArrangedSubview(budgetLabel)
-        contentStack.addArrangedSubview(pieChart)
-        contentStack.addArrangedSubview(categoriesStack)
-        contentStack.addArrangedSubview(participantsStack)
-        contentStack.addArrangedSubview(expensesStack)
+
+        routeLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        routeLabel.numberOfLines = 0
+        routeLabel.textColor = .black
+        contentStack.addArrangedSubview(wrapInCard(view: routeLabel, bgColor: UIColor.systemYellow))
+
+        budgetLabel.font = .boldSystemFont(ofSize: 22)
+        contentStack.addArrangedSubview(wrapInCard(view: budgetLabel, bgColor: .white))
+
+        let chartAndCategories = UIStackView(arrangedSubviews: [pieChart, categoriesStack])
+        chartAndCategories.axis = .vertical
+        chartAndCategories.spacing = 12
+        contentStack.addArrangedSubview(wrapInCard(view: chartAndCategories, bgColor: .white))
+
+        contentStack.addArrangedSubview(wrapInCard(view: participantsStack, bgColor: .white))
+        contentStack.addArrangedSubview(wrapInCard(view: expensesStack, bgColor: .white))
+    }
+
+    private func wrapInCard(view: UIView, bgColor: UIColor) -> UIView {
+        let container = UIView()
+        container.backgroundColor = bgColor
+        container.layer.cornerRadius = 20
+        container.layer.masksToBounds = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(view)
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: container.topAnchor, constant: 16),
+            view.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -16),
+            view.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
+            view.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -16)
+        ])
+        return container
+    }
+
+    private func setupNavigationBar() {
+        let addButton = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(addExpenseButtonTapped)
+        )
+        navigationItem.rightBarButtonItem = addButton
+    }
+
+    @objc private func addExpenseButtonTapped() {
+        presenter?.addExpenseButtonTapped()
     }
 
     func displayTripTitle(_ title: String) {
-        titleLabel.font = .boldSystemFont(ofSize: 24)
         titleLabel.text = title
     }
 
     func displayRoute(_ route: String) {
         routeLabel.text = route
-        routeLabel.font = .systemFont(ofSize: 16, weight: .medium)
     }
 
     func displayBudget(_ total: String) {
-        budgetLabel.font = .boldSystemFont(ofSize: 22)
         budgetLabel.text = total
     }
 
-    func displayPieChartData(_ entries: [PieChartDataEntry]) {
+    func displayPieChartData(entries: [PieChartDataEntry], colors: [UIColor]) {
         let dataSet = PieChartDataSet(entries: entries)
         dataSet.sliceSpace = 2
+        dataSet.colors = colors
+
         let data = PieChartData(dataSet: dataSet)
+        data.setValueTextColor(.black)
+        data.setValueFont(.systemFont(ofSize: 12))
+
         pieChart.data = data
         pieChart.legend.enabled = false
         pieChart.translatesAutoresizingMaskIntoConstraints = false
@@ -148,25 +192,6 @@ final class TripDetailViewController: UIViewController, TripDetailViewProtocol {
             let button = createExpenseCard(name: name, category: category, amount: amount, color: color)
             expensesStack.addArrangedSubview(button)
         }
-    }
-
-    private func createCard(with label: UILabel, text: String, bgColor: UIColor) -> UIView {
-        let card = UIView()
-        card.backgroundColor = bgColor
-        card.layer.cornerRadius = 12
-        label.text = text
-        label.font = .systemFont(ofSize: 16, weight: .medium)
-        label.numberOfLines = 0
-        label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
-        card.addSubview(label)
-        NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: card.topAnchor, constant: 10),
-            label.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -10),
-            label.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 10),
-            label.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -10)
-        ])
-        return card
     }
 
     private func createParticipantCard(name: String, subtitle: String?, color: UIColor) -> UIView {
@@ -258,6 +283,18 @@ final class TripDetailViewController: UIViewController, TripDetailViewProtocol {
 
         button.addTarget(self, action: #selector(expenseTapped), for: .touchUpInside)
         return button
+    }
+
+    private func addGradientBackground() {
+        let gradient = CAGradientLayer()
+        gradient.frame = view.bounds
+        gradient.colors = [
+            UIColor.systemGray.cgColor,
+            UIColor.white.cgColor
+        ]
+        gradient.startPoint = CGPoint(x: 0.5, y: 0)
+        gradient.endPoint = CGPoint(x: 0.5, y: 0.5)
+        view.layer.insertSublayer(gradient, at: 0)
     }
 
     @objc private func expenseTapped() {

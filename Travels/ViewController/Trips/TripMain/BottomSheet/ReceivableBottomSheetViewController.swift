@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ReceivableViewController: BottomSheetViewController, UITableViewDataSource {
+class ReceivableBottomSheetViewController: BottomSheetViewController, UITableViewDataSource {
     private let tableView = UITableView()
     private var settlements: [SettlementItem] = []
     var tripId: Int = 24 // Set this before presenting

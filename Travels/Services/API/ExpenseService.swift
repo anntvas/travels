@@ -12,6 +12,7 @@ enum ExpenseService {
     case listExpenses(tripId: Int)
     case addExpense(tripId: Int, expense: ExpenseRequest)
     case deleteExpense(tripId: Int, expenseId: Int)
+    case getMyExpenses(tripId: Int)
 }
 
 extension ExpenseService: TargetType {
@@ -22,12 +23,14 @@ extension ExpenseService: TargetType {
             return "/v1/trips/\(tripId)/expenses"
         case .deleteExpense(let tripId, let expenseId):
             return "/v1/trips/\(tripId)/expenses/\(expenseId)"
+        case .getMyExpenses(let tripId):
+            return "/v1/trips/\(tripId)/expenses/me"
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .listExpenses:
+        case .listExpenses, .getMyExpenses:
             return .get
         case .addExpense:
             return .post
@@ -40,7 +43,7 @@ extension ExpenseService: TargetType {
         switch self {
         case .addExpense(_, let expense):
             return .requestJSONEncodable(expense)
-        case .listExpenses, .deleteExpense:
+        case .listExpenses, .deleteExpense, .getMyExpenses:
             return .requestPlain
         }
     }
@@ -51,3 +54,6 @@ extension ExpenseService: TargetType {
 }
 
 
+extension ExpenseService: AccessTokenAuthorizable {
+    var authorizationType: AuthorizationType? { .bearer }
+}

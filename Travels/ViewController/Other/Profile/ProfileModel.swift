@@ -11,71 +11,36 @@ import KeychainSwift
 import UIKit
 
 protocol ProfileModelProtocol {
-    func loadLocalUser(completion: @escaping (Result<UserResponse, Error>) -> Void)
-    func loadRemoteUser(completion: @escaping (Result<UserResponse, Error>) -> Void)
+    func loadUser(completion: @escaping (Result<UserResponse, Error>) -> Void)
     func saveAvatar(image: UIImage)
+    func loadAvatar(completion: @escaping (UIImage?) -> Void) // Добавляем
 }
 
 final class ProfileModel: ProfileModelProtocol {
+    func loadAvatar(completion: @escaping (UIImage?) -> Void) {
+    
+    }
+    
     private let networkManager = NetworkManager.shared
     private let keychain = KeychainSwift()
     private let context = DataController.shared.context
-
-    func loadLocalUser(completion: @escaping (Result<UserResponse, Error>) -> Void) {
-        let userId = UserDefaults.standard.integer(forKey: "currentUserId")
-        guard userId != 0 else {
-            completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Пользователь не найден"])))
-            return
-        }
-
-        let request: NSFetchRequest<User> = User.fetchRequest()
-        request.predicate = NSPredicate(format: "id == %lld", Int64(userId))
-        do {
-            if let user = try context.fetch(request).first {
-                let response = UserResponse(
-                    id: Int(user.id),
-                    username: user.username ?? "",
-                    firstName: user.firstName ?? "",
-                    lastName: user.lastName ?? "",
-                    phone: user.phone ?? "",
-                    email: user.email ?? ""
-                )
-                completion(.success(response))
-            } else {
-                completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Пользователь не найден"])))
-            }
-        } catch {
-            completion(.failure(error))
-        }
-    }
-
-    func loadRemoteUser(completion: @escaping (Result<UserResponse, Error>) -> Void) {
+    
+    func loadUser(completion: @escaping (Result<UserResponse, Error>) -> Void) {
         guard keychain.get("accessToken") != nil else {
             completion(.failure(NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: "Не авторизован"])))
             return
         }
-        networkManager.getUserProfile { result in
-            if case let .success(user) = result {
-                self.saveToCoreData(user)
+        
+        networkManager.getUserProfile { [weak self] result in
+            switch result {
+            case .success(let user):
+                // Сохраняем только ID пользователя для аватара
+                UserDefaults.standard.set(user.id, forKey: "currentUserId")
+                completion(.success(user))
+            case .failure(let error):
+                completion(.failure(error))
             }
-            completion(result)
         }
-    }
-
-    func saveToCoreData(_ user: UserResponse) {
-        let request: NSFetchRequest<User> = User.fetchRequest()
-        request.predicate = NSPredicate(format: "id == %d", user.id)
-        let userObj = (try? context.fetch(request).first) ?? User(context: context)
-        userObj.id = Int64(user.id)
-        userObj.firstName = user.firstName
-        userObj.lastName = user.lastName
-        userObj.phone = user.phone
-        userObj.email = user.email
-        userObj.username = user.username
-        try? context.save()
-
-        // Обновление текущего пользователя
-        UserDefaults.standard.set(user.id, forKey: "currentUserId")
     }
 
     func saveAvatar(image: UIImage) {

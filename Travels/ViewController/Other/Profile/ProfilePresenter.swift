@@ -21,6 +21,7 @@ protocol ProfilePresenterProtocol: AnyObject {
     func onViewWillAppear()
     func onAvatarTapped()
     func onImageSelected(_ image: UIImage)
+    func editAccountTapped()
 }
 
 final class ProfilePresenter: ProfilePresenterProtocol {
@@ -35,24 +36,44 @@ final class ProfilePresenter: ProfilePresenterProtocol {
     }
 
     func onViewDidLoad() {
+        loadUserData()
+    }
+    
+    private func loadUserData() {
+        print("мы попали jnc.ls")
         view?.showLoading()
-        model.loadLocalUser { [weak self] result in
+        print("мы попали сюда")
+        model.loadUser { [weak self] result in
             DispatchQueue.main.async {
                 self?.view?.hideLoading()
-                self?.handleUserResult(result)
+                
+                switch result {
+                case .success(let user):
+                    self?.view?.showUser(user)
+                case .failure(let error):
+                    self?.view?.showError(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    private func loadAvatar() {
+        model.loadAvatar { [weak self] image in
+            DispatchQueue.main.async {
+                if let image = image {
+                    self?.view?.updateAvatar(image)
+                } else {
+                    // Установить дефолтный аватар
+                    self?.view?.updateAvatar(UIImage(systemName: "person.circle.fill")!)
+                }
             }
         }
     }
 
     func onViewWillAppear() {
-        view?.showLoading()
-        model.loadRemoteUser { [weak self] result in
-            DispatchQueue.main.async {
-                self?.view?.hideLoading()
-                self?.handleUserResult(result)
-            }
-        }
+        onViewDidLoad()
     }
+
 
     private func handleUserResult(_ result: Result<UserResponse, Error>) {
         switch result {
@@ -62,6 +83,10 @@ final class ProfilePresenter: ProfilePresenterProtocol {
             view?.showError(error.localizedDescription)
         }
     }
+    
+    func editAccountTapped() {
+        router.navigateToEditAccount()
+    }
 
     func onAvatarTapped() {
         // может быть расширено под открытие меню
@@ -70,5 +95,8 @@ final class ProfilePresenter: ProfilePresenterProtocol {
     func onImageSelected(_ image: UIImage) {
         view?.updateAvatar(image)
         model.saveAvatar(image: image)
+        
+        // Дополнительно: выгрузка на сервер при необходимости
+        // uploadAvatarToServer(image)
     }
 }

@@ -7,14 +7,13 @@
 
 import UIKit
 
-
 enum AddExpenseAssembly {
-    static func build() -> UIViewController {
-        let view = AddExpenseViewController()
-        let model = AddExpenseModel()
-        let presenter = AddExpensePresenter(view: view, model: model)
-        
-        view.presenter = presenter
-        return view
+    static func build(tripId: Int) -> UIViewController {
+        let viewController = AddExpenseViewController()
+        let model = AddExpenseModel(tripId: tripId)
+        let presenter = AddExpensePresenter(view: viewController, model: model)
+        viewController.presenter = presenter
+        return viewController
     }
+
 }

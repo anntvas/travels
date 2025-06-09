@@ -18,14 +18,18 @@ class AuthPlugin: PluginType {
     
     func prepare(_ request: URLRequest, target: TargetType) -> URLRequest {
         var request = request
-        
-        // Добавляем токен только если это не эндпоинт логина/регистрации
+
+        // Add Authorization header as before
         if !(target.path.contains("login") || target.path.contains("register")),
            let token = keychain.get("accessToken") {
             request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-            print("Добавлен токен в заголовки: Bearer \(token)")
         }
-        
+
+        // Add deviceToken header if available
+        if let deviceToken = UserDefaults.standard.string(forKey: "deviceToken") {
+            request.addValue(deviceToken, forHTTPHeaderField: "Device-Token")
+        }
+
         return request
     }
     
